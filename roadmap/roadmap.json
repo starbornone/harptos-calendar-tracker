@@ -1,12 +1,19 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-09T15:55:43+11:00",
+  "updatedAt": "2026-11-09T18:55:00+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
-    "status": "complete",
-    "summary": "A Dungeon Master’s tracker for Harptos campaign time, local light, and hourly weather across D&D settings."
+    "status": "active",
+    "summary": "A Dungeon Master’s tracker for Harptos campaign time, local light, and hourly weather across Faerûn, with other setting calendars planned later."
   },
-  "items": []
+  "items": [
+    {
+      "id": "support-additional-setting-calendars",
+      "title": "Support calendars for non-Faerûn campaign locations",
+      "group": "Locations",
+      "notes": "Add calendar rules for Galifar, Sigil, Radiant Citadel, Exandria, Krynn, and Greyhawk. Reveal those catalog locations in the selector once each calendar can drive the clock."
+    }
+  ]
 }

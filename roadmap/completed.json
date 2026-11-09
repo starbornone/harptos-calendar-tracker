@@ -1,11 +1,11 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-09T17:05:01+11:00",
+  "updatedAt": "2026-11-09T18:55:00+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
-    "status": "complete"
+    "status": "active"
   },
   "items": [
     {
@@ -119,6 +119,13 @@
       "group": "Interface",
       "notes": "Use the supplied terminology for the interface, Harptos months and festivals, and all ten preset locations. Restore an existing browser language preference and use it for the campaign summary and footer disclaimer. Keep the Simplified Chinese selection hidden for now.",
       "completedAt": "2026-11-09T17:05:01+11:00"
+    },
+    {
+      "id": "normalise-harptos-location-catalog",
+      "title": "Normalise Faerûn location labels and hide other calendars",
+      "group": "Locations",
+      "notes": "Label all Harptos locations as Faerûn · Sword Coast. Tag each catalog location with its campaign calendar, keep non-Harptos profiles for later, and limit the selector to Harptos locations.",
+      "completedAt": "2026-11-09T18:55:00+11:00"
     }
   ]
 }
