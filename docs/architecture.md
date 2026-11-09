@@ -8,7 +8,7 @@ The [campaign location selector](../src/App.tsx) stores `neverwinter` or `phanda
 
 [src/time-markers.ts](../src/time-markers.ts) combines the clock with those estimates to derive the current phase. It also looks up named markers by clock time. Both labels are recalculated from the clock and location on every change.
 
-The diagram includes the planned weather flow.
+[src/weather.ts](../src/weather.ts) derives the hourly condition from the date, hour, location, and campaign seed. [src/main.tsx](../src/main.tsx) creates and saves the seed under `harptos-calendar-tracker:weather-seed:v1` on first load. If storage is unavailable, the model uses a fixed fallback seed.
 
 ```mermaid
 flowchart LR
@@ -26,8 +26,8 @@ flowchart LR
 
 - **Calendar and clock.** Convert between a Harptos date and a continuous measure of campaign time. Validate the requested date and time before updating state. Keep regular dates and intercalary festivals distinct when parsing and formatting. Day advances add 24 or 240 elapsed hours, including festival hours.
 - **Daylight and phase.** Derive sunrise and sunset from the Harptos date and location, then combine them with the clock to find the current phase. Named clock markers use fixed times and can appear alongside the phase.
-- **Weather.** Derive the condition from the campaign seed, location, elapsed hour, and previous condition. A jump over several hours must account for their transitions. Revisit a location or earlier hour using the same sequence. Consider checkpoints if long jumps expose a performance problem.
-- **Display and save.** Present the clock, daylight estimates, and location controls together. When weather is added, restore the campaign seed alongside the clock and location to reconstruct the derived conditions.
+- **Weather.** Derive a weather-front roll from the seed and location. Reweight conditions by seasonal daylight and local hour, and check the preceding hour when a thunderstorm is possible. Direct jumps use the same sequence as hourly advances.
+- **Display and save.** Present the clock, daylight, weather, and location controls together. Restore the seed alongside the clock and location to reconstruct the current conditions.
 
 ## How a change lands
 

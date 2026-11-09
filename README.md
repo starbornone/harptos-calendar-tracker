@@ -1,6 +1,6 @@
 # harptos-calendar-tracker
 
-Harptos Calendar Tracker is a Dungeon Master tool for a campaign in Neverwinter and Phandalin. The Vite and TypeScript app uses shadcn/ui. Set or advance the Harptos clock, switch locations, and see seasonal daylight and Faerûnian time markers. Your browser saves the time and location. A new campaign starts in Neverwinter at **08:00 on 1 Tarsakh 1491 DR, Year of the Scarlet Witch**.
+Harptos Calendar Tracker is a Dungeon Master tool for a campaign in Neverwinter and Phandalin. The Vite and TypeScript app uses shadcn/ui. Set or advance the Harptos clock, switch locations, and see seasonal daylight, Faerûnian time markers, and hourly weather. Your browser saves the time, location, and weather seed. A new campaign starts in Neverwinter at **08:00 on 1 Tarsakh 1491 DR, Year of the Scarlet Witch**.
 
 ## Documentation
 

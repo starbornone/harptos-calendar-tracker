@@ -22,7 +22,7 @@ Build a single-screen DM tool for tracking in-game time, daylight, and weather d
 
 - Show a short current condition such as **Clear Skies**, **Overcast**, **Rain**, or **Thunderstorm**. Weight conditions by season, time of day, and location. Give Neverwinter a milder winter profile and use configurable inland weights for Phandalin. [Neverwinter setting guide](https://www.dndbeyond.com/posts/1485-take-a-tour-of-these-popular-locations-in-the)
 - Use the previous hour’s condition to weight the next hour. Let conditions linger and build storms through cloud or rain so that a clear hour cannot jump straight to a thunderstorm.
-- Save a campaign seed and derive weather for each location from its hourly sequence. Process skipped hours during jumps and reuse the same sequence when the clock is set backward. Cache checkpoints if large date changes need faster lookup.
+- Save a campaign seed and derive each location’s hourly weather from the same sequence when advancing, revisiting an hour, or reloading. Use six-hour weather fronts and check the preceding hour before a thunderstorm can begin.
 
 **Ready when** an eight-hour jump gives the same result as eight one-hour advances for the same seed and location. Reloading or revisiting a previously seen hour reproduces its weather. Verify the same behavior for a ten-day jump and check that every generated thunderstorm follows a plausible lead-in.
 

@@ -5,6 +5,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { getSeasonalDaylight } from "./daylight.ts";
 import { CAMPAIGN_START, advanceHours, formatHarptosDate, formatHarptosTime, fromElapsedMinutes, toElapsedMinutes, type HarptosDateTime } from "./harptos.ts";
 import { getFaerunianTime } from "./time-markers.ts";
+import { getHourlyWeather } from "./weather.ts";
 
 const locations = [
   { id: "neverwinter", name: "Neverwinter", region: "Coastal city", detail: "The warm river below Mount Hotenow." },
@@ -74,7 +75,7 @@ function ClockDial({ hour, minute }: { hour: number; minute: number }) {
   );
 }
 
-export function App() {
+export function App({ weatherSeed }: { weatherSeed: number }) {
   const [{ dateTime, notice }, setClock] = useState(loadClock);
   const [{ id: locationId, notice: locationNotice }, setLocation] = useState(loadLocation);
   const { date, hour, minute } = dateTime;
@@ -83,6 +84,7 @@ export function App() {
   const daylight = getSeasonalDaylight(date, locationId);
   const { sunrise, sunset } = daylight;
   const { phase, marker } = getFaerunianTime(dateTime, daylight);
+  const weather = getHourlyWeather(dateTime, locationId, weatherSeed);
 
   function setCurrentTime(next: HarptosDateTime) {
     const elapsed = toElapsedMinutes(next);
@@ -142,6 +144,10 @@ export function App() {
                       <dd className="clock-marker">{marker}</dd>
                     </div>
                   ) : null}
+                  <div>
+                    <dt>Hourly weather</dt>
+                    <dd className="clock-weather">{weather}</dd>
+                  </div>
                 </dl>
               </div>
             </div>

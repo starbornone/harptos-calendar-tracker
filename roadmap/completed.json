@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-09T12:11:58+11:00",
+  "updatedAt": "2026-11-09T12:23:20+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -70,6 +70,20 @@
       "group": "Daylight and time markers",
       "notes": "Anchor Dawn, Dusk, Sunset, and Evening to the daylight estimates. Show fixed markers such as Waterclock, Time of Summer Sunset, and Twilight alongside the current phase when relevant.",
       "completedAt": "2026-11-09T12:11:58+11:00"
+    },
+    {
+      "id": "weight-hourly-weather",
+      "title": "Generate hourly weather by season and location",
+      "group": "Weather",
+      "notes": "Display a short current condition. Weight conditions by season, hour, and location, with a milder winter profile for Neverwinter and adjustable inland weights for Phandalin.",
+      "completedAt": "2026-11-09T12:23:20+11:00"
+    },
+    {
+      "id": "preserve-weather-continuity",
+      "title": "Preserve weather across time jumps and reloads",
+      "group": "Weather",
+      "notes": "Use a saved campaign seed and previous-hour transitions per location. Verify that a jump and repeated one-hour advances agree, revisiting an hour reproduces its weather, and thunderstorms have a cloud or rain lead-in.",
+      "completedAt": "2026-11-09T12:23:20+11:00"
     }
   ]
 }
