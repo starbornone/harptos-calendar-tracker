@@ -1,11 +1,11 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-09T15:48:12+11:00",
+  "updatedAt": "2026-11-09T15:55:43+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
-    "status": "active"
+    "status": "complete"
   },
   "items": [
     {
@@ -105,6 +105,13 @@
       "group": "Locations",
       "notes": "Add Baldur's Gate, Waterdeep, Sharn, Sigil, The Radiant Citadel, Bazzoxan, Kalaman, and Greyhawk to the selector. Choose daylight and weather profiles for each setting, including planar locations with unusual daylight.",
       "completedAt": "2026-11-09T15:48:12+11:00"
+    },
+    {
+      "id": "share-campaign-state-via-url",
+      "title": "Share the current campaign state by URL",
+      "group": "Campaign clock",
+      "notes": "Generate a link that carries the current date, time, selected location, and weather seed. Use versioned query parameters so recipients can open the same moment and see the same weather. Validate link values and preserve the recipient's saved campaign until they choose to adopt the shared state.",
+      "completedAt": "2026-11-09T15:55:43+11:00"
     }
   ]
 }

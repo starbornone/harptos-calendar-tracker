@@ -260,10 +260,21 @@
   gap: 0.75rem 1rem;
 }
 
-.clock-notice,
-.location-notice {
+.clock-notice {
   margin-top: 0.75rem;
   color: var(--muted-foreground);
+}
+
+.campaign-summary-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: end;
+  gap: 0.75rem;
+  margin-top: 1rem;
+}
+
+.campaign-summary-row .campaign-summary {
+  margin-top: 0;
 }
 
 .campaign-summary {
@@ -288,6 +299,43 @@
 .campaign-summary input:focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 2px;
+}
+
+.summary-copy-field {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.5rem;
+  gap: 0.5rem;
+}
+
+.summary-copy-field > button {
+  height: auto;
+  padding: 0;
+}
+
+.summary-copy-status:not(:empty) {
+  margin-top: 0.45rem;
+}
+
+.share-preview {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--card);
+}
+
+.share-preview p,
+.summary-copy-status,
+.share-status {
+  color: var(--muted-foreground);
+}
+
+.share-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
 }
 
 .clock-dialog {
@@ -429,6 +477,10 @@
   cursor: pointer;
 }
 
+.campaign-setting:disabled :is(.location-content, .location-radio) {
+  cursor: default;
+}
+
 .location-region {
   color: var(--location-accent);
 }
@@ -445,6 +497,14 @@
 }
 
 @media (max-width: 40rem) {
+  .campaign-summary-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .campaign-summary-row > button {
+    justify-self: start;
+  }
+
   .ledger {
     width: min(68rem, 100% - 1.5rem);
     padding-block-start: 1.25rem;

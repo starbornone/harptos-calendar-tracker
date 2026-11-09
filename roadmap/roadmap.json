@@ -1,19 +1,12 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-09T15:48:12+11:00",
+  "updatedAt": "2026-11-09T15:55:43+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
-    "status": "active",
+    "status": "complete",
     "summary": "A Dungeon Master’s tracker for Harptos campaign time, local light, and hourly weather across D&D settings."
   },
-  "items": [
-    {
-      "id": "share-campaign-state-via-url",
-      "title": "Share the current campaign state by URL",
-      "group": "Campaign clock",
-      "notes": "Generate a link that carries the current date, time, selected location, and weather seed. Use versioned query parameters so recipients can open the same moment and see the same weather. Validate link values and preserve the recipient's saved campaign until they choose to adopt the shared state."
-    }
-  ]
+  "items": []
 }

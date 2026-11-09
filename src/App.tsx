@@ -2,23 +2,29 @@ import { useState } from "react";
 import { ClockEditor } from "@/components/clock-editor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import {
+  clearShareUrl,
+  loadSavedCampaign,
+  makeShareUrl,
+  saveCampaign,
+  updateSavedCampaign,
+  type CampaignState,
+  type CampaignView,
+  type readSharedCampaign,
+} from "./campaign-state.ts";
 import { formatCampaignSummary } from "./campaign-summary.ts";
 import { getSeasonalDaylight } from "./daylight.ts";
 import {
-  CAMPAIGN_START,
   advanceHours,
   formatHarptosDate,
   formatHarptosTime,
-  fromElapsedMinutes,
   getHarptosYearTitle,
   toElapsedMinutes,
   type HarptosDateTime,
 } from "./harptos.ts";
-import { campaignLocations, locationIds, type LocationId } from "./locations.ts";
+import { campaignLocations, locationIds } from "./locations.ts";
 import { getFaerunianTime } from "./time-markers.ts";
 import { getHourlyWeather } from "./weather.ts";
-
-const defaultLocationId: LocationId = "neverwinter";
 
 const dialTicks = Array.from({ length: 60 }, (_, minute) => minute);
 
@@ -30,30 +36,6 @@ const advances = [
   { hours: 24, label: "+1 day" },
   { hours: 240, label: "+10 days" },
 ];
-
-const clockStorageKey = "harptos-calendar-tracker:clock:v1";
-const locationStorageKey = "harptos-calendar-tracker:location:v1";
-
-function loadClock() {
-  try {
-    const saved = localStorage.getItem(clockStorageKey);
-    if (saved === null) return { dateTime: CAMPAIGN_START, notice: "" };
-    if (!/^\d+$/.test(saved)) throw new RangeError("Invalid saved clock.");
-    return { dateTime: fromElapsedMinutes(Number(saved)), notice: "" };
-  } catch {
-    return { dateTime: CAMPAIGN_START, notice: "Could not restore the saved clock. Showing the campaign start." };
-  }
-}
-
-function loadLocation() {
-  try {
-    const saved = localStorage.getItem(locationStorageKey);
-    const id = locationIds.find(id => id === saved) ?? defaultLocationId;
-    return { id, notice: "" };
-  } catch {
-    return { id: defaultLocationId, notice: `Could not restore the saved location. Showing ${campaignLocations[defaultLocationId].name}.` };
-  }
-}
 
 function ClockDial({ hour, minute }: { hour: number; minute: number }) {
   return (
@@ -80,9 +62,15 @@ function ClockDial({ hour, minute }: { hour: number; minute: number }) {
   );
 }
 
-export function App({ weatherSeed }: { weatherSeed: number }) {
-  const [{ dateTime, notice }, setClock] = useState(loadClock);
-  const [{ id: locationId, notice: locationNotice }, setLocation] = useState(loadLocation);
+export function App({ initialView, initialShareStatus }: {
+  initialView: CampaignView;
+  initialShareStatus: ReturnType<typeof readSharedCampaign>["status"];
+}) {
+  const [{ campaign, notice }, setView] = useState(initialView);
+  const [isPreview, setIsPreview] = useState(initialShareStatus === "valid");
+  const [showShareLink, setShowShareLink] = useState(false);
+  const [copyResult, setCopyResult] = useState<{ target: "summary" | "link"; value: string; message: string }>();
+  const { dateTime, locationId, weatherSeed } = campaign;
   const { date, hour, minute } = dateTime;
   const time = formatHarptosTime(dateTime);
   const yearTitle = getHarptosYearTitle(date.year);
@@ -95,16 +83,19 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
   const { phase, marker } = getFaerunianTime(dateTime, daylight);
   const weather = getHourlyWeather(dateTime, locationId, weatherSeed);
   const summary = formatCampaignSummary(dateTime, phase, weather);
+  const shareUrl = showShareLink ? makeShareUrl(new URL(window.location.href), campaign) : "";
 
   function setCurrentTime(next: HarptosDateTime) {
-    const elapsed = toElapsedMinutes(next);
-    let notice = "";
+    toElapsedMinutes(next);
+    updateCampaign({ dateTime: next });
+  }
+
+  function updateCampaign(change: Partial<Pick<CampaignState, "dateTime" | "locationId">>) {
     try {
-      localStorage.setItem(clockStorageKey, String(elapsed));
+      setView({ campaign: updateSavedCampaign(campaign, change), notice: "" });
     } catch {
-      notice = "Clock updated for this tab. Your browser could not save it for reload.";
+      setView({ campaign: { ...campaign, ...change }, notice: "Campaign updated for this tab. Your browser could not save it for reload." });
     }
-    setClock({ dateTime: next, notice });
   }
 
   function advanceClock(hours: number) {
@@ -112,18 +103,37 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
       setCurrentTime(advanceHours(dateTime, hours));
     } catch (error) {
       if (!(error instanceof RangeError)) throw error;
-      setClock((current) => ({ ...current, notice: error.message }));
+      setView((current) => ({ ...current, notice: error.message }));
     }
   }
 
-  function selectLocation(id: LocationId) {
-    let notice = "";
+  function finishPreview(next: CampaignView) {
+    window.history.replaceState(window.history.state, "", clearShareUrl(new URL(window.location.href)));
+    setIsPreview(false);
+    setShowShareLink(false);
+    setView(next);
+  }
+
+  function adoptSharedCampaign() {
     try {
-      localStorage.setItem(locationStorageKey, id);
+      saveCampaign(campaign);
     } catch {
-      notice = "Location updated for this tab. Your browser could not save it for reload.";
+      setView({ campaign, notice: "Your browser could not save the shared campaign. The preview is still open." });
+      return;
     }
-    setLocation({ id, notice });
+    finishPreview({ campaign, notice: "Shared campaign adopted and saved in this browser." });
+  }
+
+  async function copyText(target: "summary" | "link", value: string) {
+    const label = target === "summary" ? "Campaign summary" : "Share link";
+    let message: string;
+    try {
+      await navigator.clipboard.writeText(value);
+      message = `${label} copied.`;
+    } catch {
+      message = `Select the ${label.toLowerCase()} field and copy it manually.`;
+    }
+    setCopyResult({ target, value, message });
   }
 
   return (
@@ -133,6 +143,20 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
         <h1>Harptos Calendar <span>Tracker</span></h1>
         <p className="ledger-subtitle">{activeLocation.name} · {activeLocation.region}</p>
       </header>
+
+      {isPreview ? (
+        <section className="share-preview" aria-labelledby="share-preview-heading">
+          <h2 className="eyebrow" id="share-preview-heading">Shared campaign preview</h2>
+          <p>Adopt this moment to replace your saved campaign and enable editing.</p>
+          <div className="share-actions">
+            <Button onClick={adoptSharedCampaign}>Adopt Shared Campaign</Button>
+            <Button variant="outline" onClick={() => finishPreview(loadSavedCampaign())}>Back to Saved Campaign</Button>
+          </div>
+        </section>
+      ) : null}
+      {initialShareStatus === "invalid" ? (
+        <p className="clock-notice" role="status">This share link is invalid or unsupported. Showing your local campaign.</p>
+      ) : null}
 
       <section aria-labelledby="clock-heading">
         <Card className="clock-panel py-0">
@@ -178,24 +202,75 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
             </div>
           </CardContent>
           <CardContent className="clock-controls">
-            <div className="clock-actions">
-              <ClockEditor dateTime={dateTime} onSetTime={setCurrentTime} />
-              <div className="advance-buttons" role="group" aria-label="Advance time">
-                {advances.map(({ hours, label }) => (
-                  <Button key={hours} variant="outline" onClick={() => advanceClock(hours)}>{label}</Button>
-                ))}
+            {!isPreview ? (
+              <div className="clock-actions">
+                <ClockEditor dateTime={dateTime} onSetTime={setCurrentTime} />
+                <div className="advance-buttons" role="group" aria-label="Advance time">
+                  {advances.map(({ hours, label }) => (
+                    <Button key={hours} variant="outline" onClick={() => advanceClock(hours)}>{label}</Button>
+                  ))}
+                </div>
               </div>
-            </div>
+            ) : null}
             {notice ? <p className="clock-notice" role="status">{notice}</p> : null}
-            <label className="campaign-summary">
-              <span className="eyebrow">Campaign summary</span>
-              <input type="text" readOnly value={summary} onClick={(event) => event.currentTarget.select()} />
-            </label>
+            <div className="campaign-summary-row">
+              <div className="campaign-summary">
+                <label className="eyebrow" htmlFor="campaign-summary">Campaign summary</label>
+                <div className="summary-copy-field">
+                  <input id="campaign-summary" type="text" readOnly value={summary} onClick={(event) => event.currentTarget.select()} />
+                  <Button
+                    variant="outline"
+                    aria-label="Copy campaign summary"
+                    title="Copy campaign summary"
+                    onClick={() => copyText("summary", summary)}
+                  >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                      <rect x="8" y="8" width="13" height="13" rx="2" />
+                      <path d="M5 16H4a1 1 0 0 1-1-1V5a2 2 0 0 1 2-2h10a1 1 0 0 1 1 1v1" />
+                    </svg>
+                  </Button>
+                </div>
+              </div>
+              <Button
+                variant="outline"
+                aria-expanded={showShareLink}
+                aria-controls="campaign-share-link"
+                onClick={() => {
+                  setCopyResult(undefined);
+                  setShowShareLink(!showShareLink);
+                }}
+              >
+                {showShareLink ? "Hide Share Link" : "Share Campaign"}
+              </Button>
+            </div>
+            <p className="summary-copy-status" role="status">
+              {copyResult?.target === "summary" && copyResult.value === summary ? copyResult.message : ""}
+            </p>
+            <div id="campaign-share-link" hidden={!showShareLink}>
+              {showShareLink ? <>
+                <label className="campaign-summary">
+                  <span className="eyebrow">Share link</span>
+                  <input
+                    type="text"
+                    readOnly
+                    value={shareUrl}
+                    onFocus={(event) => event.currentTarget.select()}
+                    onClick={(event) => event.currentTarget.select()}
+                  />
+                </label>
+                <div className="share-actions">
+                  <Button variant="outline" onClick={() => copyText("link", shareUrl)}>Copy Link</Button>
+                  <span className="share-status" role="status">
+                    {copyResult?.target === "link" && copyResult.value === shareUrl ? copyResult.message : ""}
+                  </span>
+                </div>
+              </> : null}
+            </div>
           </CardContent>
         </Card>
       </section>
 
-      <fieldset className="campaign-setting">
+      <fieldset className="campaign-setting" disabled={isPreview}>
         <legend className="eyebrow setting-heading">Campaign location</legend>
         <div className="location-grid">
           {locationIds.map((id) => {
@@ -216,14 +291,13 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
                     aria-labelledby={`${id}-name`}
                     aria-describedby={`${id}-detail`}
                     checked={locationId === id}
-                    onChange={() => selectLocation(id)}
+                    onChange={() => updateCampaign({ locationId: id })}
                   />
                 </label>
               </CardContent>
             </Card>;
           })}
         </div>
-        {locationNotice ? <p className="location-notice" role="status">{locationNotice}</p> : null}
       </fieldset>
     </main>
   );
