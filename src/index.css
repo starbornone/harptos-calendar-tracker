@@ -1,0 +1,350 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  color-scheme: dark;
+  --background: #111110;
+  --foreground: #faf8f2;
+  --card: #1c1c1a;
+  --card-foreground: var(--foreground);
+  --popover: #24231f;
+  --popover-foreground: var(--foreground);
+  --primary: #ead7a4;
+  --primary-foreground: #211c13;
+  --secondary: #332b20;
+  --secondary-foreground: #f1e5cf;
+  --muted: #282622;
+  --muted-foreground: #b5afa8;
+  --accent: #393122;
+  --accent-foreground: #f4e4bc;
+  --destructive: #f09986;
+  --border: #4c4335;
+  --input: #82776b;
+  --ring: var(--primary);
+  --radius: 0.5rem;
+  --neverwinter: #e6a47d;
+  --phandelver: #a8c9b1;
+  --font-ledger: Georgia, "Times New Roman", serif;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    min-height: 100vh;
+    background-image: radial-gradient(ellipse at 50% 0%, #292319 0%, transparent 36rem);
+  }
+}
+
+.ledger {
+  width: min(68rem, 100% - 2.5rem);
+  margin-inline: auto;
+  padding-block: clamp(2rem, 6vw, 4.25rem) 3rem;
+}
+
+.ledger-header {
+  margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.ledger-kicker {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  color: var(--primary);
+}
+
+.ledger-seal {
+  display: grid;
+  width: 1.75rem;
+  aspect-ratio: 1;
+  place-items: center;
+  border: 1px solid var(--border);
+  border-radius: 50%;
+  font-family: var(--font-ledger);
+  font-size: 1.1rem;
+  letter-spacing: 0;
+}
+
+.ledger-header h1 {
+  font-family: var(--font-ledger);
+  font-size: clamp(2.8rem, 7.4vw, 5.15rem);
+  line-height: 1;
+  letter-spacing: -0.05em;
+  text-wrap: balance;
+}
+
+.ledger-header h1 span {
+  color: var(--primary);
+}
+
+.ledger-subtitle {
+  margin-top: 0.85rem;
+  color: var(--muted-foreground);
+  font-size: 1rem;
+}
+
+.clock-panel {
+  position: relative;
+  border: 1px solid var(--border);
+  background: radial-gradient(ellipse at 81% 42%, #3d3323 0%, transparent 49%), var(--card);
+}
+
+.clock-panel::before {
+  position: absolute;
+  inset: 0.45rem;
+  border: 1px solid color-mix(in srgb, var(--primary) 16%, transparent);
+  border-radius: var(--radius);
+  pointer-events: none;
+  content: "";
+}
+
+.clock-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.7fr);
+  align-items: center;
+  gap: 1.5rem;
+  padding: clamp(1.75rem, 5vw, 3.5rem);
+}
+
+.clock-label {
+  color: var(--primary);
+}
+
+.clock-time {
+  display: block;
+  margin-block: 0.3rem 0.55rem;
+  color: var(--foreground);
+  font-family: var(--font-ledger);
+  font-size: clamp(4rem, 12vw, 8rem);
+  line-height: 1;
+  letter-spacing: -0.055em;
+  font-variant-numeric: lining-nums tabular-nums;
+}
+
+.clock-date {
+  color: var(--primary);
+  font-family: var(--font-ledger);
+  font-size: clamp(1.45rem, 3vw, 2rem);
+  line-height: 1.2;
+}
+
+.clock-year {
+  margin-top: 0.55rem;
+  color: var(--muted-foreground);
+}
+
+.clock-dial {
+  width: min(100%, 16rem);
+  justify-self: center;
+  color: var(--primary);
+}
+
+.clock-controls {
+  border-top: 1px solid var(--border);
+  padding: 1rem clamp(1rem, 5vw, 3.5rem) 1.25rem;
+}
+
+.clock-actions,
+.advance-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.clock-actions {
+  gap: 0.75rem 1rem;
+}
+
+.clock-notice {
+  margin-top: 0.75rem;
+  color: var(--muted-foreground);
+}
+
+.clock-dialog {
+  width: min(30rem, 100% - 2rem);
+  max-height: calc(100% - 2rem);
+  margin: auto;
+  overflow: auto;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--popover);
+  color: var(--popover-foreground);
+  box-shadow: 0 1.5rem 5rem #0009;
+}
+
+.clock-dialog::backdrop {
+  background: #000a;
+}
+
+.clock-form {
+  display: grid;
+  gap: 1.25rem;
+  padding: clamp(1.25rem, 4vw, 1.75rem);
+}
+
+.clock-form h3 {
+  color: var(--primary);
+  font-family: var(--font-ledger);
+  font-size: 1.75rem;
+}
+
+.clock-fields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.clock-fields label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.clock-fields input,
+.clock-fields select {
+  width: 100%;
+  min-width: 0;
+  min-height: 2.5rem;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-md);
+  background: var(--background);
+  padding: 0.35rem 0.5rem;
+  font-size: 1rem;
+}
+
+.clock-fields :is(input, select):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
+.clock-error {
+  color: var(--destructive);
+}
+
+.clock-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+}
+
+.campaign-setting {
+  margin-top: 2.25rem;
+}
+
+.setting-heading {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.85rem;
+  color: var(--muted-foreground);
+}
+
+.setting-heading::after {
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+  content: "";
+}
+
+.location-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.location-panel[data-location="neverwinter"] {
+  --location-accent: var(--neverwinter);
+}
+
+.location-panel[data-location="phandelver"] {
+  --location-accent: var(--phandelver);
+}
+
+.location-panel {
+  border: 1px solid color-mix(in srgb, var(--location-accent) 27%, var(--card));
+  background: linear-gradient(125deg, color-mix(in srgb, var(--location-accent) 9%, var(--card)), var(--card));
+}
+
+.location-content {
+  padding: 1.35rem 1.5rem;
+}
+
+.location-region {
+  color: var(--location-accent);
+}
+
+.location-content h3 {
+  margin-block: 0.25rem;
+  font-family: var(--font-ledger);
+  font-size: 1.65rem;
+  line-height: 1.2;
+}
+
+.location-detail {
+  color: var(--muted-foreground);
+}
+
+@media (max-width: 40rem) {
+  .clock-layout {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1rem;
+  }
+
+  .clock-dial {
+    width: min(100%, 9rem);
+  }
+
+  .clock-actions {
+    display: grid;
+  }
+
+  .advance-buttons {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
+
+  .advance-buttons button {
+    padding-inline: 0.25rem;
+  }
+
+  .location-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
