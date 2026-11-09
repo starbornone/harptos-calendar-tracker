@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-09T11:47:05+11:00",
+  "updatedAt": "2026-11-09T12:07:16+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -9,12 +9,6 @@
     "summary": "A Dungeon Master’s tracker for Harptos campaign time, daylight, and hourly weather in Neverwinter and Phandalin."
   },
   "items": [
-    {
-      "id": "estimate-seasonal-daylight",
-      "title": "Show seasonal sunrise and sunset",
-      "group": "Daylight and time markers",
-      "notes": "Derive local sunrise and sunset from the date and location using a simple seasonal model. Use roughly eight to sixteen hours as northern Sword Coast daylight tuning targets."
-    },
     {
       "id": "show-faerunian-time-markers",
       "title": "Show Faerûnian phases and clock markers",

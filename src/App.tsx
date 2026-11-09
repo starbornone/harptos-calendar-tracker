@@ -2,6 +2,7 @@ import { useState } from "react";
 import { ClockEditor } from "@/components/clock-editor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { getSeasonalDaylight } from "./daylight.ts";
 import { CAMPAIGN_START, advanceHours, formatHarptosDate, formatHarptosTime, fromElapsedMinutes, toElapsedMinutes, type HarptosDateTime } from "./harptos.ts";
 
 const locations = [
@@ -77,6 +78,8 @@ export function App() {
   const [{ id: locationId, notice: locationNotice }, setLocation] = useState(loadLocation);
   const { date, hour, minute } = dateTime;
   const time = formatHarptosTime(dateTime);
+  const activeLocation = locations.find(({ id }) => id === locationId) ?? locations[0];
+  const { sunrise, sunset } = getSeasonalDaylight(date, locationId);
 
   function setCurrentTime(next: HarptosDateTime) {
     const elapsed = toElapsedMinutes(next);
@@ -127,7 +130,23 @@ export function App() {
                 {date.year === CAMPAIGN_START.date.year ? <p className="clock-year">Year of the Scarlet Witch</p> : null}
               </div>
             </div>
-            <ClockDial hour={hour} minute={minute} />
+            <div className="clock-solar">
+              <ClockDial hour={hour} minute={minute} />
+              <section className="daylight-readout" aria-labelledby="daylight-heading" aria-live="polite" aria-atomic="true">
+                <h3 className="eyebrow" id="daylight-heading">Daylight estimates · {activeLocation.name}</h3>
+                <dl className="daylight-times">
+                  {([["Sunrise", sunrise], ["Sunset", sunset]] as const).map(([label, minutes]) => {
+                    const eventTime = formatHarptosTime({ hour: Math.floor(minutes / 60), minute: minutes % 60 });
+                    return (
+                      <div key={label}>
+                        <dt>{label}</dt>
+                        <dd><time dateTime={eventTime}>{eventTime}</time></dd>
+                      </div>
+                    );
+                  })}
+                </dl>
+              </section>
+            </div>
           </CardContent>
           <CardContent className="clock-controls">
             <div className="clock-actions">

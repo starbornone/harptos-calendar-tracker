@@ -4,7 +4,9 @@ Vite serves [index.html](../index.html) and bundles the TypeScript app. [src/mai
 
 The [campaign location selector](../src/App.tsx) stores `neverwinter` or `phandalin` under `harptos-calendar-tracker:location:v1`. The clock and location use separate keys so switching locations leaves the saved clock intact. A missing or unknown location defaults to Neverwinter and the saved time is restored independently.
 
-The diagram includes the planned daylight and weather flow.
+[src/daylight.ts](../src/daylight.ts) uses the Harptos day index and year length to estimate sunrise and sunset as minutes after midnight. The date and location determine both values, so advancing within a single day keeps its estimates. The calendar index includes festival days and Shieldmeet.
+
+The diagram includes the planned time markers and weather flow.
 
 ```mermaid
 flowchart LR
@@ -21,9 +23,9 @@ flowchart LR
 ## Campaign state and derived views
 
 - **Calendar and clock.** Convert between a Harptos date and a continuous measure of campaign time. Validate the requested date and time before updating state. Keep regular dates and intercalary festivals distinct when parsing and formatting. Day advances add 24 or 240 elapsed hours, including festival hours.
-- **Daylight and phase.** Derive sunrise, sunset, and the current phase from the Harptos date, clock, and location. Keep named clock markers separate from daylight-dependent phases so a fixed marker can coexist with the date’s sunset estimate.
+- **Daylight and phase.** Derive sunrise and sunset from the Harptos date and location. When time markers are added, derive the current phase from those estimates and the clock. Keep named clock markers separate from daylight-dependent phases so a fixed marker can coexist with the date’s sunset estimate.
 - **Weather.** Derive the condition from the campaign seed, location, elapsed hour, and previous condition. A jump over several hours must account for their transitions. Revisit a location or earlier hour using the same sequence. Consider checkpoints if long jumps expose a performance problem.
-- **Display and save.** Present the clock and location controls together. When daylight and weather are added, restore the campaign seed alongside the clock and location to reconstruct the derived conditions.
+- **Display and save.** Present the clock, daylight estimates, and location controls together. When weather is added, restore the campaign seed alongside the clock and location to reconstruct the derived conditions.
 
 ## How a change lands
 

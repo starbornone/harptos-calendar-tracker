@@ -59,12 +59,13 @@ function daysInYear(year: number): CalendarDay[] {
   return year % YEARS_PER_CYCLE === 0 ? SHIELDMEET_YEAR : COMMON_YEAR;
 }
 
-function dayOfYear(date: HarptosDate): number {
+export function getHarptosYearPosition(date: HarptosDate) {
   if (!Number.isSafeInteger(date.year) || date.year < 1) {
     throw new RangeError("A Harptos year must be a positive integer in DR.");
   }
 
-  const dayIndex = daysInYear(date.year).findIndex((day) => {
+  const yearDays = daysInYear(date.year);
+  const dayIndex = yearDays.findIndex((day) => {
     if ("festival" in date) {
       return "festival" in day && day.festival === date.festival;
     }
@@ -76,17 +77,17 @@ function dayOfYear(date: HarptosDate): number {
     }
     throw new RangeError("That day or festival does not occur in the given Harptos year.");
   }
-  return dayIndex;
+  return { dayIndex, yearLength: yearDays.length };
 }
 
 export function getTenday(date: HarptosDate): number | null {
-  dayOfYear(date);
+  getHarptosYearPosition(date);
   return "festival" in date ? null : Math.ceil(date.day / DAYS_PER_TENDAY);
 }
 
 // Count elapsed minutes from 00:00 on 1 Hammer 1 DR.
 export function toElapsedMinutes({ date, hour, minute }: HarptosDateTime): number {
-  const dayIndex = dayOfYear(date);
+  const { dayIndex } = getHarptosYearPosition(date);
   if (!Number.isInteger(hour) || hour < 0 || hour >= HOURS_PER_DAY ||
       !Number.isInteger(minute) || minute < 0 || minute >= MINUTES_PER_HOUR) {
     throw new RangeError("Enter a Harptos clock time from 00:00 to 23:59.");
@@ -135,6 +136,6 @@ export function formatHarptosDate(date: HarptosDate): string {
   return `${dayLabel} ${date.year} DR`;
 }
 
-export function formatHarptosTime({ hour, minute }: HarptosDateTime): string {
+export function formatHarptosTime({ hour, minute }: Pick<HarptosDateTime, "hour" | "minute">): string {
   return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
 }
