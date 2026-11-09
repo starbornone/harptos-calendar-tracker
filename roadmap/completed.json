@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-09T15:55:43+11:00",
+  "updatedAt": "2026-11-09T17:05:01+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -112,6 +112,13 @@
       "group": "Campaign clock",
       "notes": "Generate a link that carries the current date, time, selected location, and weather seed. Use versioned query parameters so recipients can open the same moment and see the same weather. Validate link values and preserve the recipient's saved campaign until they choose to adopt the shared state.",
       "completedAt": "2026-11-09T15:55:43+11:00"
+    },
+    {
+      "id": "localize-tracker-in-simplified-chinese",
+      "title": "Localize the tracker in Simplified Chinese",
+      "group": "Interface",
+      "notes": "Use the supplied terminology for the interface, Harptos months and festivals, and all ten preset locations. Restore an existing browser language preference and use it for the campaign summary and footer disclaimer. Keep the Simplified Chinese selection hidden for now.",
+      "completedAt": "2026-11-09T17:05:01+11:00"
     }
   ]
 }

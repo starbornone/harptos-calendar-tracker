@@ -11,6 +11,8 @@ npm run dev
 
 Open the local URL printed by Vite. A fresh browser profile starts in **Neverwinter** at **08:00 on 1 Tarsakh 1491 DR**, with **Year of the Scarlet Witch** underneath. The last saved time and location resume in the same browser profile at the same site address. When running Vite locally, keep the same host and port between sessions.
 
+The tracker opens in English by default. If your browser has a saved Simplified Chinese preference, choose **Use English** in the header to switch back.
+
 ## Preview the production build
 
 ```sh

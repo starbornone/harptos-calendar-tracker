@@ -1,5 +1,6 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ClockEditor } from "@/components/clock-editor";
+import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
@@ -16,13 +17,13 @@ import { formatCampaignSummary } from "./campaign-summary.ts";
 import { getSeasonalDaylight } from "./daylight.ts";
 import {
   advanceHours,
-  formatHarptosDate,
   formatHarptosTime,
   getHarptosYearTitle,
   toElapsedMinutes,
   type HarptosDateTime,
 } from "./harptos.ts";
 import { campaignLocations, locationIds } from "./locations.ts";
+import { formatLocalizedDate, translate, type Locale } from "./localization.ts";
 import { getFaerunianTime } from "./time-markers.ts";
 import { getHourlyWeather } from "./weather.ts";
 
@@ -62,10 +63,49 @@ function ClockDial({ hour, minute }: { hour: number; minute: number }) {
   );
 }
 
-export function App({ initialView, initialShareStatus }: {
+type AppProps = {
   initialView: CampaignView;
   initialShareStatus: ReturnType<typeof readSharedCampaign>["status"];
+};
+
+const languageKey = "harptos-calendar-tracker:language";
+
+export function App(props: AppProps) {
+  const [locale, setLocale] = useState<Locale>(() => {
+    try {
+      return localStorage.getItem(languageKey) === "zh-Hans" ? "zh-Hans" : "en";
+    } catch {
+      return "en";
+    }
+  });
+
+  useEffect(() => {
+    document.documentElement.lang = locale;
+    document.title = translate(locale, "Harptos Calendar Tracker");
+  }, [locale]);
+
+  function switchToEnglish() {
+    setLocale("en");
+    try {
+      localStorage.setItem(languageKey, "en");
+    } catch {
+      // The language can still change for this tab.
+    }
+  }
+
+  return (
+    <>
+      <CampaignLedger {...props} locale={locale} onSwitchToEnglish={switchToEnglish} />
+      <SiteFooter locale={locale} />
+    </>
+  );
+}
+
+function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEnglish }: AppProps & {
+  locale: Locale;
+  onSwitchToEnglish: () => void;
 }) {
+  const t = (label: string) => translate(locale, label);
   const [{ campaign, notice }, setView] = useState(initialView);
   const [isPreview, setIsPreview] = useState(initialShareStatus === "valid");
   const [showShareLink, setShowShareLink] = useState(false);
@@ -82,7 +122,7 @@ export function App({ initialView, initialShareStatus }: {
     : "peak" in daylight ? [["Peak", daylight.peak], ["Antipeak", daylight.antipeak]] : [];
   const { phase, marker } = getFaerunianTime(dateTime, daylight);
   const weather = getHourlyWeather(dateTime, locationId, weatherSeed);
-  const summary = formatCampaignSummary(dateTime, phase, weather);
+  const summary = formatCampaignSummary(dateTime, phase, weather, locale);
   const shareUrl = showShareLink ? makeShareUrl(new URL(window.location.href), campaign) : "";
 
   function setCurrentTime(next: HarptosDateTime) {
@@ -139,46 +179,51 @@ export function App({ initialView, initialShareStatus }: {
   return (
     <main className="ledger">
       <header className="ledger-header">
-        <p className="eyebrow ledger-kicker"><span className="ledger-seal" aria-hidden="true">✧</span> Dungeon Master’s ledger</p>
-        <h1>Harptos Calendar <span>Tracker</span></h1>
-        <p className="ledger-subtitle">{activeLocation.name} · {activeLocation.region}</p>
+        <div className="ledger-header-tools">
+          <p className="eyebrow ledger-kicker"><span className="ledger-seal" aria-hidden="true">✧</span> {t("Dungeon Master’s ledger")}</p>
+          {locale === "zh-Hans" ? (
+            <Button variant="outline" lang="en" onClick={onSwitchToEnglish}>Use English</Button>
+          ) : null}
+        </div>
+        <h1>{t("Harptos Calendar")}{locale === "en" ? " " : ""}<span>{t("Tracker")}</span></h1>
+        <p className="ledger-subtitle">{t(activeLocation.name)} · {t(activeLocation.region)}</p>
       </header>
 
       {isPreview ? (
         <section className="share-preview" aria-labelledby="share-preview-heading">
-          <h2 className="eyebrow" id="share-preview-heading">Shared campaign preview</h2>
-          <p>Adopt this moment to replace your saved campaign and enable editing.</p>
+          <h2 className="eyebrow" id="share-preview-heading">{t("Shared campaign preview")}</h2>
+          <p>{t("Adopt this moment to replace your saved campaign and enable editing.")}</p>
           <div className="share-actions">
-            <Button onClick={adoptSharedCampaign}>Adopt Shared Campaign</Button>
-            <Button variant="outline" onClick={() => finishPreview(loadSavedCampaign())}>Back to Saved Campaign</Button>
+            <Button onClick={adoptSharedCampaign}>{t("Adopt Shared Campaign")}</Button>
+            <Button variant="outline" onClick={() => finishPreview(loadSavedCampaign())}>{t("Back to Saved Campaign")}</Button>
           </div>
         </section>
       ) : null}
       {initialShareStatus === "invalid" ? (
-        <p className="clock-notice" role="status">This share link is invalid or unsupported. Showing your local campaign.</p>
+        <p className="clock-notice" role="status">{t("This share link is invalid or unsupported. Showing your local campaign.")}</p>
       ) : null}
 
       <section aria-labelledby="clock-heading">
         <Card className="clock-panel py-0">
           <CardContent className="clock-layout">
             <div>
-              <h2 className="eyebrow clock-label" id="clock-heading">Campaign clock</h2>
+              <h2 className="eyebrow clock-label" id="clock-heading">{t("Campaign clock")}</h2>
               <div id="campaign-clock" aria-live="polite" aria-atomic="true">
                 <time className="clock-time" dateTime={time}>{time}</time>
-                <p className="clock-date">{formatHarptosDate(date)}</p>
-                {yearTitle ? <p className="clock-year">{yearTitle}</p> : null}
+                <p className="clock-date">{formatLocalizedDate(date, locale)}</p>
+                {yearTitle ? <p className="clock-year">{t(yearTitle)}</p> : null}
                 <dl className="clock-markers">
                   <div>
-                    <dt>Time phase</dt>
-                    <dd className="clock-phase">{phase}</dd>
+                    <dt>{t("Time phase")}</dt>
+                    <dd className="clock-phase">{t(phase)}</dd>
                   </div>
                   <div>
-                    <dt>Clock marker</dt>
-                    <dd className="clock-marker">{marker}</dd>
+                    <dt>{t("Clock marker")}</dt>
+                    <dd className="clock-marker">{t(marker)}</dd>
                   </div>
                   <div>
-                    <dt>Hourly weather</dt>
-                    <dd className="clock-weather">{weather}</dd>
+                    <dt>{t("Hourly weather")}</dt>
+                    <dd className="clock-weather">{t(weather)}</dd>
                   </div>
                 </dl>
               </div>
@@ -186,42 +231,42 @@ export function App({ initialView, initialShareStatus }: {
             <div className="clock-solar">
               <ClockDial hour={hour} minute={minute} />
               <section className="daylight-readout" aria-labelledby="daylight-heading" aria-live="polite" aria-atomic="true">
-                <h3 className="eyebrow" id="daylight-heading">{isSolar ? "Daylight estimates" : "Ambient light"} · {activeLocation.name}</h3>
+                <h3 className="eyebrow" id="daylight-heading">{t(isSolar ? "Daylight estimates" : "Ambient light")} · {t(activeLocation.name)}</h3>
                 {lightEvents.length ? <dl className="daylight-times">
                   {lightEvents.map(([label, minutes]) => {
                     const eventTime = formatHarptosTime({ hour: Math.floor(minutes / 60), minute: minutes % 60 });
                     return (
                       <div key={label}>
-                        <dt>{label}</dt>
+                        <dt>{t(label)}</dt>
                         <dd><time dateTime={eventTime}>{eventTime}</time></dd>
                       </div>
                     );
                   })}
-                </dl> : <p className="daylight-note">Steady Auroral Diamond light</p>}
+                </dl> : <p className="daylight-note">{t("Steady Auroral Diamond light")}</p>}
               </section>
             </div>
           </CardContent>
           <CardContent className="clock-controls">
             {!isPreview ? (
               <div className="clock-actions">
-                <ClockEditor dateTime={dateTime} onSetTime={setCurrentTime} />
-                <div className="advance-buttons" role="group" aria-label="Advance time">
+                <ClockEditor dateTime={dateTime} onSetTime={setCurrentTime} locale={locale} />
+                <div className="advance-buttons" role="group" aria-label={t("Advance time")}>
                   {advances.map(({ hours, label }) => (
-                    <Button key={hours} variant="outline" onClick={() => advanceClock(hours)}>{label}</Button>
+                    <Button key={hours} variant="outline" onClick={() => advanceClock(hours)}>{t(label)}</Button>
                   ))}
                 </div>
               </div>
             ) : null}
-            {notice ? <p className="clock-notice" role="status">{notice}</p> : null}
+            {notice ? <p className="clock-notice" role="status">{t(notice)}</p> : null}
             <div className="campaign-summary-row">
               <div className="campaign-summary">
-                <label className="eyebrow" htmlFor="campaign-summary">Campaign summary</label>
+                <label className="eyebrow" htmlFor="campaign-summary">{t("Campaign summary")}</label>
                 <div className="summary-copy-field">
                   <input id="campaign-summary" type="text" readOnly value={summary} onClick={(event) => event.currentTarget.select()} />
                   <Button
                     variant="outline"
-                    aria-label="Copy campaign summary"
-                    title="Copy campaign summary"
+                    aria-label={t("Copy campaign summary")}
+                    title={t("Copy campaign summary")}
                     onClick={() => copyText("summary", summary)}
                   >
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -240,16 +285,16 @@ export function App({ initialView, initialShareStatus }: {
                   setShowShareLink(!showShareLink);
                 }}
               >
-                {showShareLink ? "Hide Share Link" : "Share Campaign"}
+                {t(showShareLink ? "Hide Share Link" : "Share Campaign")}
               </Button>
             </div>
             <p className="summary-copy-status" role="status">
-              {copyResult?.target === "summary" && copyResult.value === summary ? copyResult.message : ""}
+              {copyResult?.target === "summary" && copyResult.value === summary ? t(copyResult.message) : ""}
             </p>
             <div id="campaign-share-link" hidden={!showShareLink}>
               {showShareLink ? <>
                 <label className="campaign-summary">
-                  <span className="eyebrow">Share link</span>
+                  <span className="eyebrow">{t("Share link")}</span>
                   <input
                     type="text"
                     readOnly
@@ -259,9 +304,9 @@ export function App({ initialView, initialShareStatus }: {
                   />
                 </label>
                 <div className="share-actions">
-                  <Button variant="outline" onClick={() => copyText("link", shareUrl)}>Copy Link</Button>
+                  <Button variant="outline" onClick={() => copyText("link", shareUrl)}>{t("Copy Link")}</Button>
                   <span className="share-status" role="status">
-                    {copyResult?.target === "link" && copyResult.value === shareUrl ? copyResult.message : ""}
+                    {copyResult?.target === "link" && copyResult.value === shareUrl ? t(copyResult.message) : ""}
                   </span>
                 </div>
               </> : null}
@@ -271,7 +316,7 @@ export function App({ initialView, initialShareStatus }: {
       </section>
 
       <fieldset className="campaign-setting" disabled={isPreview}>
-        <legend className="eyebrow setting-heading">Campaign location</legend>
+        <legend className="eyebrow setting-heading">{t("Campaign location")}</legend>
         <div className="location-grid">
           {locationIds.map((id) => {
             const location = campaignLocations[id];
@@ -279,9 +324,9 @@ export function App({ initialView, initialShareStatus }: {
               <CardContent className="grow p-0">
                 <label className="location-content">
                   <span className="location-copy">
-                    <span className="eyebrow location-region">{location.region}</span>
-                    <span className="location-name" id={`${id}-name`}>{location.name}</span>
-                    <span className="location-detail" id={`${id}-detail`}>{location.detail}</span>
+                    <span className="eyebrow location-region">{t(location.region)}</span>
+                    <span className="location-name" id={`${id}-name`}>{t(location.name)}</span>
+                    <span className="location-detail" id={`${id}-detail`}>{t(location.detail)}</span>
                   </span>
                   <input
                     className="location-radio"

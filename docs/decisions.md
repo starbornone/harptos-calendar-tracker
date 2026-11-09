@@ -74,3 +74,9 @@ These records capture the campaign requirements and first-release design choices
 **Decision.** Use a versioned query string to carry the elapsed minute, location ID, and weather seed. Open a valid link as a read-only preview. Save all three fields together when the recipient adopts the moment.
 
 **Consequences.** The URL reproduces the shared weather with the same model and leaves the recipient’s local campaign intact during preview. The app can restore saves written under the earlier per-field keys.
+
+## 9. Store the language preference separately from the campaign
+
+**Decision.** Default to English and keep the Simplified Chinese option hidden for now. Restore an existing language preference separately from the campaign snapshot and offer a return to English when Simplified Chinese is active. Use the current language for the footer disclaimer and campaign summary, and retain the DR abbreviation.
+
+**Consequences.** Returning to English preserves the current campaign. Recipients see the shared moment in their browser’s current tracker language.

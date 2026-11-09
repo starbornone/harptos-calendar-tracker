@@ -1,6 +1,7 @@
 import { useRef, useState, type FormEvent } from "react";
 import { Button } from "@/components/ui/button";
 import { HARPTOS_FESTIVALS, HARPTOS_MONTHS, formatHarptosTime, type HarptosDate, type HarptosDateTime } from "@/harptos.ts";
+import { translate, type Locale } from "@/localization.ts";
 
 function makeDraft(dateTime: HarptosDateTime) {
   const { date } = dateTime;
@@ -13,7 +14,12 @@ function makeDraft(dateTime: HarptosDateTime) {
   };
 }
 
-export function ClockEditor({ dateTime, onSetTime }: { dateTime: HarptosDateTime; onSetTime: (time: HarptosDateTime) => void }) {
+export function ClockEditor({ dateTime, onSetTime, locale }: {
+  dateTime: HarptosDateTime;
+  onSetTime: (time: HarptosDateTime) => void;
+  locale: Locale;
+}) {
+  const t = (label: string) => translate(locale, label);
   const dialog = useRef<HTMLDialogElement>(null);
   const [draft, setDraft] = useState(() => makeDraft(dateTime));
   const [error, setError] = useState("");
@@ -61,41 +67,41 @@ export function ClockEditor({ dateTime, onSetTime }: { dateTime: HarptosDateTime
 
   return (
     <>
-      <Button onClick={openEditor}>Set Current Time</Button>
+      <Button onClick={openEditor}>{t("Set Current Time")}</Button>
       <dialog ref={dialog} className="clock-dialog" aria-labelledby="clock-dialog-title">
         <form className="clock-form" onSubmit={submit}>
-          <h3 id="clock-dialog-title">Set Current Time</h3>
+          <h3 id="clock-dialog-title">{t("Set Current Time")}</h3>
           <div className="clock-fields">
             <label>
-              Year (DR)
+              {t("Year (DR)")}
               <input type="number" min="1" step="1" required value={draft.year} onChange={(event) => updateDraft("year", event.target.value)} />
             </label>
             <label>
-              Month or festival
+              {t("Month or festival")}
               <select value={draft.period} onChange={(event) => updateDraft("period", event.target.value)}>
-                <optgroup label="Months">
-                  {HARPTOS_MONTHS.map((name) => <option key={name}>{name}</option>)}
+                <optgroup label={t("Months")}>
+                  {HARPTOS_MONTHS.map((name) => <option key={name} value={name}>{t(name)}</option>)}
                 </optgroup>
-                <optgroup label="Festivals">
-                  {HARPTOS_FESTIVALS.map((name) => <option key={name}>{name}</option>)}
+                <optgroup label={t("Festivals")}>
+                  {HARPTOS_FESTIVALS.map((name) => <option key={name} value={name}>{t(name)}</option>)}
                 </optgroup>
               </select>
             </label>
             {month ? (
               <label>
-                Day of month
+                {t("Day of month")}
                 <input type="number" min="1" max="30" step="1" required value={draft.day} onChange={(event) => updateDraft("day", event.target.value)} />
               </label>
             ) : null}
             <label>
-              Time (24-hour)
+              {t("Time (24-hour)")}
               <input type="text" placeholder="HH:MM" required value={draft.time} onChange={(event) => updateDraft("time", event.target.value)} />
             </label>
           </div>
-          {error ? <p className="clock-error" role="alert">{error}</p> : null}
+          {error ? <p className="clock-error" role="alert">{t(error)}</p> : null}
           <div className="clock-form-actions">
-            <Button variant="outline" onClick={() => dialog.current?.close()}>Cancel</Button>
-            <Button type="submit">Set Time</Button>
+            <Button variant="outline" onClick={() => dialog.current?.close()}>{t("Cancel")}</Button>
+            <Button type="submit">{t("Set Time")}</Button>
           </div>
         </form>
       </dialog>
