@@ -1,14 +1,23 @@
 import type { getSeasonalDaylight } from "./daylight.ts";
 import type { HarptosDateTime } from "./harptos.ts";
 
-const namedClockMarkers = [
-  [5 * 60, "Foredawn"],
-  [8 * 60, "Mornbright"],
-  [10 * 60, "Midmorn"],
-  [11 * 60, "High Morn"],
-  [14 * 60, "Waterclock"],
-  [17 * 60, "Time of Summer Sunset"],
-  [18 * 60, "Twilight"],
+// Descending start times. Each marker runs until the next one begins.
+const clockMarkerStarts = [
+  [23 * 60 + 30, "Midnight"],
+  [18 * 60 + 30, "Evening"],
+  [17 * 60 + 30, "Twilight"],
+  [16 * 60 + 30, "Time of Summer Sunset"],
+  [15 * 60, "Afternoon"],
+  [12 * 60 + 30, "Waterclock"],
+  [11 * 60 + 30, "Highsun"],
+  [10 * 60 + 30, "High Morn"],
+  [9 * 60, "Midmorn"],
+  [7 * 60 + 30, "Mornbright"],
+  [6 * 60, "Morning"],
+  [4 * 60 + 30, "Foredawn"],
+  [3 * 60 + 30, "Night's End"],
+  [30, "Moondark"],
+  [0, "Midnight"],
 ] as const;
 
 export function getFaerunianTime(
@@ -30,7 +39,7 @@ export function getFaerunianTime(
     [30, "Moondark"],
   ] as const;
   const phase = phaseStarts.find(([start]) => minutes >= start)?.[1] ?? "Midnight";
-  const marker = namedClockMarkers.find(([center]) => minutes >= center - 15 && minutes < center + 15)?.[1] ?? null;
+  const marker = clockMarkerStarts.find(([start]) => minutes >= start)?.[1] ?? "Midnight";
 
   return { phase, marker };
 }

@@ -150,12 +150,10 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
                     <dt>Time phase</dt>
                     <dd className="clock-phase">{phase}</dd>
                   </div>
-                  {marker ? (
-                    <div>
-                      <dt>Clock marker</dt>
-                      <dd className="clock-marker">{marker}</dd>
-                    </div>
-                  ) : null}
+                  <div>
+                    <dt>Clock marker</dt>
+                    <dd className="clock-marker">{marker}</dd>
+                  </div>
                   <div>
                     <dt>Hourly weather</dt>
                     <dd className="clock-weather">{weather}</dd>

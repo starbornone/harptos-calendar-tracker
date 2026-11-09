@@ -22,11 +22,11 @@ These records capture the campaign requirements and first-release design choices
 
 **Context.** Sunrise and sunset vary with season and location. Some Faerûnian markers refer to approximate clock times.
 
-**Decision.** Use a smooth seasonal curve with its longest day on 20 Kythorn and shortest on 20 Nightal. Center daylight on 12:00 and round sunrise and sunset to the nearest minute. Use 8–16 hours of daylight for Neverwinter and 8 hours 20 minutes to 15 hours 40 minutes for Phandalin as campaign tuning choices. Phandalin is south of Neverwinter, so the model gives it a slightly narrower seasonal range. [Harptos calendar](https://forgottenrealms.fandom.com/wiki/Calendar_of_Harptos) · [D&D Beyond’s Phandalin guide](https://www.dndbeyond.com/posts/1515-visit-phandalin-d-ds-most-popular-starter-town)
+**Decision.** Center daylight on 12:00 and round sunrise and sunset to the nearest minute. Use the Harptos festivals as campaign tuning points, with 8 hours of daylight on Midwinter and 16 hours in Neverwinter or 15 hours 40 minutes in Phandalin on Midsummer. The Halruaa daylight profile uses 12 hours year-round. [Harptos calendar](https://forgottenrealms.fandom.com/wiki/Calendar_of_Harptos)
 
 **Phase windows.** Dawn begins 30 minutes before sunrise and lasts an hour. Night's End starts 90 minutes before sunrise and runs until Dawn. Dusk starts one hour before sunset, Sunset starts at sunset, and Evening starts 30 minutes later. Midnight and Highsun each span 30 minutes on either side of 00:00 and 12:00, respectively. These boundaries are campaign rules for the setting’s informal phases. [Faerûnian hours of the day](https://forgottenrealms.fandom.com/wiki/Hours_of_the_day)
 
-**Consequences.** Sunrise and sunset change with date and location. Festival days count as elapsed days in the curve, and Shieldmeet leaves the solstice dates fixed. Named markers start 15 minutes before their clock time and last 30 minutes, so Time of Summer Sunset can appear near 17:00 alongside a different estimated sunset for the selected date.
+**Consequences.** The northern curve stays near its longest and shortest days around the festivals, including in Shieldmeet years. Clock marker ranges cover all 24 hours. For example, Mornbright runs from 07:30 until Midmorn begins at 09:00, and Time of Summer Sunset runs from 16:30 until Twilight begins at 17:30. Solar phases still follow the date and location.
 
 ## 4. Generate a repeatable weather sequence
 

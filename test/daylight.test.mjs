@@ -3,14 +3,22 @@ import test from "node:test";
 import { getSeasonalDaylight } from "../src/daylight.ts";
 import { advanceHours } from "../src/harptos.ts";
 
-test("uses each location's solstice estimates in common and Shieldmeet years", () => {
+test("uses each northern location's festival estimates in common and Shieldmeet years", () => {
   for (const year of [1491, 1492]) {
-    const summer = { year, month: "Kythorn", day: 20 };
-    const winter = { year, month: "Nightal", day: 20 };
+    const summer = { year, festival: "Midsummer" };
+    const winter = { year, festival: "Midwinter" };
     assert.deepEqual(getSeasonalDaylight(summer, "neverwinter"), { sunrise: 240, sunset: 1200 });
     assert.deepEqual(getSeasonalDaylight(winter, "neverwinter"), { sunrise: 480, sunset: 960 });
     assert.deepEqual(getSeasonalDaylight(summer, "phandalin"), { sunrise: 250, sunset: 1190 });
-    assert.deepEqual(getSeasonalDaylight(winter, "phandalin"), { sunrise: 470, sunset: 970 });
+    assert.deepEqual(getSeasonalDaylight(winter, "phandalin"), { sunrise: 480, sunset: 960 });
+  }
+});
+
+test("keeps Halruaa at twelve hours of daylight through a Shieldmeet year", () => {
+  let time = { date: { year: 1492, month: "Hammer", day: 1 }, hour: 0, minute: 0 };
+  while (time.date.year === 1492) {
+    assert.deepEqual(getSeasonalDaylight(time.date, "halruaa"), { sunrise: 360, sunset: 1080 });
+    time = advanceHours(time, 24);
   }
 });
 

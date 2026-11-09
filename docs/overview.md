@@ -4,7 +4,7 @@ The Harptos Calendar Tracker is a single-screen tool for Dungeon Masters running
 
 The clock starts on **1 Tarsakh 1491 DR, Year of the Scarlet Witch**, at **08:00**. Set the date and time, including festival days, or advance by 1, 2, 4, or 8 hours, 1 day, or 10 days. The clock handles festivals, Shieldmeet, and year changes, and saves the last valid time in the current browser.
 
-The campaign starts in Neverwinter. Select Neverwinter or Phandalin to change locations while keeping the current date and time. The browser restores the selected location on reload. The clock displays estimated sunrise and sunset for the selected location and date, the current Faerûnian phase, and any active named clock marker.
+The campaign starts in Neverwinter. Select Neverwinter or Phandalin to change locations while keeping the current date and time. The browser restores the selected location on reload. The clock displays estimated sunrise and sunset for the selected date and location, the current Faerûnian phase, and a clock marker for every hour of the day.
 
 The clock also shows an hourly weather condition. Weather depends on location, season, time of day, and recent conditions. The saved campaign seed gives the same weather when you revisit an hour, skip ahead, or reload.
 

@@ -12,9 +12,9 @@ Build a single-screen DM tool for tracking in-game time, daylight, and weather d
 
 ## 2. Daylight and Faerûnian time markers
 
-- Add the location selector and show estimated sunrise and sunset for the selected date. Use a simple seasonal curve for the northern Sword Coast, starting with roughly eight hours of winter daylight and sixteen hours of summer daylight as campaign tuning targets.
+- Add the location selector and show estimated sunrise and sunset for the selected date. Use roughly eight hours of daylight around Midwinter and sixteen around Midsummer for northern Faerûn, and twelve hours year-round for the Halruaa profile.
 - Show the current Faerûnian phase alongside the numeric clock. Use Midnight, Moondark, Night’s End, Dawn, Morning, Highsun, Afternoon, Dusk, Sunset, and Evening. Anchor Dawn to sunrise, Dusk to the lead-up to sunset, and Evening to the period after sunset. [Hours of the day](https://forgottenrealms.fandom.com/wiki/Hours_of_the_day)
-- Show named clock markers when relevant alongside the phase. Use Foredawn around 05:00, Mornbright around 08:00, Midmorn around 10:00, High Morn around 11:00, Waterclock around 14:00, Time of Summer Sunset around 17:00, and Twilight around 18:00. The tracker can show the Time of Summer Sunset marker at 17:00 while also displaying the date’s estimated sunset. [Hours of the day](https://forgottenrealms.fandom.com/wiki/Hours_of_the_day)
+- Show the current clock marker alongside the phase. Use continuous ranges across the 24-hour clock, including Foredawn around 05:00, Mornbright around 08:00, Midmorn around 10:00, High Morn around 11:00, Waterclock around 14:00, Time of Summer Sunset around 17:00, and Twilight around 18:00. [Hours of the day](https://forgottenrealms.fandom.com/wiki/Hours_of_the_day)
 
 **Ready when** summer daylight lasts longer than winter daylight, dawn and evening labels follow the displayed solar times, and switching locations keeps the campaign date and clock intact.
 

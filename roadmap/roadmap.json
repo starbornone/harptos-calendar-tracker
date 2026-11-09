@@ -1,12 +1,25 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-09T12:38:55+11:00",
+  "updatedAt": "2026-11-09T15:26:56+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
-    "status": "complete",
+    "status": "active",
     "summary": "A Dungeon Master’s tracker for Harptos campaign time, daylight, and hourly weather in Neverwinter and Phandalin."
   },
-  "items": []
+  "items": [
+    {
+      "id": "add-campaign-locations",
+      "title": "Add eight campaign locations",
+      "group": "Locations",
+      "notes": "Add Baldur's Gate, Waterdeep, Sharn, Sigil, The Radiant Citadel, Bazzoxan, Kalaman, and Greyhawk to the selector. Choose daylight and weather profiles for each setting, including planar locations with unusual daylight."
+    },
+    {
+      "id": "share-campaign-state-via-url",
+      "title": "Share the current campaign state by URL",
+      "group": "Campaign clock",
+      "notes": "Generate a link that carries the current date, time, selected location, and weather seed. Use versioned query parameters so recipients can open the same moment and see the same weather. Validate link values and preserve the recipient's saved campaign until they choose to adopt the shared state."
+    }
+  ]
 }

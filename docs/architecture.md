@@ -25,7 +25,7 @@ flowchart LR
 ## Campaign state and derived views
 
 - **Calendar and clock.** Convert between a Harptos date and a continuous measure of campaign time. Validate the requested date and time before updating state. Keep regular dates and intercalary festivals distinct when parsing and formatting. Day advances add 24 or 240 elapsed hours, including festival hours.
-- **Daylight and phase.** Derive sunrise and sunset from the Harptos date and location, then combine them with the clock to find the current phase. Named clock markers use fixed times and can appear alongside the phase.
+- **Daylight and phase.** Derive sunrise and sunset from the Harptos date and location, then combine them with the clock to find the current phase. The clock marker comes from a fixed range for each minute of the day.
 - **Weather.** Derive a weather-front roll from the seed and location. Reweight conditions by seasonal daylight and local hour, and check the preceding hour when a thunderstorm is possible. Direct jumps use the same sequence as hourly advances.
 - **Display and save.** Present the clock, daylight, weather, and location controls together. Restore the seed alongside the clock and location to reconstruct the current conditions. [src/campaign-summary.ts](../src/campaign-summary.ts) formats the same date, hour, phase, and weather shown by the clock as a single plain-text line.
 

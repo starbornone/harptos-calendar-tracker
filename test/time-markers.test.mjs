@@ -3,8 +3,8 @@ import test from "node:test";
 import { getSeasonalDaylight } from "../src/daylight.ts";
 import { getFaerunianTime } from "../src/time-markers.ts";
 
-const summer = { year: 1491, month: "Kythorn", day: 20 };
-const winter = { year: 1491, month: "Nightal", day: 20 };
+const summer = { year: 1491, festival: "Midsummer" };
+const winter = { year: 1491, festival: "Midwinter" };
 const summerDaylight = getSeasonalDaylight(summer, "neverwinter");
 
 test("covers all ten phases and switches at their boundaries", () => {
@@ -40,18 +40,23 @@ test("recalculates dawn, dusk, and evening with the location and season", () => 
   assert.equal(getFaerunianTime(time, winterDaylight).phase, "Dawn");
 });
 
-test("shows the named markers in fixed 30-minute clock windows", () => {
+test("covers every minute with a clock marker independent of solar phases", () => {
   const winterDaylight = getSeasonalDaylight(winter, "neverwinter");
-  const markers = [
-    [5, "Foredawn"], [8, "Mornbright"], [10, "Midmorn"], [11, "High Morn"],
-    [14, "Waterclock"], [17, "Time of Summer Sunset"], [18, "Twilight"],
+  const cases = [
+    [0, 0, "Midnight"], [5, 59, "Foredawn"], [6, 0, "Morning"],
+    [8, 15, "Mornbright"], [8, 59, "Mornbright"], [9, 0, "Midmorn"],
+    [12, 0, "Highsun"], [14, 30, "Waterclock"], [15, 0, "Afternoon"],
+    [17, 29, "Time of Summer Sunset"], [17, 30, "Twilight"], [18, 30, "Evening"],
+    [23, 30, "Midnight"],
   ];
-  for (const [hour, expected] of markers) {
-    assert.equal(getFaerunianTime({ hour: hour - 1, minute: 44 }, summerDaylight).marker, null);
-    assert.equal(getFaerunianTime({ hour: hour - 1, minute: 45 }, summerDaylight).marker, expected);
-    assert.equal(getFaerunianTime({ hour, minute: 0 }, winterDaylight).marker, expected);
-    assert.equal(getFaerunianTime({ hour, minute: 14 }, summerDaylight).marker, expected);
-    assert.equal(getFaerunianTime({ hour, minute: 15 }, summerDaylight).marker, null);
+  for (const [hour, minute, expected] of cases) {
+    assert.equal(getFaerunianTime({ hour, minute }, summerDaylight).marker, expected);
+  }
+  for (let minutes = 0; minutes < 24 * 60; minutes++) {
+    const time = { hour: Math.floor(minutes / 60), minute: minutes % 60 };
+    const { marker } = getFaerunianTime(time, summerDaylight);
+    assert.ok(marker);
+    assert.equal(getFaerunianTime(time, winterDaylight).marker, marker);
   }
   assert.deepEqual(getFaerunianTime({ hour: 17, minute: 0 }, winterDaylight), {
     phase: "Evening",
