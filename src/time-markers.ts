@@ -22,9 +22,21 @@ const clockMarkerStarts = [
 
 export function getFaerunianTime(
   { hour, minute }: Pick<HarptosDateTime, "hour" | "minute">,
-  { sunrise, sunset }: ReturnType<typeof getSeasonalDaylight>,
+  daylight: ReturnType<typeof getSeasonalDaylight>,
 ) {
   const minutes = hour * 60 + minute;
+  const marker = clockMarkerStarts.find(([start]) => minutes >= start)?.[1] ?? "Midnight";
+
+  if ("steady" in daylight) return { phase: "Steady Light", marker } as const;
+  if ("peak" in daylight) {
+    const { peak, antipeak } = daylight;
+    if (minutes < antipeak + 30 || minutes >= antipeak + 24 * 60 - 30) return { phase: "Antipeak", marker } as const;
+    if (minutes < peak - 30) return { phase: "Brightening", marker } as const;
+    if (minutes < peak + 30) return { phase: "Peak", marker } as const;
+    return { phase: "Dimming", marker } as const;
+  }
+
+  const { sunrise, sunset } = daylight;
   // Latest phase first. The fallback covers 00:00 through 00:29.
   const phaseStarts = [
     [23 * 60 + 30, "Midnight"],
@@ -39,7 +51,5 @@ export function getFaerunianTime(
     [30, "Moondark"],
   ] as const;
   const phase = phaseStarts.find(([start]) => minutes >= start)?.[1] ?? "Midnight";
-  const marker = clockMarkerStarts.find(([start]) => minutes >= start)?.[1] ?? "Midnight";
-
   return { phase, marker };
 }

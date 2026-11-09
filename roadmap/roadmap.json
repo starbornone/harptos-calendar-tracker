@@ -1,20 +1,14 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-09T15:26:56+11:00",
+  "updatedAt": "2026-11-09T15:48:12+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
     "status": "active",
-    "summary": "A Dungeon Master’s tracker for Harptos campaign time, daylight, and hourly weather in Neverwinter and Phandalin."
+    "summary": "A Dungeon Master’s tracker for Harptos campaign time, local light, and hourly weather across D&D settings."
   },
   "items": [
-    {
-      "id": "add-campaign-locations",
-      "title": "Add eight campaign locations",
-      "group": "Locations",
-      "notes": "Add Baldur's Gate, Waterdeep, Sharn, Sigil, The Radiant Citadel, Bazzoxan, Kalaman, and Greyhawk to the selector. Choose daylight and weather profiles for each setting, including planar locations with unusual daylight."
-    },
     {
       "id": "share-campaign-state-via-url",
       "title": "Share the current campaign state by URL",

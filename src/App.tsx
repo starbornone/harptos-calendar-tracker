@@ -14,15 +14,11 @@ import {
   toElapsedMinutes,
   type HarptosDateTime,
 } from "./harptos.ts";
+import { campaignLocations, locationIds, type LocationId } from "./locations.ts";
 import { getFaerunianTime } from "./time-markers.ts";
 import { getHourlyWeather } from "./weather.ts";
 
-const locations = [
-  { id: "neverwinter", name: "Neverwinter", region: "Coastal city", detail: "The warm river below Mount Hotenow." },
-  { id: "phandalin", name: "Phandalin", region: "Phandelver frontier", detail: "The trail to Wave Echo Cave." },
-] as const;
-
-type LocationId = (typeof locations)[number]["id"];
+const defaultLocationId: LocationId = "neverwinter";
 
 const dialTicks = Array.from({ length: 60 }, (_, minute) => minute);
 
@@ -50,13 +46,12 @@ function loadClock() {
 }
 
 function loadLocation() {
-  const fallback = locations[0];
   try {
     const saved = localStorage.getItem(locationStorageKey);
-    const location = locations.find(({ id }) => id === saved) ?? fallback;
-    return { id: location.id, notice: "" };
+    const id = locationIds.find(id => id === saved) ?? defaultLocationId;
+    return { id, notice: "" };
   } catch {
-    return { id: fallback.id, notice: `Could not restore the saved location. Showing ${fallback.name}.` };
+    return { id: defaultLocationId, notice: `Could not restore the saved location. Showing ${campaignLocations[defaultLocationId].name}.` };
   }
 }
 
@@ -91,9 +86,12 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
   const { date, hour, minute } = dateTime;
   const time = formatHarptosTime(dateTime);
   const yearTitle = getHarptosYearTitle(date.year);
-  const activeLocation = locations.find(({ id }) => id === locationId) ?? locations[0];
+  const activeLocation = campaignLocations[locationId];
   const daylight = getSeasonalDaylight(date, locationId);
-  const { sunrise, sunset } = daylight;
+  const isSolar = "sunrise" in daylight;
+  const lightEvents: readonly (readonly [string, number])[] = isSolar
+    ? [["Sunrise", daylight.sunrise], ["Sunset", daylight.sunset]]
+    : "peak" in daylight ? [["Peak", daylight.peak], ["Antipeak", daylight.antipeak]] : [];
   const { phase, marker } = getFaerunianTime(dateTime, daylight);
   const weather = getHourlyWeather(dateTime, locationId, weatherSeed);
   const summary = formatCampaignSummary(dateTime, phase, weather);
@@ -133,7 +131,7 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
       <header className="ledger-header">
         <p className="eyebrow ledger-kicker"><span className="ledger-seal" aria-hidden="true">✧</span> Dungeon Master’s ledger</p>
         <h1>Harptos Calendar <span>Tracker</span></h1>
-        <p className="ledger-subtitle">Neverwinter &amp; Phandelver</p>
+        <p className="ledger-subtitle">{activeLocation.name} · {activeLocation.region}</p>
       </header>
 
       <section aria-labelledby="clock-heading">
@@ -164,9 +162,9 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
             <div className="clock-solar">
               <ClockDial hour={hour} minute={minute} />
               <section className="daylight-readout" aria-labelledby="daylight-heading" aria-live="polite" aria-atomic="true">
-                <h3 className="eyebrow" id="daylight-heading">Daylight estimates · {activeLocation.name}</h3>
-                <dl className="daylight-times">
-                  {([["Sunrise", sunrise], ["Sunset", sunset]] as const).map(([label, minutes]) => {
+                <h3 className="eyebrow" id="daylight-heading">{isSolar ? "Daylight estimates" : "Ambient light"} · {activeLocation.name}</h3>
+                {lightEvents.length ? <dl className="daylight-times">
+                  {lightEvents.map(([label, minutes]) => {
                     const eventTime = formatHarptosTime({ hour: Math.floor(minutes / 60), minute: minutes % 60 });
                     return (
                       <div key={label}>
@@ -175,7 +173,7 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
                       </div>
                     );
                   })}
-                </dl>
+                </dl> : <p className="daylight-note">Steady Auroral Diamond light</p>}
               </section>
             </div>
           </CardContent>
@@ -200,29 +198,30 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
       <fieldset className="campaign-setting">
         <legend className="eyebrow setting-heading">Campaign location</legend>
         <div className="location-grid">
-          {locations.map((location) => (
-            <Card key={location.id} className="location-panel py-0" data-location={location.id}>
+          {locationIds.map((id) => {
+            const location = campaignLocations[id];
+            return <Card key={id} className="location-panel py-0" data-location={id}>
               <CardContent className="grow p-0">
                 <label className="location-content">
                   <span className="location-copy">
                     <span className="eyebrow location-region">{location.region}</span>
-                    <span className="location-name" id={`${location.id}-name`}>{location.name}</span>
-                    <span className="location-detail" id={`${location.id}-detail`}>{location.detail}</span>
+                    <span className="location-name" id={`${id}-name`}>{location.name}</span>
+                    <span className="location-detail" id={`${id}-detail`}>{location.detail}</span>
                   </span>
                   <input
                     className="location-radio"
                     type="radio"
                     name="campaign-location"
-                    value={location.id}
-                    aria-labelledby={`${location.id}-name`}
-                    aria-describedby={`${location.id}-detail`}
-                    checked={locationId === location.id}
-                    onChange={() => selectLocation(location.id)}
+                    value={id}
+                    aria-labelledby={`${id}-name`}
+                    aria-describedby={`${id}-detail`}
+                    checked={locationId === id}
+                    onChange={() => selectLocation(id)}
                   />
                 </label>
               </CardContent>
-            </Card>
-          ))}
+            </Card>;
+          })}
         </div>
         {locationNotice ? <p className="location-notice" role="status">{locationNotice}</p> : null}
       </fieldset>

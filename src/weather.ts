@@ -1,12 +1,6 @@
-import { getSeasonalDaylight } from "./daylight.ts";
+import { getSolarDaylight } from "./daylight.ts";
 import { fromElapsedMinutes, toElapsedMinutes, type HarptosDateTime } from "./harptos.ts";
-
-const profiles = {
-  neverwinter: { fog: 18, rain: 19, snow: 5, salt: 0x9e37_79b9 },
-  phandalin: { fog: 9, rain: 15, snow: 24, salt: 0x85eb_ca6b },
-};
-
-type WeatherLocation = keyof typeof profiles;
+import { campaignLocations, type CampaignLocation, type LocationId } from "./locations.ts";
 const HOURS_PER_FRONT = 6;
 const UINT32_RANGE = 0x1_0000_0000;
 
@@ -20,31 +14,40 @@ function frontRoll(hour: number, seed: number, salt: number) {
   return ((hash ^ (hash >>> 16)) >>> 0) / UINT32_RANGE;
 }
 
-function pickCondition(dateTime: HarptosDateTime, hour: number, location: WeatherLocation, seed: number) {
-  const profile = profiles[location];
-  const { sunrise, sunset } = getSeasonalDaylight(dateTime.date, location);
-  const warmth = (sunset - sunrise - 8 * 60) / (8 * 60);
+function weightedCondition(weights: readonly (readonly [string, number])[], fraction: number) {
+  let roll = fraction * weights.reduce((total, [, weight]) => total + weight, 0);
+  for (const [condition, weight] of weights) {
+    if (roll < weight) return condition;
+    roll -= weight;
+  }
+  return weights[0][0];
+}
+
+function pickCondition(dateTime: HarptosDateTime, hour: number, location: LocationId, seed: number) {
+  const settings: CampaignLocation = campaignLocations[location];
+  const roll = frontRoll(hour, seed, settings.weather.salt);
+  if (settings.mode !== "solar") return weightedCondition(settings.weather.conditions, roll);
+
+  const { fog, rain, snow, wind = 0, warmth: fixedWarmth } = settings.weather;
+  const { sunrise, sunset } = getSolarDaylight(dateTime.date, settings.daylight);
+  const warmth = fixedWarmth ?? (sunset - sunrise - 8 * 60) / (8 * 60);
   const nearDawn = Math.max(0, 1 - Math.abs(dateTime.hour * 60 - sunrise) / (3 * 60));
   const nearAfternoon = Math.max(0, 1 - Math.abs(dateTime.hour - 16) / 5);
 
   const weights = [
     ["Clear Skies", 27 + 14 * warmth],
-    ["Fog", 2 + profile.fog * nearDawn],
+    ["Fog", 2 + fog * nearDawn],
     ["Overcast", 24 + 12 * (1 - warmth)],
-    ["Rain", profile.rain + 5 * (1 - warmth)],
-    ["Snow", profile.snow * Math.max(0, 1 - 2 * warmth)],
+    ["Rain", rain + 5 * (1 - warmth)],
+    ["Snow", snow * Math.max(0, 1 - 2 * warmth)],
+    ["Gusty Winds", wind],
     ["Thunderstorm", warmth * (3 + 20 * nearAfternoon)],
   ] as const;
 
-  let roll = frontRoll(hour, seed, profile.salt) * weights.reduce((total, [, weight]) => total + weight, 0);
-  for (const [condition, weight] of weights) {
-    if (roll < weight) return condition;
-    roll -= weight;
-  }
-  return "Clear Skies";
+  return weightedCondition(weights, roll);
 }
 
-export function getHourlyWeather(dateTime: HarptosDateTime, location: WeatherLocation, seed: number) {
+export function getHourlyWeather(dateTime: HarptosDateTime, location: LocationId, seed: number) {
   const hour = Math.floor(toElapsedMinutes(dateTime) / 60);
   const condition = pickCondition(dateTime, hour, location, seed);
   if (condition !== "Thunderstorm") return condition;

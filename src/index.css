@@ -240,6 +240,10 @@
   font-variant-numeric: tabular-nums;
 }
 
+.daylight-note {
+  color: var(--primary);
+}
+
 .clock-controls {
   border-top: 1px solid var(--border);
   padding: 1rem clamp(1rem, 5vw, 3.5rem) 1.25rem;
@@ -390,6 +394,7 @@
 }
 
 .location-panel {
+  --location-accent: var(--primary);
   border: 1px solid color-mix(in srgb, var(--location-accent) 27%, var(--card));
   background: linear-gradient(125deg, color-mix(in srgb, var(--location-accent) 9%, var(--card)), var(--card));
 }
