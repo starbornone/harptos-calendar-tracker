@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-09T11:12:30+11:00",
+  "updatedAt": "2026-11-09T11:40:43+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -9,30 +9,6 @@
     "summary": "A Dungeon Master’s tracker for Harptos campaign time, daylight, and hourly weather in Neverwinter and Phandalin."
   },
   "items": [
-    {
-      "id": "implement-harptos-calendar",
-      "title": "Implement Harptos date arithmetic",
-      "group": "Campaign clock",
-      "notes": "Support 24-hour days, twelve 30-day months, three tendays per month, five intercalary festivals, and Shieldmeet after Midsummer every fourth year. Verify Greengrass, the Nightal-to-Hammer rollover, and Midsummer in 1491 and 1492 DR."
-    },
-    {
-      "id": "build-campaign-clock-screen",
-      "title": "Build the campaign clock screen",
-      "group": "Campaign clock",
-      "notes": "Display the Harptos date and 24-hour clock on one DM screen. Start on 1 Tarsakh 1491 DR, Year of the Scarlet Witch. The proposed initial hour is 08:00."
-    },
-    {
-      "id": "add-manual-time-controls",
-      "title": "Add date entry and time advances",
-      "group": "Campaign clock",
-      "notes": "Accept valid dates and times including festival days. Keep the last valid time and explain rejected input. Add advances of 1, 2, 4, and 8 hours and 1 and 10 elapsed days. Verify that 25 Tarsakh plus 10 days lands on 4 Mirtul at the same clock time."
-    },
-    {
-      "id": "save-campaign-clock",
-      "title": "Restore campaign time after reload",
-      "group": "Campaign clock",
-      "notes": "Save one campaign in the current browser. Restore the last valid date and time after closing and reopening the tracker. Use the campaign start defaults when no prior save is available."
-    },
     {
       "id": "select-campaign-location",
       "title": "Switch between Neverwinter and Phandalin",
@@ -62,6 +38,12 @@
       "title": "Preserve weather across time jumps and reloads",
       "group": "Weather",
       "notes": "Use a saved campaign seed and previous-hour transitions per location. Verify that a jump and repeated one-hour advances agree, revisiting an hour reproduces its weather, and thunderstorms have a cloud or rain lead-in."
+    },
+    {
+      "id": "output-plain-text-campaign-summary",
+      "title": "Output a one-line campaign summary in plain text",
+      "group": "Campaign clock",
+      "notes": "Use the current Harptos date, year title when known, unpadded hour, time marker, and weather at the selected location. For the sample state, output \"1 Tarsakh 1491 DR, Year of the Scarlet Witch - Hour 6 (Night's End - Clear Skies)\" with the exact punctuation and no line breaks. Omit the year title and its comma when no title is available. Refresh the line after a time or location change."
     },
     {
       "id": "verify-table-ready-release",

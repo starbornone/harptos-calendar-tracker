@@ -1,0 +1,137 @@
+import { useState } from "react";
+import { ClockEditor } from "@/components/clock-editor";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { CAMPAIGN_START, advanceHours, formatHarptosDate, formatHarptosTime, fromElapsedMinutes, toElapsedMinutes, type HarptosDateTime } from "./harptos.ts";
+
+const locations = [
+  { id: "neverwinter", name: "Neverwinter", region: "Coastal city", detail: "The warm river below Mount Hotenow." },
+  { id: "phandelver", name: "Phandalin", region: "Phandelver frontier", detail: "The trail to Wave Echo Cave." },
+] as const;
+
+const dialTicks = Array.from({ length: 60 }, (_, minute) => minute);
+
+const advances = [
+  { hours: 1, label: "+1 hour" },
+  { hours: 2, label: "+2 hours" },
+  { hours: 4, label: "+4 hours" },
+  { hours: 8, label: "+8 hours" },
+  { hours: 24, label: "+1 day" },
+  { hours: 240, label: "+10 days" },
+];
+
+const clockStorageKey = "harptos-calendar-tracker:clock:v1";
+
+function loadClock() {
+  try {
+    const saved = localStorage.getItem(clockStorageKey);
+    if (saved === null) return { dateTime: CAMPAIGN_START, notice: "" };
+    if (!/^\d+$/.test(saved)) throw new RangeError("Invalid saved clock.");
+    return { dateTime: fromElapsedMinutes(Number(saved)), notice: "" };
+  } catch {
+    return { dateTime: CAMPAIGN_START, notice: "Could not restore the saved clock. Showing the campaign start." };
+  }
+}
+
+function ClockDial({ hour, minute }: { hour: number; minute: number }) {
+  return (
+    <svg className="clock-dial" viewBox="0 0 240 240" aria-hidden="true">
+      <g fill="none" stroke="currentColor">
+        <circle cx="120" cy="120" r="113" opacity=".24" />
+        <circle cx="120" cy="120" r="103" opacity=".55" />
+        <circle cx="120" cy="120" r="85" opacity=".22" />
+        <circle cx="120" cy="120" r="57" opacity=".25" strokeDasharray="1 5" />
+        <path d="M120 7v18m0 190v18M7 120h18m190 0h18" opacity=".6" />
+        {dialTicks.map((tick) => (
+          <path
+            key={tick}
+            d={tick % 5 === 0 ? "M120 22v9" : "M120 23v4"}
+            opacity={tick % 5 === 0 ? ".85" : ".4"}
+            transform={`rotate(${tick * 6} 120 120)`}
+          />
+        ))}
+        <path d="M120 130V71" transform={`rotate(${hour * 30 + minute / 2} 120 120)`} strokeWidth="3" strokeLinecap="round" />
+        <path d="M120 130V53" transform={`rotate(${minute * 6} 120 120)`} strokeWidth="1.5" strokeLinecap="round" />
+      </g>
+      <circle cx="120" cy="120" r="5" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function App() {
+  const [{ dateTime, notice }, setClock] = useState(loadClock);
+  const { date, hour, minute } = dateTime;
+  const time = formatHarptosTime(dateTime);
+
+  function setCurrentTime(next: HarptosDateTime) {
+    const elapsed = toElapsedMinutes(next);
+    let notice = "";
+    try {
+      localStorage.setItem(clockStorageKey, String(elapsed));
+    } catch {
+      notice = "Clock updated for this tab. Your browser could not save it for reload.";
+    }
+    setClock({ dateTime: next, notice });
+  }
+
+  function advanceClock(hours: number) {
+    try {
+      setCurrentTime(advanceHours(dateTime, hours));
+    } catch (error) {
+      if (!(error instanceof RangeError)) throw error;
+      setClock((current) => ({ ...current, notice: error.message }));
+    }
+  }
+
+  return (
+    <main className="ledger">
+      <header className="ledger-header">
+        <p className="eyebrow ledger-kicker"><span className="ledger-seal" aria-hidden="true">✧</span> Dungeon Master’s ledger</p>
+        <h1>Harptos Calendar <span>Tracker</span></h1>
+        <p className="ledger-subtitle">Neverwinter &amp; Phandelver</p>
+      </header>
+
+      <section aria-labelledby="clock-heading">
+        <Card className="clock-panel py-0">
+          <CardContent className="clock-layout">
+            <div>
+              <h2 className="eyebrow clock-label" id="clock-heading">Campaign clock</h2>
+              <div id="campaign-clock" aria-live="polite" aria-atomic="true">
+                <time className="clock-time" dateTime={time}>{time}</time>
+                <p className="clock-date">{formatHarptosDate(date)}</p>
+                {date.year === CAMPAIGN_START.date.year ? <p className="clock-year">Year of the Scarlet Witch</p> : null}
+              </div>
+            </div>
+            <ClockDial hour={hour} minute={minute} />
+          </CardContent>
+          <CardContent className="clock-controls">
+            <div className="clock-actions">
+              <ClockEditor dateTime={dateTime} onSetTime={setCurrentTime} />
+              <div className="advance-buttons" role="group" aria-label="Advance time">
+                {advances.map(({ hours, label }) => (
+                  <Button key={hours} variant="outline" onClick={() => advanceClock(hours)}>{label}</Button>
+                ))}
+              </div>
+            </div>
+            {notice ? <p className="clock-notice" role="status">{notice}</p> : null}
+          </CardContent>
+        </Card>
+      </section>
+
+      <section className="campaign-setting" aria-labelledby="setting-heading">
+        <h2 className="eyebrow setting-heading" id="setting-heading">The Sword Coast North</h2>
+        <div className="location-grid">
+          {locations.map((location) => (
+            <Card key={location.id} className="location-panel py-0" data-location={location.id}>
+              <CardContent className="location-content">
+                <p className="eyebrow location-region">{location.region}</p>
+                <h3>{location.name}</h3>
+                <p className="location-detail">{location.detail}</p>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+    </main>
+  );
+}
