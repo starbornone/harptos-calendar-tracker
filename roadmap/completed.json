@@ -1,11 +1,11 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-09T12:30:22+11:00",
+  "updatedAt": "2026-11-09T12:38:55+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
-    "status": "active"
+    "status": "complete"
   },
   "items": [
     {
@@ -91,6 +91,13 @@
       "group": "Campaign clock",
       "notes": "Use the current Harptos date, year title when known, unpadded hour, time marker, and weather at the selected location. For the sample state, output \"1 Tarsakh 1491 DR, Year of the Scarlet Witch - Hour 6 (Night's End - Clear Skies)\" with the exact punctuation and no line breaks. Omit the year title and its comma when no title is available. Refresh the line after a time or location change.",
       "completedAt": "2026-11-09T12:30:22+11:00"
+    },
+    {
+      "id": "verify-table-ready-release",
+      "title": "Verify the tracker in a mock session",
+      "group": "Release",
+      "notes": "Run travel from Neverwinter to Phandalin, an overnight rest, a manual correction, a tenday of downtime, and reload recovery. Check keyboard access and narrow screens, then document the actual install, launch, and supported environments.",
+      "completedAt": "2026-11-09T12:38:55+11:00"
     }
   ]
 }

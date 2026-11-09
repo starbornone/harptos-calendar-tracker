@@ -1,11 +1,11 @@
 {
   "schema": "name -roadmap/v1",
   "file": "cancelled",
-  "updatedAt": "2026-11-09T11:12:30+11:00",
+  "updatedAt": "2026-11-09T12:38:55+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
-    "status": "active"
+    "status": "complete"
   },
   "items": []
 }

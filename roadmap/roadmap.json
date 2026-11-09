@@ -1,19 +1,12 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-09T12:30:22+11:00",
+  "updatedAt": "2026-11-09T12:38:55+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
-    "status": "active",
+    "status": "complete",
     "summary": "A Dungeon Master’s tracker for Harptos campaign time, daylight, and hourly weather in Neverwinter and Phandalin."
   },
-  "items": [
-    {
-      "id": "verify-table-ready-release",
-      "title": "Verify the tracker in a mock session",
-      "group": "Release",
-      "notes": "Run travel from Neverwinter to Phandalin, an overnight rest, a manual correction, a tenday of downtime, and reload recovery. Check keyboard access and narrow screens, then document the actual install, launch, and supported environments."
-    }
-  ]
+  "items": []
 }
