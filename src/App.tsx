@@ -22,7 +22,7 @@ import {
   toElapsedMinutes,
   type HarptosDateTime,
 } from "./harptos.ts";
-import { campaignLocations, locationIds } from "./locations.ts";
+import { campaignLocations, visibleLocationIds } from "./locations.ts";
 import { formatLocalizedDate, translate, type Locale } from "./localization.ts";
 import { getFaerunianTime } from "./time-markers.ts";
 import { getHourlyWeather } from "./weather.ts";
@@ -318,7 +318,7 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
       <fieldset className="campaign-setting" disabled={isPreview}>
         <legend className="eyebrow setting-heading">{t("Campaign location")}</legend>
         <div className="location-grid">
-          {locationIds.map((id) => {
+          {visibleLocationIds(locationId).map((id) => {
             const location = campaignLocations[id];
             return <Card key={id} className="location-panel py-0" data-location={id}>
               <CardContent className="grow p-0">

@@ -1,12 +1,32 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { getSeasonalDaylight } from "../src/daylight.ts";
+import {
+  campaignLocations,
+  locationIds,
+  selectableLocationIds,
+  usesHarptosCalendar,
+  visibleLocationIds,
+} from "../src/locations.ts";
 import { getFaerunianTime } from "../src/time-markers.ts";
 import { getHourlyWeather } from "../src/weather.ts";
 
 const summer = { year: 1492, festival: "Midsummer" };
 const winter = { year: 1492, festival: "Midwinter" };
 const duration = ({ sunrise, sunset }) => sunset - sunrise;
+
+test("normalizes Faerûn regions and hides non-Harptos calendars from the selector", () => {
+  assert.deepEqual(selectableLocationIds, ["neverwinter", "phandalin", "baldurs-gate", "waterdeep"]);
+  for (const id of selectableLocationIds) {
+    assert.equal(campaignLocations[id].calendar, "harptos");
+    assert.equal(campaignLocations[id].region, "Faerûn · Sword Coast");
+  }
+  for (const id of locationIds.filter((location) => !usesHarptosCalendar(location))) {
+    assert.notEqual(campaignLocations[id].calendar, "harptos");
+  }
+  assert.deepEqual(visibleLocationIds("neverwinter"), selectableLocationIds);
+  assert.deepEqual(visibleLocationIds("sharn"), ["sharn", ...selectableLocationIds]);
+});
 
 test("uses regional seasonal daylight and keeps Sharn close to twelve hours", () => {
   for (const id of ["baldurs-gate", "waterdeep", "bazzoxan", "kalaman", "greyhawk"]) {

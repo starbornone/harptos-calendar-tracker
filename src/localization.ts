@@ -121,10 +121,8 @@ const simplifiedChinese: Readonly<Record<string, string>> = {
   "Clear Air": "空气清朗",
   "Ethereal Mist": "以太薄雾",
 
-  "Coastal city": "沿海城市",
   Neverwinter: "无冬城",
   "The warm river below Mount Hotenow.": "霍特瑙山下的温暖河流。",
-  "Phandelver frontier": "凡达林边境",
   Phandalin: "凡达林",
   "The trail to Wave Echo Cave.": "通往回声洞的小径。",
   "Faerûn · Sword Coast": "费伦 · 剑湾",
