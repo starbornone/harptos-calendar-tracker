@@ -6,7 +6,7 @@ These records capture the campaign requirements and first-release design choices
 
 **Context.** A DM advances time during travel, rests, and downtime. Named holidays interrupt the regular sequence of Harptos months.
 
-**Decision.** Use a 24-hour campaign day and begin on 1 Tarsakh 1491 DR. Support direct date and time edits and fixed elapsed-time advances. Treat festival days and Shieldmeet as valid days in the timeline.
+**Decision.** Use a 24-hour campaign day and begin on 1 Tarsakh 1491 DR. Represent the clock as elapsed minutes from 00:00 on 1 Hammer 1 DR and support positive DR years. Use the same timeline for direct edits and fixed elapsed-time advances. Treat festival days and Shieldmeet as valid days in the timeline.
 
 **Consequences.** Crossing midnight or a festival can change the displayed date. A ten-day advance preserves the clock time, even when a festival shifts the destination’s day of the month.
 
@@ -14,7 +14,7 @@ These records capture the campaign requirements and first-release design choices
 
 **Context.** The first release serves a single DM running sessions in Neverwinter and Phandalin. The starting hour and initial location were unspecified.
 
-**Decision.** Use browser-local persistence for one campaign. Proposed first-run defaults are 08:00 and Neverwinter. Let the DM set the time and switch between Neverwinter and Phandalin.
+**Decision.** Use browser-local persistence for one campaign. The clock starts at 08:00, and Neverwinter is the proposed starting location. Let the DM set the time and switch between Neverwinter and Phandalin.
 
 **Consequences.** The campaign can resume in the same browser profile after a reload. A fresh profile or cleared site data starts a fresh campaign. The default hour can be corrected immediately through the clock control.
 
@@ -41,3 +41,11 @@ These records capture the campaign requirements and first-release design choices
 **Decision.** Use the [roadmap format](roadmap-format.md) and treat the three JSON files as the source for item status. Preserve the Markdown campaign brief for design context.
 
 **Consequences.** Each item keeps its ID as it moves, and status changes land with the work. The shared project metadata stays synchronized across the three files.
+
+## 6. Build the tracker with Vite, TypeScript, and shadcn/ui
+
+**Context.** The tracker has one screen and the calendar can run entirely in the browser.
+
+**Decision.** Use Vite with TypeScript and React for shadcn/ui. Keep the Harptos rules in a module shared by the browser and Node’s built-in test runner. Use charcoal, parchment, and gold as the base palette, with ember copper for Neverwinter and mineral green for Phandelver. [Midnight Archive](https://www.midnightarchive.online/) · [shadcn/ui theming](https://ui.shadcn.com/docs/theming)
+
+**Consequences.** The production build produces static files in `dist/`. Calendar tests run in Node without starting a browser or server. New shadcn/ui components inherit the semantic color tokens in [src/index.css](../src/index.css).

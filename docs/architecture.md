@@ -1,6 +1,8 @@
 # Architecture
 
-The repository has no application source or chosen runtime. This design describes the planned separation of responsibilities for the single-screen tracker. The component names are conceptual.
+Vite serves [index.html](../index.html) and bundles the TypeScript app. [src/main.tsx](../src/main.tsx) mounts the React screen. [src/App.tsx](../src/App.tsx) restores the clock from `localStorage` and saves it after a valid edit or advance. The [date editor](../src/components/clock-editor.tsx) and advance buttons use the same [Harptos calendar rules](../src/harptos.ts). The saved value is a count of elapsed minutes from 00:00 on 1 Hammer 1 DR, stored under the versioned key `harptos-calendar-tracker:clock:v1`. The calendar module is independent of the browser and supports positive DR years within the safe integer range of elapsed minutes.
+
+The diagram includes the planned location, daylight, and weather flow.
 
 ```mermaid
 flowchart LR

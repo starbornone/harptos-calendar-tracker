@@ -2,18 +2,20 @@
 
 ## Project
 
-**Harptos Calendar Tracker** (`harptos-calendar-tracker`) is a planned single-screen Dungeon Master tool for tracking a Forgotten Realms campaign in Neverwinter and Phandalin. It tracks the Harptos date and time, estimates daylight, and gives a short hourly weather description. The campaign starts on 1 Tarsakh 1491 DR, Year of the Scarlet Witch.
+**Harptos Calendar Tracker** (`harptos-calendar-tracker`) is a single-screen Dungeon Master tool for a Forgotten Realms campaign in Neverwinter and Phandalin. The DM can set or advance the clock and resume from the last time saved in the browser. A new campaign starts on 1 Tarsakh 1491 DR, Year of the Scarlet Witch, at 08:00. Daylight estimates and hourly weather are planned.
 
 ## Layout
 
 - [README.md](README.md) is the human entry point and product summary.
 - [ROADMAP.md](ROADMAP.md) is the campaign brief with setting references and milestone examples.
+- [index.html](index.html) loads the Vite entry point in [src/main.tsx](src/main.tsx). [src/harptos.ts](src/harptos.ts) contains calendar rules.
+- [components.json](components.json) configures shadcn/ui. Campaign theme tokens live in [src/index.css](src/index.css).
 - [docs/](docs/overview.md) holds the product, architecture, workflow, and format guides.
 - [roadmap/](roadmap/roadmap.json) holds the prioritized work and status history.
 
 ## Working agreements
 
-The repository is at the documentation stage. Application entry points and install, run, test, and lint commands are pending implementation. Use `git status --short` to see local changes, check relative links, and parse all three roadmap JSON files when editing roadmap data. See [Development](docs/development.md) for behavioral checks to apply as the tracker takes shape.
+Use Node.js 24 or newer. Run `npm ci` to install, `npm run dev` to start Vite, `npm test` for calendar tests, and `npm run build` for type checking and a production build. Use `git status --short` to see local changes, check relative links, and parse all three roadmap JSON files when editing roadmap data. See [Development](docs/development.md) for behavioral checks.
 
 ## Documentation
 

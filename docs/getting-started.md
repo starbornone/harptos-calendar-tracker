@@ -1,17 +1,27 @@
 # Getting started
 
-## Open the repository
+## Run the tracker
 
-Open the repository in a Markdown-capable editor or on its Git hosting page. Git is useful if you intend to edit and review the checkout. The current files require no application dependencies, configuration, or credentials.
+Install Node.js 24 or newer with npm, then run these commands from the repository root.
 
-From a local checkout, confirm you have opened the directory containing [README.md](../README.md), then read the [overview](overview.md) and the first item in the [active roadmap](../roadmap/roadmap.json). A successful setup at this stage means you can open those files and follow the README’s documentation links.
+```sh
+npm ci
+npm run dev
+```
+
+Open the local URL printed by Vite. A fresh browser profile starts at **08:00 on 1 Tarsakh 1491 DR**, with **Year of the Scarlet Witch** underneath. The last saved time resumes in the same browser profile at the same site address. When running Vite locally, keep the same host and port between sessions.
 
 ## Try the first calendar check
 
-Use the campaign brief to walk through the first clock milestone. At **23:00 on 30 Tarsakh 1491 DR**, adding one hour should reach **00:00 on Greengrass**. Adding one day should reach **00:00 on 1 Mirtul**. This is an acceptance example for the upcoming clock implementation.
+Open **Set Current Time**, choose **Tarsakh**, and enter day **30**, year **1491**, and **23:00**. Click **Set Time** and then **+1 hour**. The clock should reach **00:00 on Greengrass**. Click **+1 day** to reach **00:00 on 1 Mirtul**, then reload to check that the time was saved. For direct entry of a festival, choose it from **Month or festival**.
 
-## Install, run, and troubleshoot
+Run `npm test` to verify the calendar arithmetic independently of the browser.
 
-Application install and run steps are pending the first implementation. The current checkout has no tracker page, package manifest, dev server, or supported-browser matrix. If you expected a running tracker and found only documentation, you have reached the planning-stage checkout. Use the active roadmap to find the work needed for a playable clock.
+## Troubleshooting
 
-If a documentation link fails in a file viewer, open the repository root in an editor that follows relative Markdown links. Once there is a runnable tracker, record the actual prerequisites, supported environments, startup command, and a successful first launch here. See [Development](development.md) before making changes.
+- If npm is missing or reports an engine mismatch, install Node.js 24 or newer and check `node --version` and `npm --version`.
+- If `npm ci` cannot reach the package registry, check the connection or the configured npm registry, then retry the install.
+- If the page is blank after opening `index.html` directly, open the URL printed by `npm run dev` instead. Vite serves the TypeScript entry point.
+- If the clock reports a save failure, browser storage may be blocked. The updated time is still available in the current tab.
+
+See [Development](development.md) for build and preview commands or the [active roadmap](../roadmap/roadmap.json) for upcoming features.
