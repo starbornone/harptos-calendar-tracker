@@ -8,7 +8,7 @@ import {
   saveCampaign,
   updateSavedCampaign,
 } from "../src/campaign-state.ts";
-import { CAMPAIGN_START, fromElapsedMinutes, toElapsedMinutes } from "../src/harptos.ts";
+import { advanceHours, CAMPAIGN_START, fromElapsedMinutes, toElapsedMinutes } from "../src/harptos.ts";
 import { getHourlyWeather } from "../src/weather.ts";
 
 const moment = {
@@ -40,6 +40,30 @@ test("share URLs accept both endpoints of the supported clock range and seed zer
     const url = new URL(makeShareUrl(new URL("https://tracker.example/"), campaign));
     assert.deepEqual(readSharedCampaign(url), { status: "valid", campaign });
   }
+});
+
+test("a shared weather seed reproduces future conditions after adoption and reload", () => {
+  const sender = { ...moment, locationId: "waterdeep", weatherSeed: 329 };
+  const link = new URL(makeShareUrl(new URL("https://tracker.example/"), sender));
+  const shared = readSharedCampaign(link);
+  assert.equal(shared.status, "valid");
+  const entries = new Map();
+  const storage = {
+    getItem: (key) => entries.get(key) ?? null,
+    setItem: (key, value) => entries.set(key, value),
+  };
+  saveCampaign({ ...sender, weatherSeed: 42 }, storage);
+  saveCampaign(shared.campaign, storage);
+  const recipient = loadSavedCampaign(storage).campaign;
+  const weather = ({ dateTime, locationId, weatherSeed }) => getHourlyWeather(dateTime, locationId, weatherSeed);
+  const conditions = new Set();
+  for (let hours = 1; hours <= 240; hours++) {
+    const fromSender = weather({ ...sender, dateTime: advanceHours(sender.dateTime, hours) });
+    recipient.dateTime = advanceHours(recipient.dateTime, 1);
+    assert.equal(weather(recipient), fromSender, `hour ${hours}`);
+    conditions.add(fromSender);
+  }
+  assert.ok(conditions.size > 1);
 });
 
 test("share URLs reject incomplete, ambiguous, or out-of-range snapshots", () => {

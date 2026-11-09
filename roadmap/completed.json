@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-09T20:33:28+11:00",
+  "updatedAt": "2026-11-10T10:30:39+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -133,6 +133,13 @@
       "group": "Release",
       "notes": "Add a static search title and description, a branded social card, and a homepage canonical URL for campaign links. Generate robots.txt and a homepage sitemap using the default Starmist Studio URL or the SITE_URL build setting.",
       "completedAt": "2026-11-09T20:33:28+11:00"
+    },
+    {
+      "id": "vary-weather-fronts-and-transitions",
+      "title": "Vary weather fronts and soften precipitation transitions",
+      "group": "Weather",
+      "notes": "Use variable surface fronts, wetter and drier spells, dawn fog, and short afternoon thunderstorms. Put cloud between fair weather and precipitation, and verify matching weather after browsers adopt and advance the same shared seed.",
+      "completedAt": "2026-11-10T10:30:39+11:00"
     }
   ]
 }

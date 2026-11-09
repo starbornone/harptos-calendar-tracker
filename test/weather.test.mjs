@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { advanceHours, fromElapsedMinutes } from "../src/harptos.ts";
+import { advanceHours, fromElapsedMinutes, toElapsedMinutes } from "../src/harptos.ts";
+import { selectableLocationIds } from "../src/locations.ts";
 import { getHourlyWeather } from "../src/weather.ts";
 
 const summer = { year: 1492, month: "Kythorn", day: 20 };
@@ -70,9 +71,42 @@ test("makes thunderstorms follow cloud, rain, or an ongoing storm", () => {
   assert.ok(stormHours > 0);
 });
 
+test("varies front lengths and puts cloud between fair skies and precipitation", () => {
+  const fair = new Set(["Clear Skies", "Partly Cloudy"]);
+  const wet = new Set(["Drizzle", "Rain", "Snow", "Thunderstorm"]);
+  for (const location of selectableLocationIds) {
+    const seen = new Set();
+    const longerRuns = new Set();
+    for (const date of [summer, winter]) {
+      const start = toElapsedMinutes({ date, hour: 0, minute: 0 });
+      for (let seed = 0; seed < 16; seed++) {
+        let previous;
+        let length = 0;
+        for (let offset = 0; offset < 240; offset++) {
+          const time = fromElapsedMinutes(start + offset * 60);
+          const condition = getHourlyWeather(time, location, seed);
+          seen.add(condition);
+          if (condition !== previous) {
+            assert.ok(!(fair.has(previous) && wet.has(condition)), `${location}: ${previous} to ${condition}`);
+            assert.ok(!(wet.has(previous) && fair.has(condition)), `${location}: ${previous} to ${condition}`);
+            if (length >= 3) longerRuns.add(length);
+            length = 0;
+          }
+          previous = condition;
+          length++;
+        }
+      }
+    }
+    for (const condition of ["Partly Cloudy", "Fog", "Drizzle", "Rain", "Snow", "Thunderstorm"]) {
+      assert.ok(seen.has(condition), `${location} never showed ${condition}`);
+    }
+    assert.ok(longerRuns.size >= 8, `${location} repeatedly used the same front lengths`);
+  }
+});
+
 test("calculates weather at either end of the supported timeline", () => {
   for (const elapsed of [0, Number.MAX_SAFE_INTEGER]) {
     const weather = getHourlyWeather(fromElapsedMinutes(elapsed), "phandalin", 1234);
-    assert.ok(["Clear Skies", "Fog", "Overcast", "Rain", "Snow", "Thunderstorm"].includes(weather));
+    assert.ok(["Clear Skies", "Partly Cloudy", "Fog", "Overcast", "Drizzle", "Rain", "Snow", "Thunderstorm"].includes(weather));
   }
 });

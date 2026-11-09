@@ -111,6 +111,7 @@ const simplifiedChinese: Readonly<Record<string, string>> = {
   Dimming: "渐暗",
 
   "Clear Skies": "晴空",
+  "Partly Cloudy": "局部多云",
   Fog: "雾",
   Overcast: "阴天",
   Rain: "雨",
