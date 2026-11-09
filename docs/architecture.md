@@ -35,7 +35,7 @@ flowchart LR
 
 - **Calendar and clock.** Convert between a Harptos date and a continuous measure of campaign time. Validate the requested date and time before updating state. Keep regular dates and intercalary festivals distinct when parsing and formatting. Day advances add 24 or 240 elapsed hours, including festival hours.
 - **Daylight and phase.** Derive sunrise and sunset from the Harptos date and solar profile, then combine them with the clock to find the current phase. Use a local light cycle for Sigil and steady light for the Radiant Citadel. The clock marker comes from a fixed range for each minute of the day.
-- **Weather.** Derive a weather-front roll from the seed and location. Reweight surface conditions by climate, seasonal daylight, and local hour. Planar locations use their own condition weights. Check the preceding hour when a thunderstorm is possible. Direct jumps use the same sequence as hourly advances.
+- **Weather.** Derive surface front boundaries, wet and dry spells, and local fog and storm events from the seed and location. Weight front conditions by climate and seasonal daylight. Use cloudy transition hours around precipitation and build thunderstorms within rainy fronts. Planar locations use their own condition weights. Direct jumps and adopted share links use the same sequence as hourly advances.
 - **Display and save.** Present the clock, daylight, weather, and location controls together. Restore the seed alongside the clock and location to reconstruct the current conditions. [src/campaign-summary.ts](../src/campaign-summary.ts) formats the same date, hour, phase, and weather shown by the clock as a single plain-text line.
 
 ## How a change lands

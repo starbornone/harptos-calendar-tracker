@@ -21,10 +21,10 @@ Build a single-screen DM tool for tracking in-game time, daylight, and weather d
 ## 3. Hourly weather
 
 - Show a short current condition such as **Clear Skies**, **Overcast**, **Rain**, or **Thunderstorm**. Weight conditions by season, time of day, and location. Give Neverwinter a milder winter profile and use configurable inland weights for Phandalin. [Neverwinter setting guide](https://www.dndbeyond.com/posts/1485-take-a-tour-of-these-popular-locations-in-the)
-- Use the previous hour’s condition to weight the next hour. Let conditions linger and build storms through cloud or rain so that a clear hour cannot jump straight to a thunderstorm.
-- Save a campaign seed and derive each location’s hourly weather from the same sequence when advancing, revisiting an hour, or reloading. Use six-hour weather fronts and check the preceding hour before a thunderstorm can begin.
+- Vary front lengths and let wetter or drier spells span several fronts. Give precipitation a cloudy transition, favor fog near dawn, and let short thunderstorms develop within warm afternoon rain.
+- Save a campaign seed and include it in share links. Derive each location’s hourly weather from the same sequence when advancing, revisiting an hour, reloading, or adopting a shared campaign.
 
-**Ready when** an eight-hour jump gives the same result as eight one-hour advances for the same seed and location. Reloading or revisiting a previously seen hour reproduces its weather. Verify the same behavior for a ten-day jump and check that every generated thunderstorm follows a plausible lead-in.
+**Ready when** an eight-hour jump gives the same result as eight one-hour advances for the same seed and location. Check a ten-day jump, reload, and two browsers advancing from the same shared campaign. Sample summer and winter across the selectable locations for varied durations and plausible transitions.
 
 ## 4. Table-ready release
 

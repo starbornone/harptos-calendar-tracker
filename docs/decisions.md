@@ -32,9 +32,9 @@ These records capture the campaign requirements and first-release design choices
 
 **Context.** The DM can advance a single hour, skip downtime, switch locations, or correct the clock. Independent hourly rolls can give abrupt transitions or change conditions when the same hour is revisited.
 
-**Decision.** Use one saved campaign seed with a sequence for each location. A weather front shares a roll across six hours while the condition weights vary by local hour and season. Favor fog near dawn and thunderstorms on warm afternoons. Give Neverwinter a milder winter profile and more fog, and give Phandalin more winter snow as campaign tuning choices. [Neverwinter setting guide](https://www.dndbeyond.com/posts/1485-take-a-tour-of-these-popular-locations-in-the) · [Phandalin setting guide](https://www.dndbeyond.com/posts/1515-visit-phandalin-d-ds-most-popular-starter-town)
+**Decision.** Use one saved campaign seed with a sequence for each location. Surface fronts last 3 to 15 hours, and several fronts share a wetter or drier spell. Use overcast between fair skies and precipitation. Rain can start with drizzle, fog favors dawn, and warm afternoon thunderstorms develop within rainy fronts. Give Neverwinter a milder winter profile and more fog, and give Phandalin more winter snow as campaign tuning choices. [National Weather Service weather guide](https://www.weather.gov/media/sgx/documents/The_Weather_Guide.pdf) · [Neverwinter setting guide](https://www.dndbeyond.com/posts/1485-take-a-tour-of-these-popular-locations-in-the) · [Phandalin setting guide](https://www.dndbeyond.com/posts/1515-visit-phandalin-d-ds-most-popular-starter-town)
 
-**Consequences.** The same seed, location, and hour reproduce the same condition after a jump, rewind, or reload. A thunderstorm can start after overcast or rain, or continue from the previous hour. If a storm roll lacks that lead-in, the hour is overcast.
+**Consequences.** The same seed, location, and hour reproduce the same condition after a jump, rewind, reload, or adoption in another browser running the same model. Existing share links retain their seeds and use the current weather model when opened.
 
 ## 5. Track work in three JSON files
 
