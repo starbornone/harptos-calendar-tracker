@@ -12,4 +12,4 @@ The **Campaign summary** is a selectable line of plain text with the date, year 
 
 The first-release scope is one DM, one campaign, and the two campaign locations. Time advances by DM action. Daylight and weather serve session narration through campaign estimates.
 
-See [Getting started](getting-started.md) for the repository’s current state, [Architecture](architecture.md) for the proposed design, and the [active roadmap](../roadmap/roadmap.json) for implementation order. The [campaign brief](../ROADMAP.md) preserves the original milestone descriptions and setting references.
+See [Getting started](getting-started.md) to run the tracker and repeat the mock session, [Architecture](architecture.md) for the design, and the [roadmap](../roadmap/roadmap.json) for release status. The [campaign brief](../ROADMAP.md) preserves the original milestone descriptions and setting references.

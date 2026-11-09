@@ -7,4 +7,4 @@ Harptos Calendar Tracker is a Dungeon Master tool for a campaign in Neverwinter 
 - [Project overview](docs/overview.md) covers the tracker and campaign scope.
 - [Getting started](docs/getting-started.md) explains how to run the app locally.
 - [Agent instructions](AGENTS.md) describe repository and roadmap conventions.
-- [Active roadmap](roadmap/roadmap.json) lists planned work in priority order.
+- [Roadmap](roadmap/roadmap.json) shows the release status.
