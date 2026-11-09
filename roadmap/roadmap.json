@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-09T11:40:43+11:00",
+  "updatedAt": "2026-11-09T11:47:05+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -9,12 +9,6 @@
     "summary": "A Dungeon Master’s tracker for Harptos campaign time, daylight, and hourly weather in Neverwinter and Phandalin."
   },
   "items": [
-    {
-      "id": "select-campaign-location",
-      "title": "Switch between Neverwinter and Phandalin",
-      "group": "Daylight and time markers",
-      "notes": "Use Neverwinter as the proposed initial location. Keep the current clock when switching locations and restore the selected location on reload."
-    },
     {
       "id": "estimate-seasonal-daylight",
       "title": "Show seasonal sunrise and sunset",

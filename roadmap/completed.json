@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-09T11:40:43+11:00",
+  "updatedAt": "2026-11-09T11:47:05+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -49,6 +49,13 @@
       "group": "Campaign clock",
       "notes": "Save one campaign in the current browser. Restore the last valid date and time after closing and reopening the tracker. Use the campaign start defaults when no prior save is available.",
       "completedAt": "2026-11-09T11:40:43+11:00"
+    },
+    {
+      "id": "select-campaign-location",
+      "title": "Switch between Neverwinter and Phandalin",
+      "group": "Daylight and time markers",
+      "notes": "Use Neverwinter as the proposed initial location. Keep the current clock when switching locations and restore the selected location on reload.",
+      "completedAt": "2026-11-09T11:47:05+11:00"
     }
   ]
 }

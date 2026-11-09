@@ -2,7 +2,9 @@
 
 Vite serves [index.html](../index.html) and bundles the TypeScript app. [src/main.tsx](../src/main.tsx) mounts the React screen. [src/App.tsx](../src/App.tsx) restores the clock from `localStorage` and saves it after a valid edit or advance. The [date editor](../src/components/clock-editor.tsx) and advance buttons use the same [Harptos calendar rules](../src/harptos.ts). The saved value is a count of elapsed minutes from 00:00 on 1 Hammer 1 DR, stored under the versioned key `harptos-calendar-tracker:clock:v1`. The calendar module is independent of the browser and supports positive DR years within the safe integer range of elapsed minutes.
 
-The diagram includes the planned location, daylight, and weather flow.
+The [campaign location selector](../src/App.tsx) stores `neverwinter` or `phandalin` under `harptos-calendar-tracker:location:v1`. The clock and location use separate keys so switching locations leaves the saved clock intact. A missing or unknown location defaults to Neverwinter and the saved time is restored independently.
+
+The diagram includes the planned daylight and weather flow.
 
 ```mermaid
 flowchart LR
@@ -21,7 +23,7 @@ flowchart LR
 - **Calendar and clock.** Convert between a Harptos date and a continuous measure of campaign time. Validate the requested date and time before updating state. Keep regular dates and intercalary festivals distinct when parsing and formatting. Day advances add 24 or 240 elapsed hours, including festival hours.
 - **Daylight and phase.** Derive sunrise, sunset, and the current phase from the Harptos date, clock, and location. Keep named clock markers separate from daylight-dependent phases so a fixed marker can coexist with the date’s sunset estimate.
 - **Weather.** Derive the condition from the campaign seed, location, elapsed hour, and previous condition. A jump over several hours must account for their transitions. Revisit a location or earlier hour using the same sequence. Consider checkpoints if long jumps expose a performance problem.
-- **Display and save.** Present the clock, location, daylight, weather, and controls together. Save the valid clock, selected location, and seed together so derived values can be reconstructed on reload. A location change keeps the campaign time intact.
+- **Display and save.** Present the clock and location controls together. When daylight and weather are added, restore the campaign seed alongside the clock and location to reconstruct the derived conditions.
 
 ## How a change lands
 

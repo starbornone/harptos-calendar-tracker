@@ -190,7 +190,8 @@
   gap: 0.75rem 1rem;
 }
 
-.clock-notice {
+.clock-notice,
+.location-notice {
   margin-top: 0.75rem;
   color: var(--muted-foreground);
 }
@@ -264,6 +265,7 @@
 }
 
 .campaign-setting {
+  min-width: 0;
   margin-top: 2.25rem;
 }
 
@@ -271,6 +273,7 @@
   display: flex;
   align-items: center;
   gap: 1rem;
+  width: 100%;
   margin-bottom: 0.85rem;
   color: var(--muted-foreground);
 }
@@ -292,7 +295,7 @@
   --location-accent: var(--neverwinter);
 }
 
-.location-panel[data-location="phandelver"] {
+.location-panel[data-location="phandalin"] {
   --location-accent: var(--phandelver);
 }
 
@@ -301,15 +304,41 @@
   background: linear-gradient(125deg, color-mix(in srgb, var(--location-accent) 9%, var(--card)), var(--card));
 }
 
+.location-panel:has(.location-radio:checked) {
+  border-color: var(--location-accent);
+}
+
+.location-panel:has(.location-radio:focus-visible) {
+  outline: 2px solid var(--location-accent);
+  outline-offset: 3px;
+}
+
 .location-content {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  height: 100%;
   padding: 1.35rem 1.5rem;
+  cursor: pointer;
+}
+
+.location-copy span {
+  display: block;
+}
+
+.location-radio {
+  width: 1.125rem;
+  height: 1.125rem;
+  accent-color: var(--location-accent);
+  cursor: pointer;
 }
 
 .location-region {
   color: var(--location-accent);
 }
 
-.location-content h3 {
+.location-name {
   margin-block: 0.25rem;
   font-family: var(--font-ledger);
   font-size: 1.65rem;

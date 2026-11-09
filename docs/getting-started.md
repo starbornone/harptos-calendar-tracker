@@ -9,11 +9,13 @@ npm ci
 npm run dev
 ```
 
-Open the local URL printed by Vite. A fresh browser profile starts at **08:00 on 1 Tarsakh 1491 DR**, with **Year of the Scarlet Witch** underneath. The last saved time resumes in the same browser profile at the same site address. When running Vite locally, keep the same host and port between sessions.
+Open the local URL printed by Vite. A fresh browser profile starts in **Neverwinter** at **08:00 on 1 Tarsakh 1491 DR**, with **Year of the Scarlet Witch** underneath. The last saved time and location resume in the same browser profile at the same site address. When running Vite locally, keep the same host and port between sessions.
 
 ## Try the first calendar check
 
 Open **Set Current Time**, choose **Tarsakh**, and enter day **30**, year **1491**, and **23:00**. Click **Set Time** and then **+1 hour**. The clock should reach **00:00 on Greengrass**. Click **+1 day** to reach **00:00 on 1 Mirtul**, then reload to check that the time was saved. For direct entry of a festival, choose it from **Month or festival**.
+
+Under **Campaign location**, select **Phandalin**. The clock should still read **00:00 on 1 Mirtul**. Reload to check that both the time and Phandalin were saved.
 
 Run `npm test` to verify the calendar arithmetic independently of the browser.
 

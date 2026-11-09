@@ -1,6 +1,6 @@
 # harptos-calendar-tracker
 
-Harptos Calendar Tracker is a Dungeon Master tool for a campaign in Neverwinter and Phandalin. The Vite and TypeScript app uses shadcn/ui. Set or advance the Harptos clock and resume from the last time saved in your browser. A new campaign starts at **08:00 on 1 Tarsakh 1491 DR, Year of the Scarlet Witch**.
+Harptos Calendar Tracker is a Dungeon Master tool for a campaign in Neverwinter and Phandalin. The Vite and TypeScript app uses shadcn/ui. Set or advance the Harptos clock and switch locations during play. Your browser saves the time and location. A new campaign starts in Neverwinter at **08:00 on 1 Tarsakh 1491 DR, Year of the Scarlet Witch**.
 
 ## Documentation
 

@@ -14,9 +14,9 @@ These records capture the campaign requirements and first-release design choices
 
 **Context.** The first release serves a single DM running sessions in Neverwinter and Phandalin. The starting hour and initial location were unspecified.
 
-**Decision.** Use browser-local persistence for one campaign. The clock starts at 08:00, and Neverwinter is the proposed starting location. Let the DM set the time and switch between Neverwinter and Phandalin.
+**Decision.** Use browser-local persistence for one campaign. The clock starts at 08:00 in Neverwinter. Let the DM set the time and switch between Neverwinter and Phandalin. Save the time and location independently so each can be restored on its own.
 
-**Consequences.** The campaign can resume in the same browser profile after a reload. A fresh profile or cleared site data starts a fresh campaign. The default hour can be corrected immediately through the clock control.
+**Consequences.** The campaign can resume in the same browser profile after a reload. A fresh profile or cleared site data starts a fresh campaign. Switching locations keeps the current date and time.
 
 ## 3. Separate solar phases from clock markers
 

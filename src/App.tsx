@@ -6,8 +6,10 @@ import { CAMPAIGN_START, advanceHours, formatHarptosDate, formatHarptosTime, fro
 
 const locations = [
   { id: "neverwinter", name: "Neverwinter", region: "Coastal city", detail: "The warm river below Mount Hotenow." },
-  { id: "phandelver", name: "Phandalin", region: "Phandelver frontier", detail: "The trail to Wave Echo Cave." },
+  { id: "phandalin", name: "Phandalin", region: "Phandelver frontier", detail: "The trail to Wave Echo Cave." },
 ] as const;
+
+type LocationId = (typeof locations)[number]["id"];
 
 const dialTicks = Array.from({ length: 60 }, (_, minute) => minute);
 
@@ -21,6 +23,7 @@ const advances = [
 ];
 
 const clockStorageKey = "harptos-calendar-tracker:clock:v1";
+const locationStorageKey = "harptos-calendar-tracker:location:v1";
 
 function loadClock() {
   try {
@@ -30,6 +33,17 @@ function loadClock() {
     return { dateTime: fromElapsedMinutes(Number(saved)), notice: "" };
   } catch {
     return { dateTime: CAMPAIGN_START, notice: "Could not restore the saved clock. Showing the campaign start." };
+  }
+}
+
+function loadLocation() {
+  const fallback = locations[0];
+  try {
+    const saved = localStorage.getItem(locationStorageKey);
+    const location = locations.find(({ id }) => id === saved) ?? fallback;
+    return { id: location.id, notice: "" };
+  } catch {
+    return { id: fallback.id, notice: `Could not restore the saved location. Showing ${fallback.name}.` };
   }
 }
 
@@ -60,6 +74,7 @@ function ClockDial({ hour, minute }: { hour: number; minute: number }) {
 
 export function App() {
   const [{ dateTime, notice }, setClock] = useState(loadClock);
+  const [{ id: locationId, notice: locationNotice }, setLocation] = useState(loadLocation);
   const { date, hour, minute } = dateTime;
   const time = formatHarptosTime(dateTime);
 
@@ -81,6 +96,16 @@ export function App() {
       if (!(error instanceof RangeError)) throw error;
       setClock((current) => ({ ...current, notice: error.message }));
     }
+  }
+
+  function selectLocation(id: LocationId) {
+    let notice = "";
+    try {
+      localStorage.setItem(locationStorageKey, id);
+    } catch {
+      notice = "Location updated for this tab. Your browser could not save it for reload.";
+    }
+    setLocation({ id, notice });
   }
 
   return (
@@ -118,20 +143,35 @@ export function App() {
         </Card>
       </section>
 
-      <section className="campaign-setting" aria-labelledby="setting-heading">
-        <h2 className="eyebrow setting-heading" id="setting-heading">The Sword Coast North</h2>
+      <fieldset className="campaign-setting">
+        <legend className="eyebrow setting-heading">Campaign location</legend>
         <div className="location-grid">
           {locations.map((location) => (
             <Card key={location.id} className="location-panel py-0" data-location={location.id}>
-              <CardContent className="location-content">
-                <p className="eyebrow location-region">{location.region}</p>
-                <h3>{location.name}</h3>
-                <p className="location-detail">{location.detail}</p>
+              <CardContent className="grow p-0">
+                <label className="location-content">
+                  <span className="location-copy">
+                    <span className="eyebrow location-region">{location.region}</span>
+                    <span className="location-name" id={`${location.id}-name`}>{location.name}</span>
+                    <span className="location-detail" id={`${location.id}-detail`}>{location.detail}</span>
+                  </span>
+                  <input
+                    className="location-radio"
+                    type="radio"
+                    name="campaign-location"
+                    value={location.id}
+                    aria-labelledby={`${location.id}-name`}
+                    aria-describedby={`${location.id}-detail`}
+                    checked={locationId === location.id}
+                    onChange={() => selectLocation(location.id)}
+                  />
+                </label>
               </CardContent>
             </Card>
           ))}
         </div>
-      </section>
+        {locationNotice ? <p className="location-notice" role="status">{locationNotice}</p> : null}
+      </fieldset>
     </main>
   );
 }
