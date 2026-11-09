@@ -3,6 +3,9 @@ import { translate, type Locale } from "@/localization.ts";
 export function SiteFooter({ locale }: { locale: Locale }) {
   return (
     <footer className="ledger ledger-footer">
+      <p className="footer-intro">
+        {translate(locale, "Track campaign time, seasonal daylight, and hourly weather for Dungeons & Dragons adventures in the Forgotten Realms.")}
+      </p>
       <nav className="footer-links" aria-label={translate(locale, "Site links")}>
         <a href="https://www.starmist.studio/">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">

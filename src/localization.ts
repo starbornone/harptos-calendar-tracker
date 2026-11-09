@@ -63,6 +63,7 @@ const simplifiedChinese: Readonly<Record<string, string>> = {
   "The Harptos date is outside the supported range.": "该哈普托斯历日期超出支持范围。",
   "Advance by a supported number of whole hours.": "请按支持的整数小时数推进时间。",
   "Campaign location": "战役地点",
+  "Track campaign time, seasonal daylight, and hourly weather for Dungeons & Dragons adventures in the Forgotten Realms.": "为《龙与地下城》的被遗忘国度冒险追踪战役时间、季节性日照和每小时天气。",
   "Site links": "网站链接",
   "Return to Starmist Studio": "返回 Starmist Studio",
   "Support on Ko-fi": "在 Ko-fi 上支持项目",

@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-09T18:55:00+11:00",
+  "updatedAt": "2026-11-09T20:33:28+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -126,6 +126,13 @@
       "group": "Locations",
       "notes": "Label all Harptos locations as Faerûn · Sword Coast. Tag each catalog location with its campaign calendar, keep non-Harptos profiles for later, and limit the selector to Harptos locations.",
       "completedAt": "2026-11-09T18:55:00+11:00"
+    },
+    {
+      "id": "configure-search-and-social-metadata",
+      "title": "Configure search metadata and social previews",
+      "group": "Release",
+      "notes": "Add a static search title and description, a branded social card, and a homepage canonical URL for campaign links. Generate robots.txt and a homepage sitemap using the default Starmist Studio URL or the SITE_URL build setting.",
+      "completedAt": "2026-11-09T20:33:28+11:00"
     }
   ]
 }

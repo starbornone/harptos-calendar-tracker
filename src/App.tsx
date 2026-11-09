@@ -81,7 +81,13 @@ export function App(props: AppProps) {
 
   useEffect(() => {
     document.documentElement.lang = locale;
+    if (locale === "en") return;
+
+    const englishTitle = document.title;
     document.title = translate(locale, "Harptos Calendar Tracker");
+    return () => {
+      document.title = englishTitle;
+    };
   }, [locale]);
 
   function switchToEnglish() {

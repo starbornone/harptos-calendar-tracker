@@ -561,12 +561,20 @@
   color: var(--primary);
 }
 
+.footer-intro,
 .footer-disclaimer {
-  margin-top: 1rem;
   color: var(--muted-foreground);
   font-size: 0.8125rem;
   text-align: center;
   text-wrap: balance;
+}
+
+.footer-intro {
+  margin-bottom: 1rem;
+}
+
+.footer-disclaimer {
+  margin-top: 1rem;
 }
 
 @media (max-width: 40rem) {
