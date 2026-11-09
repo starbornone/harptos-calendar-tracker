@@ -2,7 +2,7 @@
 
 Vite serves [index.html](../index.html) and bundles the TypeScript app. [src/main.tsx](../src/main.tsx) mounts the React screen. [src/App.tsx](../src/App.tsx) restores the clock from `localStorage` and saves it after a valid edit or advance. The [date editor](../src/components/clock-editor.tsx) and advance buttons use the same [Harptos calendar rules](../src/harptos.ts). The saved value is a count of elapsed minutes from 00:00 on 1 Hammer 1 DR, stored under the versioned key `harptos-calendar-tracker:clock:v1`. The calendar module is independent of the browser and supports positive DR years within the safe integer range of elapsed minutes.
 
-The [campaign location selector](../src/App.tsx) stores `neverwinter` or `phandalin` under `harptos-calendar-tracker:location:v1`. The clock and location use separate keys so switching locations leaves the saved clock intact. A missing or unknown location defaults to Neverwinter and the saved time is restored independently.
+The [campaign location selector](../src/App.tsx) stores a stable ID from [src/locations.ts](../src/locations.ts) under `harptos-calendar-tracker:location:v1`. The same catalog supplies daylight and weather profiles. The clock and location use separate keys so switching locations leaves the saved clock intact. A missing or unknown location defaults to Neverwinter and the saved time is restored independently.
 
 [src/daylight.ts](../src/daylight.ts) uses the Harptos day index and year length to estimate sunrise and sunset as minutes after midnight. The date and location determine both values, so advancing within a single day keeps its estimates. The calendar index includes festival days and Shieldmeet.
 
@@ -25,8 +25,8 @@ flowchart LR
 ## Campaign state and derived views
 
 - **Calendar and clock.** Convert between a Harptos date and a continuous measure of campaign time. Validate the requested date and time before updating state. Keep regular dates and intercalary festivals distinct when parsing and formatting. Day advances add 24 or 240 elapsed hours, including festival hours.
-- **Daylight and phase.** Derive sunrise and sunset from the Harptos date and location, then combine them with the clock to find the current phase. The clock marker comes from a fixed range for each minute of the day.
-- **Weather.** Derive a weather-front roll from the seed and location. Reweight conditions by seasonal daylight and local hour, and check the preceding hour when a thunderstorm is possible. Direct jumps use the same sequence as hourly advances.
+- **Daylight and phase.** Derive sunrise and sunset from the Harptos date and solar profile, then combine them with the clock to find the current phase. Use a local light cycle for Sigil and steady light for the Radiant Citadel. The clock marker comes from a fixed range for each minute of the day.
+- **Weather.** Derive a weather-front roll from the seed and location. Reweight surface conditions by climate, seasonal daylight, and local hour. Planar locations use their own condition weights. Check the preceding hour when a thunderstorm is possible. Direct jumps use the same sequence as hourly advances.
 - **Display and save.** Present the clock, daylight, weather, and location controls together. Restore the seed alongside the clock and location to reconstruct the current conditions. [src/campaign-summary.ts](../src/campaign-summary.ts) formats the same date, hour, phase, and weather shown by the clock as a single plain-text line.
 
 ## How a change lands

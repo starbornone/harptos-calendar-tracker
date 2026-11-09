@@ -51,3 +51,20 @@ These records capture the campaign requirements and first-release design choices
 **Decision.** Use Vite with TypeScript and React for shadcn/ui. Keep the Harptos rules in a module shared by the browser and Node’s built-in test runner. Use charcoal, parchment, and gold as the base palette, with ember copper for Neverwinter and mineral green for Phandelver. [Midnight Archive](https://www.midnightarchive.online/) · [shadcn/ui theming](https://ui.shadcn.com/docs/theming)
 
 **Consequences.** The production build produces static files in `dist/`. Calendar tests run in Node without starting a browser or server. New shadcn/ui components inherit the semantic color tokens in [src/index.css](../src/index.css).
+
+## 7. Use local conditions with a shared campaign clock
+
+**Decision.** Keep one Harptos date and 24-hour clock across settings. Greyhawk refers to the Free City. The daylight lengths and weather weights are campaign estimates based on the settings’ geography and descriptions. [Sword Coast cities](https://www.dndbeyond.com/posts/1519-how-to-run-city-campaigns-in-dungeons-dragons) · [Sharn: City of Towers](https://files.spawningpool.net/docs/Vault2.0.-.TTRPG-Gamebooks/Dungeons%20%26%20Dragons%20%5Bmulti%5D/D%26D%203rd%20Edition/Eberron/Sharn%20-%20City%20of%20Towers.pdf) · [Call of the Netherdeep](https://www.dndbeyond.com/sources/dnd/cotn) · [Shadow of the Dragon Queen](https://www.dndbeyond.com/sources/dnd/sotdq) · [Greyhawk setting guide](https://www.dndbeyond.com/posts/1834-greyhawk-returns-in-the-2024-dungeon-masters-guide)
+
+| Location | Daylight or ambient light | Weather emphasis |
+| --- | --- | --- |
+| Baldur’s Gate | 9h 20m–14h 40m | River fog and rain, with rare snow |
+| Waterdeep | 8h 40m–15h 20m | Coastal rain and wind, with winter snow |
+| Sharn | 12h year-round | Warm, frequent rain and thunderstorms |
+| Sigil | Peak at 12:00 and Antipeak at 00:00 | Smog, fog, and drizzle |
+| The Radiant Citadel | Steady Auroral Diamond light | Clear air and ethereal mist |
+| Bazzoxan | 9h 40m–14h 20m | Gusty winds, little rain, and some winter snow |
+| Kalaman | 9h–15h | Harbor fog, rain, and wind |
+| Greyhawk | 9h 30m–14h 30m | River fog, rain, and winter snow |
+
+**Consequences.** The solar estimates stay centered on noon. Sigil’s phase tracks its ambient light cycle, and the Radiant Citadel stays at Steady Light. Both retain the campaign’s clock marker. [Sigil and the Outlands](https://www.dndbeyond.com/sources/dnd/paitm/sato) · [The Radiant Citadel and the Ethereal Plane](https://www.dndbeyond.com/posts/1239-what-is-the-ethereal-plane-get-lost-in-this-realm)

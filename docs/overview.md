@@ -1,15 +1,15 @@
 # Harptos Calendar Tracker
 
-The Harptos Calendar Tracker is a single-screen tool for Dungeon Masters running a Forgotten Realms campaign around Neverwinter and Phandalin. During play it shows the current date and time, sunrise and sunset, and the local weather.
+The Harptos Calendar Tracker is a single-screen tool for Dungeon Masters tracking one campaign across Faerûn and other D&D settings. During play it shows the current date and time, local light, and hourly weather.
 
 The clock starts on **1 Tarsakh 1491 DR, Year of the Scarlet Witch**, at **08:00**. Set the date and time, including festival days, or advance by 1, 2, 4, or 8 hours, 1 day, or 10 days. The clock handles festivals, Shieldmeet, and year changes, and saves the last valid time in the current browser.
 
-The campaign starts in Neverwinter. Select Neverwinter or Phandalin to change locations while keeping the current date and time. The browser restores the selected location on reload. The clock displays estimated sunrise and sunset for the selected date and location, the current Faerûnian phase, and a clock marker for every hour of the day.
+The campaign starts in Neverwinter. The selector also offers Phandalin, Baldur’s Gate, Waterdeep, Sharn, Sigil, The Radiant Citadel, Bazzoxan, Kalaman, and Greyhawk. Changing locations keeps the campaign date and time, and the browser restores the selected location on reload. The clock shows the local light phase and a clock marker for every hour of the day.
 
 The clock also shows an hourly weather condition. Weather depends on location, season, time of day, and recent conditions. The saved campaign seed gives the same weather when you revisit an hour, skip ahead, or reload.
 
 The **Campaign summary** is a selectable line of plain text with the date, year title when available, unpadded hour, current phase, and local weather. The line updates with the clock or location.
 
-The first-release scope is one DM, one campaign, and the two campaign locations. Time advances by DM action. Daylight and weather serve session narration through campaign estimates.
+Time advances by DM action. The tracker uses a shared Harptos date and clock for all locations. Daylight and weather are estimates for session narration. See the [local profiles](decisions.md#7-use-local-conditions-with-a-shared-campaign-clock).
 
 See [Getting started](getting-started.md) to run the tracker and repeat the mock session, [Architecture](architecture.md) for the design, and the [roadmap](../roadmap/roadmap.json) for release status. The [campaign brief](../ROADMAP.md) preserves the original milestone descriptions and setting references.
