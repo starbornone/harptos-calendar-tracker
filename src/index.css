@@ -459,6 +459,49 @@
     padding: 1.25rem;
   }
 
+  .clock-markers {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0;
+    margin-top: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    background: var(--secondary);
+  }
+
+  .clock-markers > div {
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    padding: 0.25rem 0.5rem;
+  }
+
+  .clock-markers dt {
+    line-height: 1.2;
+  }
+
+  .clock-markers dd {
+    line-height: 1.3;
+  }
+
+  .clock-markers > div:has(.clock-weather) {
+    border-inline-start: 1px solid var(--border);
+  }
+
+  .clock-markers > div:has(.clock-marker) {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 0.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .clock-marker {
+    font-size: 0.8125rem;
+  }
+
   .clock-solar {
     grid-template-columns: 4rem minmax(0, 1fr);
     align-items: center;
