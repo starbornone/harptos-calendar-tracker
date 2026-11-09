@@ -2,7 +2,7 @@
 
 ## Project
 
-**Harptos Calendar Tracker** (`harptos-calendar-tracker`) is a single-screen Dungeon Master tool for a Forgotten Realms campaign in Neverwinter and Phandalin. The DM can set or advance the clock, switch locations, and see seasonal daylight, Faerûnian time markers, and hourly weather. The browser saves the time, location, and weather seed. A new campaign starts in Neverwinter on 1 Tarsakh 1491 DR, Year of the Scarlet Witch, at 08:00.
+**Harptos Calendar Tracker** (`harptos-calendar-tracker`) is a single-screen Dungeon Master tool for a Forgotten Realms campaign in Neverwinter and Phandalin. The DM can set or advance the clock, switch locations, and see seasonal daylight, Faerûnian time markers, and hourly weather. The screen includes a one-line plain-text summary for session notes. The browser saves the time, location, and weather seed. A new campaign starts in Neverwinter on 1 Tarsakh 1491 DR, Year of the Scarlet Witch, at 08:00.
 
 ## Layout
 

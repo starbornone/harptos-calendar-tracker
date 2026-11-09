@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-09T12:23:20+11:00",
+  "updatedAt": "2026-11-09T12:30:22+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -84,6 +84,13 @@
       "group": "Weather",
       "notes": "Use a saved campaign seed and previous-hour transitions per location. Verify that a jump and repeated one-hour advances agree, revisiting an hour reproduces its weather, and thunderstorms have a cloud or rain lead-in.",
       "completedAt": "2026-11-09T12:23:20+11:00"
+    },
+    {
+      "id": "output-plain-text-campaign-summary",
+      "title": "Output a one-line campaign summary in plain text",
+      "group": "Campaign clock",
+      "notes": "Use the current Harptos date, year title when known, unpadded hour, time marker, and weather at the selected location. For the sample state, output \"1 Tarsakh 1491 DR, Year of the Scarlet Witch - Hour 6 (Night's End - Clear Skies)\" with the exact punctuation and no line breaks. Omit the year title and its comma when no title is available. Refresh the line after a time or location change.",
+      "completedAt": "2026-11-09T12:30:22+11:00"
     }
   ]
 }

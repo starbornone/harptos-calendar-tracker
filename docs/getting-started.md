@@ -17,6 +17,8 @@ Open **Set Current Time**, choose **Tarsakh**, and enter day **30**, year **1491
 
 Under **Campaign location**, select **Phandalin**. The clock should still read **00:00 on 1 Mirtul**. Reload to check that both the time and Phandalin were saved.
 
+Click the **Campaign summary** field to select its full line, or focus the field and use Select All. Copy it into your session notes. It reflects the current phase and weather for the selected location.
+
 Run `npm test` to verify the calendar arithmetic independently of the browser.
 
 ## Troubleshooting

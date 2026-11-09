@@ -136,6 +136,10 @@ export function formatHarptosDate(date: HarptosDate): string {
   return `${dayLabel} ${date.year} DR`;
 }
 
+export function getHarptosYearTitle(year: number): string | null {
+  return year === 1491 ? "Year of the Scarlet Witch" : null;
+}
+
 export function formatHarptosTime({ hour, minute }: Pick<HarptosDateTime, "hour" | "minute">): string {
   return `${String(hour).padStart(2, "0")}:${String(minute).padStart(2, "0")}`;
 }

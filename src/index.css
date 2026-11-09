@@ -262,6 +262,30 @@
   color: var(--muted-foreground);
 }
 
+.campaign-summary {
+  display: grid;
+  gap: 0.45rem;
+  margin-top: 1rem;
+  color: var(--muted-foreground);
+}
+
+.campaign-summary input {
+  min-width: 0;
+  width: 100%;
+  border: 1px solid var(--input);
+  border-radius: var(--radius-md);
+  background: var(--background);
+  padding: 0.65rem 0.75rem;
+  color: var(--foreground);
+  font-family: var(--font-mono);
+  font-size: 0.8125rem;
+}
+
+.campaign-summary input:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+
 .clock-dialog {
   width: min(30rem, 100% - 2rem);
   max-height: calc(100% - 2rem);

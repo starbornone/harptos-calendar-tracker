@@ -2,8 +2,18 @@ import { useState } from "react";
 import { ClockEditor } from "@/components/clock-editor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { formatCampaignSummary } from "./campaign-summary.ts";
 import { getSeasonalDaylight } from "./daylight.ts";
-import { CAMPAIGN_START, advanceHours, formatHarptosDate, formatHarptosTime, fromElapsedMinutes, toElapsedMinutes, type HarptosDateTime } from "./harptos.ts";
+import {
+  CAMPAIGN_START,
+  advanceHours,
+  formatHarptosDate,
+  formatHarptosTime,
+  fromElapsedMinutes,
+  getHarptosYearTitle,
+  toElapsedMinutes,
+  type HarptosDateTime,
+} from "./harptos.ts";
 import { getFaerunianTime } from "./time-markers.ts";
 import { getHourlyWeather } from "./weather.ts";
 
@@ -80,11 +90,13 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
   const [{ id: locationId, notice: locationNotice }, setLocation] = useState(loadLocation);
   const { date, hour, minute } = dateTime;
   const time = formatHarptosTime(dateTime);
+  const yearTitle = getHarptosYearTitle(date.year);
   const activeLocation = locations.find(({ id }) => id === locationId) ?? locations[0];
   const daylight = getSeasonalDaylight(date, locationId);
   const { sunrise, sunset } = daylight;
   const { phase, marker } = getFaerunianTime(dateTime, daylight);
   const weather = getHourlyWeather(dateTime, locationId, weatherSeed);
+  const summary = formatCampaignSummary(dateTime, phase, weather);
 
   function setCurrentTime(next: HarptosDateTime) {
     const elapsed = toElapsedMinutes(next);
@@ -132,7 +144,7 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
               <div id="campaign-clock" aria-live="polite" aria-atomic="true">
                 <time className="clock-time" dateTime={time}>{time}</time>
                 <p className="clock-date">{formatHarptosDate(date)}</p>
-                {date.year === CAMPAIGN_START.date.year ? <p className="clock-year">Year of the Scarlet Witch</p> : null}
+                {yearTitle ? <p className="clock-year">{yearTitle}</p> : null}
                 <dl className="clock-markers">
                   <div>
                     <dt>Time phase</dt>
@@ -179,6 +191,10 @@ export function App({ weatherSeed }: { weatherSeed: number }) {
               </div>
             </div>
             {notice ? <p className="clock-notice" role="status">{notice}</p> : null}
+            <label className="campaign-summary">
+              <span className="eyebrow">Campaign summary</span>
+              <input type="text" readOnly value={summary} onClick={(event) => event.currentTarget.select()} />
+            </label>
           </CardContent>
         </Card>
       </section>

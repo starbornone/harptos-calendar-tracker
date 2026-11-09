@@ -8,9 +8,7 @@ The campaign starts in Neverwinter. Select Neverwinter or Phandalin to change lo
 
 The clock also shows an hourly weather condition. Weather depends on location, season, time of day, and recent conditions. The saved campaign seed gives the same weather when you revisit an hour, skip ahead, or reload.
 
-## Planned additions
-
-- Output a single line of plain text with the date, hour, time marker, and weather.
+The **Campaign summary** is a selectable line of plain text with the date, year title when available, unpadded hour, current phase, and local weather. The line updates with the clock or location.
 
 The first-release scope is one DM, one campaign, and the two campaign locations. Time advances by DM action. Daylight and weather serve session narration through campaign estimates.
 
