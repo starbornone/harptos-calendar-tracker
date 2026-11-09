@@ -4,6 +4,8 @@ Harptos Calendar Tracker is a Dungeon Master tool for Faerûn campaigns. The Vit
 
 The tracker defaults to English. Browsers with a saved Simplified Chinese preference still use it for the interface, campaign summary, and footer disclaimer.
 
+Open the [Harptos Calendar Tracker](https://harptos.starmist.studio/) or follow the local setup below.
+
 ## Documentation
 
 - [Project overview](docs/overview.md) covers the tracker and campaign scope.

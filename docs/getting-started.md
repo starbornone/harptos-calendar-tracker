@@ -24,6 +24,18 @@ Open the preview URL printed by Vite. The production build runs as a static site
 
 The production build was verified in Chrome and Edge on Windows at viewport widths of 320, 390, 1280, and 1440 pixels. The checks covered keyboard controls, reload, and closing and reopening the browser.
 
+## Build for a public domain
+
+Run `npm run build` and publish `dist/` at the root of the public host. The default public URL is [harptos.starmist.studio](https://harptos.starmist.studio/).
+
+For a different public host, set `SITE_URL` in the build environment or in `.env.production.local` before running the build. Use an HTTPS origin without a path, query, or fragment.
+
+```dotenv
+SITE_URL=https://tracker.example.com
+```
+
+The build uses that address for the homepage canonical link, social preview image, and the single homepage entry in `sitemap.xml`. The generated `robots.txt` points crawlers to the sitemap.
+
 ## Share a campaign moment
 
 1. Set the time and choose a location, then open **Share Campaign**.

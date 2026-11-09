@@ -82,3 +82,9 @@ These records capture the campaign requirements and first-release design choices
 **Decision.** Default to English and keep the Simplified Chinese option hidden for now. Restore an existing language preference separately from the campaign snapshot and offer a return to English when Simplified Chinese is active. Use the current language for the footer disclaimer and campaign summary, and retain the DR abbreviation.
 
 **Consequences.** Returning to English preserves the current campaign. Recipients see the shared moment in their browser’s current tracker language.
+
+## 10. Give the tracker one canonical homepage
+
+**Decision.** Prefer the homepage for search indexing because shared links carry campaign state in query parameters. Generate the canonical URL, sitemap, and absolute social image URL from one build setting. Use the Starmist Studio subdomain by default and allow a public HTTPS origin to override it.
+
+**Consequences.** Shared links keep opening the selected campaign moment. The sitemap lists just the homepage, and share links display the same tracker artwork.

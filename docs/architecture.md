@@ -6,6 +6,8 @@ Vite serves [index.html](../index.html) and bundles the TypeScript app. [src/mai
 
 A share URL carries the same fields in `share=1`, `time`, `location`, and `seed` query parameters. A valid preview leaves browser storage untouched. Adoption writes a single snapshot before switching to editing mode. Leaving the preview removes the share parameters and keeps other query parameters and the fragment.
 
+[index.html](../index.html) provides the search title and description before React loads. The production SEO plugin in [vite.config.ts](../vite.config.ts) uses one public homepage URL for the canonical link, Open Graph URL, site-name markup, and sitemap. Campaign share URLs load the same HTML and point to that homepage as their canonical URL.
+
 [src/localization.ts](../src/localization.ts) translates display labels and formats Harptos dates. [src/App.tsx](../src/App.tsx) owns the browser-local language preference and passes it to the campaign screen and footer. The date editor uses the calendar's month and festival names as option values while displaying localized labels.
 
 [src/daylight.ts](../src/daylight.ts) uses the Harptos day index and year length to estimate sunrise and sunset as minutes after midnight. The date and location determine both values, so advancing within a single day keeps its estimates. The calendar index includes festival days and Shieldmeet.
