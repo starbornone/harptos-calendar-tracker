@@ -6,7 +6,9 @@ The [campaign location selector](../src/App.tsx) stores `neverwinter` or `phanda
 
 [src/daylight.ts](../src/daylight.ts) uses the Harptos day index and year length to estimate sunrise and sunset as minutes after midnight. The date and location determine both values, so advancing within a single day keeps its estimates. The calendar index includes festival days and Shieldmeet.
 
-The diagram includes the planned time markers and weather flow.
+[src/time-markers.ts](../src/time-markers.ts) combines the clock with those estimates to derive the current phase. It also looks up named markers by clock time. Both labels are recalculated from the clock and location on every change.
+
+The diagram includes the planned weather flow.
 
 ```mermaid
 flowchart LR
@@ -23,7 +25,7 @@ flowchart LR
 ## Campaign state and derived views
 
 - **Calendar and clock.** Convert between a Harptos date and a continuous measure of campaign time. Validate the requested date and time before updating state. Keep regular dates and intercalary festivals distinct when parsing and formatting. Day advances add 24 or 240 elapsed hours, including festival hours.
-- **Daylight and phase.** Derive sunrise and sunset from the Harptos date and location. When time markers are added, derive the current phase from those estimates and the clock. Keep named clock markers separate from daylight-dependent phases so a fixed marker can coexist with the date’s sunset estimate.
+- **Daylight and phase.** Derive sunrise and sunset from the Harptos date and location, then combine them with the clock to find the current phase. Named clock markers use fixed times and can appear alongside the phase.
 - **Weather.** Derive the condition from the campaign seed, location, elapsed hour, and previous condition. A jump over several hours must account for their transitions. Revisit a location or earlier hour using the same sequence. Consider checkpoints if long jumps expose a performance problem.
 - **Display and save.** Present the clock, daylight estimates, and location controls together. When weather is added, restore the campaign seed alongside the clock and location to reconstruct the derived conditions.
 

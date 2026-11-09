@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { getSeasonalDaylight } from "./daylight.ts";
 import { CAMPAIGN_START, advanceHours, formatHarptosDate, formatHarptosTime, fromElapsedMinutes, toElapsedMinutes, type HarptosDateTime } from "./harptos.ts";
+import { getFaerunianTime } from "./time-markers.ts";
 
 const locations = [
   { id: "neverwinter", name: "Neverwinter", region: "Coastal city", detail: "The warm river below Mount Hotenow." },
@@ -79,7 +80,9 @@ export function App() {
   const { date, hour, minute } = dateTime;
   const time = formatHarptosTime(dateTime);
   const activeLocation = locations.find(({ id }) => id === locationId) ?? locations[0];
-  const { sunrise, sunset } = getSeasonalDaylight(date, locationId);
+  const daylight = getSeasonalDaylight(date, locationId);
+  const { sunrise, sunset } = daylight;
+  const { phase, marker } = getFaerunianTime(dateTime, daylight);
 
   function setCurrentTime(next: HarptosDateTime) {
     const elapsed = toElapsedMinutes(next);
@@ -128,6 +131,18 @@ export function App() {
                 <time className="clock-time" dateTime={time}>{time}</time>
                 <p className="clock-date">{formatHarptosDate(date)}</p>
                 {date.year === CAMPAIGN_START.date.year ? <p className="clock-year">Year of the Scarlet Witch</p> : null}
+                <dl className="clock-markers">
+                  <div>
+                    <dt>Time phase</dt>
+                    <dd className="clock-phase">{phase}</dd>
+                  </div>
+                  {marker ? (
+                    <div>
+                      <dt>Clock marker</dt>
+                      <dd className="clock-marker">{marker}</dd>
+                    </div>
+                  ) : null}
+                </dl>
               </div>
             </div>
             <div className="clock-solar">

@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-09T12:07:16+11:00",
+  "updatedAt": "2026-11-09T12:11:58+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -9,12 +9,6 @@
     "summary": "A Dungeon Master’s tracker for Harptos campaign time, daylight, and hourly weather in Neverwinter and Phandalin."
   },
   "items": [
-    {
-      "id": "show-faerunian-time-markers",
-      "title": "Show Faerûnian phases and clock markers",
-      "group": "Daylight and time markers",
-      "notes": "Anchor Dawn, Dusk, Sunset, and Evening to the daylight estimates. Show fixed markers such as Waterclock, Time of Summer Sunset, and Twilight alongside the current phase when relevant."
-    },
     {
       "id": "weight-hourly-weather",
       "title": "Generate hourly weather by season and location",

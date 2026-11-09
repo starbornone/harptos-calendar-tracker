@@ -24,7 +24,9 @@ These records capture the campaign requirements and first-release design choices
 
 **Decision.** Use a smooth seasonal curve with its longest day on 20 Kythorn and shortest on 20 Nightal. Center daylight on 12:00 and round sunrise and sunset to the nearest minute. Use 8–16 hours of daylight for Neverwinter and 8 hours 20 minutes to 15 hours 40 minutes for Phandalin as campaign tuning choices. Phandalin is south of Neverwinter, so the model gives it a slightly narrower seasonal range. [Harptos calendar](https://forgottenrealms.fandom.com/wiki/Calendar_of_Harptos) · [D&D Beyond’s Phandalin guide](https://www.dndbeyond.com/posts/1515-visit-phandalin-d-ds-most-popular-starter-town)
 
-**Consequences.** Sunrise and sunset change with date and location. Festival days count as ordinary elapsed days in the curve, and Shieldmeet leaves the solstice dates fixed. The planned Time of Summer Sunset marker can appear near 17:00 alongside a different estimated sunset for the selected date.
+**Phase windows.** Dawn begins 30 minutes before sunrise and lasts an hour. Night's End starts 90 minutes before sunrise and runs until Dawn. Dusk starts one hour before sunset, Sunset starts at sunset, and Evening starts 30 minutes later. Midnight and Highsun each span 30 minutes on either side of 00:00 and 12:00, respectively. These boundaries are campaign rules for the setting’s informal phases. [Faerûnian hours of the day](https://forgottenrealms.fandom.com/wiki/Hours_of_the_day)
+
+**Consequences.** Sunrise and sunset change with date and location. Festival days count as elapsed days in the curve, and Shieldmeet leaves the solstice dates fixed. Named markers start 15 minutes before their clock time and last 30 minutes, so Time of Summer Sunset can appear near 17:00 alongside a different estimated sunset for the selected date.
 
 ## 4. Generate a repeatable weather sequence
 

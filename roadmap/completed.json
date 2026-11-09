@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-09T12:07:16+11:00",
+  "updatedAt": "2026-11-09T12:11:58+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -63,6 +63,13 @@
       "group": "Daylight and time markers",
       "notes": "Derive local sunrise and sunset from the date and location using a simple seasonal model. Use roughly eight to sixteen hours as northern Sword Coast daylight tuning targets.",
       "completedAt": "2026-11-09T12:07:16+11:00"
+    },
+    {
+      "id": "show-faerunian-time-markers",
+      "title": "Show Faerûnian phases and clock markers",
+      "group": "Daylight and time markers",
+      "notes": "Anchor Dawn, Dusk, Sunset, and Evening to the daylight estimates. Show fixed markers such as Waterclock, Time of Summer Sunset, and Twilight alongside the current phase when relevant.",
+      "completedAt": "2026-11-09T12:11:58+11:00"
     }
   ]
 }
