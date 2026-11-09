@@ -266,6 +266,7 @@
 }
 
 .campaign-summary-row {
+  --summary-control-height: 2.75rem;
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   align-items: end;
@@ -305,6 +306,11 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) 2.5rem;
   gap: 0.5rem;
+}
+
+.summary-copy-field > input,
+.campaign-summary-row > button {
+  height: var(--summary-control-height);
 }
 
 .summary-copy-field > button {
@@ -499,10 +505,6 @@
 @media (max-width: 40rem) {
   .campaign-summary-row {
     grid-template-columns: minmax(0, 1fr);
-  }
-
-  .campaign-summary-row > button {
-    justify-self: start;
   }
 
   .ledger {
