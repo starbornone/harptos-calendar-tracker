@@ -1,19 +1,24 @@
 # Architecture
 
-Vite serves [index.html](../index.html) and bundles the TypeScript app. [src/main.tsx](../src/main.tsx) mounts the React screen. [src/App.tsx](../src/App.tsx) restores the clock from `localStorage` and saves it after a valid edit or advance. The [date editor](../src/components/clock-editor.tsx) and advance buttons use the same [Harptos calendar rules](../src/harptos.ts). The saved value is a count of elapsed minutes from 00:00 on 1 Hammer 1 DR, stored under the versioned key `harptos-calendar-tracker:clock:v1`. The calendar module is independent of the browser and supports positive DR years within the safe integer range of elapsed minutes.
+Vite serves [index.html](../index.html) and bundles the TypeScript app. [src/main.tsx](../src/main.tsx) opens a shared preview or restores the local campaign before mounting [src/App.tsx](../src/App.tsx). The [date editor](../src/components/clock-editor.tsx) and advance buttons use the same [Harptos calendar rules](../src/harptos.ts). The calendar module is independent of the browser and supports positive DR years within the safe integer range of elapsed minutes.
 
-The [campaign location selector](../src/App.tsx) stores a stable ID from [src/locations.ts](../src/locations.ts) under `harptos-calendar-tracker:location:v1`. The same catalog supplies daylight and weather profiles. The clock and location use separate keys so switching locations leaves the saved clock intact. A missing or unknown location defaults to Neverwinter and the saved time is restored independently.
+[src/campaign-state.ts](../src/campaign-state.ts) encodes the time as elapsed minutes from 00:00 on 1 Hammer 1 DR. It stores the clock, stable location ID, and unsigned 32-bit weather seed together under `harptos-calendar-tracker:campaign:v1`. The loader falls back to the earlier clock, location, and seed keys. The location catalog in [src/locations.ts](../src/locations.ts) supplies the accepted IDs and their light and weather profiles.
+
+A share URL carries the same fields in `share=1`, `time`, `location`, and `seed` query parameters. A valid preview leaves browser storage untouched. Adoption writes a single snapshot before switching to editing mode. Leaving the preview removes the share parameters and keeps other query parameters and the fragment.
 
 [src/daylight.ts](../src/daylight.ts) uses the Harptos day index and year length to estimate sunrise and sunset as minutes after midnight. The date and location determine both values, so advancing within a single day keeps its estimates. The calendar index includes festival days and Shieldmeet.
 
 [src/time-markers.ts](../src/time-markers.ts) combines the clock with those estimates to derive the current phase. It also looks up named markers by clock time. Both labels are recalculated from the clock and location on every change.
 
-[src/weather.ts](../src/weather.ts) derives the hourly condition from the date, hour, location, and campaign seed. [src/main.tsx](../src/main.tsx) creates and saves the seed under `harptos-calendar-tracker:weather-seed:v1` on first load. If storage is unavailable, the model uses a fixed fallback seed.
+[src/weather.ts](../src/weather.ts) derives the hourly condition from the date, hour, location, and campaign seed. Local campaign initialization generates a seed when none is saved. If storage is unavailable, the local campaign uses a fixed fallback seed.
 
 ```mermaid
 flowchart LR
     Input[DM sets time, advances time, or selects a location] --> State[Campaign state]
     Harptos[Harptos calendar rules] --> State
+    Link[Share URL] --> Preview[Read-only preview]
+    Preview -->|Adopt| State
+    Preview --> Display
     State --> Daylight[Daylight and time markers]
     State --> Weather[Hourly weather sequence]
     State --> Display[Campaign display]

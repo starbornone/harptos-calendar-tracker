@@ -8,7 +8,9 @@ The campaign starts in Neverwinter. The selector also offers Phandalin, Baldurâ€
 
 The clock also shows an hourly weather condition. Weather depends on location, season, time of day, and recent conditions. The saved campaign seed gives the same weather when you revisit an hour, skip ahead, or reload.
 
-The **Campaign summary** is a selectable line of plain text with the date, year title when available, unpadded hour, current phase, and local weather. The line updates with the clock or location.
+The **Campaign summary** is a selectable line of plain text with the date, year title when available, unpadded hour, current phase, and local weather. The copy icon puts the current line on the clipboard. The line updates with the clock or location.
+
+**Share Campaign** creates a URL with the date, time, location, and weather seed. Opening the link shows a read-only preview with the same weather. **Adopt Shared Campaign** saves that moment and enables editing. **Back to Saved Campaign** resumes the browserâ€™s existing campaign.
 
 Time advances by DM action. The tracker uses a shared Harptos date and clock for all locations. Daylight and weather are estimates for session narration. See the [local profiles](decisions.md#7-use-local-conditions-with-a-shared-campaign-clock).
 

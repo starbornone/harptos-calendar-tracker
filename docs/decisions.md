@@ -14,7 +14,7 @@ These records capture the campaign requirements and first-release design choices
 
 **Context.** The first release serves a single DM running sessions in Neverwinter and Phandalin. The starting hour and initial location were unspecified.
 
-**Decision.** Use browser-local persistence for one campaign. The clock starts at 08:00 in Neverwinter. Let the DM set the time and switch between Neverwinter and Phandalin. Save the time and location independently so each can be restored on its own.
+**Decision.** Use browser-local persistence for one campaign. The clock starts at 08:00 in Neverwinter. Let the DM set the time and switch locations. Restore the last saved time and location when the campaign resumes.
 
 **Consequences.** The campaign can resume in the same browser profile after a reload. A fresh profile or cleared site data starts a fresh campaign. Switching locations keeps the current date and time.
 
@@ -68,3 +68,9 @@ These records capture the campaign requirements and first-release design choices
 | Greyhawk | 9h 30m–14h 30m | River fog, rain, and winter snow |
 
 **Consequences.** The solar estimates stay centered on noon. Sigil’s phase tracks its ambient light cycle, and the Radiant Citadel stays at Steady Light. Both retain the campaign’s clock marker. [Sigil and the Outlands](https://www.dndbeyond.com/sources/dnd/paitm/sato) · [The Radiant Citadel and the Ethereal Plane](https://www.dndbeyond.com/posts/1239-what-is-the-ethereal-plane-get-lost-in-this-realm)
+
+## 8. Preview shared moments before adopting
+
+**Decision.** Use a versioned query string to carry the elapsed minute, location ID, and weather seed. Open a valid link as a read-only preview. Save all three fields together when the recipient adopts the moment.
+
+**Consequences.** The URL reproduces the shared weather with the same model and leaves the recipient’s local campaign intact during preview. The app can restore saves written under the earlier per-field keys.
