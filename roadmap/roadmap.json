@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-09T18:55:00+11:00",
+  "updatedAt": "2026-11-11T20:22:53+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -9,6 +9,48 @@
     "summary": "A Dungeon Master’s tracker for Harptos campaign time, local light, and hourly weather across Faerûn, with other setting calendars planned later."
   },
   "items": [
+    {
+      "id": "add-ci-test-build-gate",
+      "title": "Run tests and production build on every pull request",
+      "group": "Engineering",
+      "notes": "Add CI that runs npm ci, npm test, and npm run build on pull requests and main. The domain suite already covers calendar and weather regressions; nothing currently blocks a merge or deploy when those checks fail."
+    },
+    {
+      "id": "fix-storage-merge-after-failed-save",
+      "title": "Keep in-tab campaign edits after a failed browser save",
+      "group": "Campaign state",
+      "notes": "updateSavedCampaign currently bases the next snapshot on localStorage before applying the change. After a failed setItem, React can hold a newer clock while storage stays old; the next successful edit reloads storage and can discard the in-tab time, location, or seed. Prefer the in-memory campaign as the write base from the UI. Revisit multi-tab sync with storage events only if DMs need it."
+    },
+    {
+      "id": "add-share-adopt-ui-tests",
+      "title": "Cover share preview and adopt flows with automated UI tests",
+      "group": "Engineering",
+      "notes": "Domain modules are well tested; share URL preview, adopt, back to saved campaign, invalid share notice, and clipboard fallback are manual-only. Add a small Playwright or Testing Library set for those paths so UI regressions fail CI."
+    },
+    {
+      "id": "split-campaign-ledger-components",
+      "title": "Split CampaignLedger into focused UI sections",
+      "group": "Frontend",
+      "notes": "App.tsx CampaignLedger owns clock display, advances, editor wiring, notices, summary copy, share UI, preview adoption, and location selection. Extract share preview, summary/copy, and location fieldset when the next UI feature lands; keep derived daylight and weather in the parent."
+    },
+    {
+      "id": "stabilize-localization-message-keys",
+      "title": "Stop keying translations by English display copy",
+      "group": "Localization",
+      "notes": "localization.ts maps Simplified Chinese by English source strings, so copy edits silently fall back to English. Move to stable message IDs, or add a test that every user-visible string used under zh-Hans has a map entry."
+    },
+    {
+      "id": "add-lint-and-format-checks",
+      "title": "Add lint and format checks to local scripts and CI",
+      "group": "Engineering",
+      "notes": "There is no ESLint, Prettier, or Biome today. Add a formatter and linter, wire npm scripts, and run them in CI beside test and build."
+    },
+    {
+      "id": "remove-orphaned-calendar-helpers",
+      "title": "Remove or wire unused tenday and Halruaa helpers",
+      "group": "Campaign clock",
+      "notes": "getTenday is exported and tested but unused in the UI. daylight.ts special-cases a halruaa location outside campaignLocations. Either surface tenday in the ledger and catalog Halruaa, or delete the dead paths."
+    },
     {
       "id": "support-additional-setting-calendars",
       "title": "Support calendars for non-Faerûn campaign locations",
