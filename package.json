@@ -10,6 +10,10 @@
     "dev": "vite",
     "check": "tsc --noEmit",
     "test": "node --test",
+    "test:ui": "playwright test",
+    "lint": "biome lint . --error-on-warnings",
+    "format:check": "biome format .",
+    "format": "biome format --write .",
     "build": "npm run check && vite build",
     "preview": "vite preview"
   },
@@ -20,6 +24,8 @@
     "tailwind-merge": "^3.0.0"
   },
   "devDependencies": {
+    "@biomejs/biome": "2.6.7",
+    "@playwright/test": "1.65.0",
     "@tailwindcss/vite": "^4.1.0",
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",
