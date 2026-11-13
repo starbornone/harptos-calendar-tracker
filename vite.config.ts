@@ -5,10 +5,9 @@ import { defineConfig, loadEnv, type Plugin } from "vite";
 function productionSeo(siteUrl: string): Plugin {
   const homepage = URL.canParse(siteUrl) ? new URL(siteUrl) : undefined;
   if (
-    !homepage
-    || homepage.protocol !== "https:"
-    || homepage.href !== `${homepage.origin}/`
-    || !/^(?:[a-z0-9.-]+|\[[a-f0-9:]+\])$/i.test(homepage.hostname)
+    homepage?.protocol !== "https:" ||
+    homepage.href !== `${homepage.origin}/` ||
+    !/^(?:[a-z0-9.-]+|\[[a-f0-9:]+\])$/i.test(homepage.hostname)
   ) {
     throw new Error("SITE_URL must be an HTTPS origin, such as https://tracker.example.com.");
   }
@@ -25,7 +24,13 @@ function productionSeo(siteUrl: string): Plugin {
         { tag: "meta", attrs: { property: "og:image:type", content: "image/png" } },
         { tag: "meta", attrs: { property: "og:image:width", content: "1200" } },
         { tag: "meta", attrs: { property: "og:image:height", content: "630" } },
-        { tag: "meta", attrs: { property: "og:image:alt", content: "Harptos Calendar Tracker title beside a gold clock dial" } },
+        {
+          tag: "meta",
+          attrs: {
+            property: "og:image:alt",
+            content: "Harptos Calendar Tracker title beside a gold clock dial",
+          },
+        },
         { tag: "meta", attrs: { name: "twitter:card", content: "summary_large_image" } },
         {
           tag: "script",

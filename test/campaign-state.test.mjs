@@ -55,7 +55,8 @@ test("a shared weather seed reproduces future conditions after adoption and relo
   saveCampaign({ ...sender, weatherSeed: 42 }, storage);
   saveCampaign(shared.campaign, storage);
   const recipient = loadSavedCampaign(storage).campaign;
-  const weather = ({ dateTime, locationId, weatherSeed }) => getHourlyWeather(dateTime, locationId, weatherSeed);
+  const weather = ({ dateTime, locationId, weatherSeed }) =>
+    getHourlyWeather(dateTime, locationId, weatherSeed);
   const conditions = new Set();
   for (let hours = 1; hours <= 240; hours++) {
     const fromSender = weather({ ...sender, dateTime: advanceHours(sender.dateTime, hours) });
@@ -80,7 +81,7 @@ test("share URLs reject incomplete, ambiguous, or out-of-range snapshots", () =>
   ]) {
     const link = new URL(makeShareUrl(page, moment));
     link.searchParams.set(key, value);
-    assert.deepEqual(readSharedCampaign(link), { status: "invalid" }, key + "=" + value);
+    assert.deepEqual(readSharedCampaign(link), { status: "invalid" }, `${key}=${value}`);
   }
   for (const key of ["time", "location", "seed"]) {
     const link = new URL(makeShareUrl(page, moment));
@@ -109,7 +110,7 @@ test("saved campaigns restore legacy values and replace all fields together on a
   assert.equal(entries.size, 4);
   assert.deepEqual(loadSavedCampaign(storage), { campaign: moment, notice: "" });
 
-  const updated = updateSavedCampaign(legacy, { locationId: "sigil" }, storage);
+  const updated = updateSavedCampaign(moment, { locationId: "sigil" }, storage);
   assert.deepEqual(updated, { ...moment, locationId: "sigil" });
   assert.deepEqual(loadSavedCampaign(storage).campaign, updated);
 });
