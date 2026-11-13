@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-11T20:22:53+11:00",
+  "updatedAt": "2026-11-13T17:09:46+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -26,6 +26,12 @@
       "title": "Cover share preview and adopt flows with automated UI tests",
       "group": "Engineering",
       "notes": "Domain modules are well tested; share URL preview, adopt, back to saved campaign, invalid share notice, and clipboard fallback are manual-only. Add a small Playwright or Testing Library set for those paths so UI regressions fail CI."
+    },
+    {
+      "id": "show-visible-harptos-calendar",
+      "title": "Show a visible Harptos calendar on the tracker",
+      "group": "Frontend",
+      "notes": "The screen shows the current date as text and advances by controls; DMs cannot see the surrounding month, festivals, or tenday layout at a glance. Add a calendar view of the current Harptos month (including festival days and Shieldmeet) that highlights the campaign day and stays in sync when the clock advances or is set."
     },
     {
       "id": "split-campaign-ledger-components",
