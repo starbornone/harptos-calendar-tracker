@@ -94,7 +94,7 @@ export function updateSavedCampaign(
   change: Partial<Pick<CampaignState, "dateTime" | "locationId">>,
   storage: CampaignStorage = localStorage,
 ): CampaignState {
-  const next = { ...(readSavedSnapshot(storage) ?? current), ...change };
+  const next = { ...current, ...change };
   saveCampaign(next, storage);
   return next;
 }

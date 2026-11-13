@@ -109,7 +109,35 @@ test("saved campaigns restore legacy values and replace all fields together on a
   assert.equal(entries.size, 4);
   assert.deepEqual(loadSavedCampaign(storage), { campaign: moment, notice: "" });
 
-  const updated = updateSavedCampaign(legacy, { locationId: "sigil" }, storage);
+  const updated = updateSavedCampaign(moment, { locationId: "sigil" }, storage);
   assert.deepEqual(updated, { ...moment, locationId: "sigil" });
   assert.deepEqual(loadSavedCampaign(storage).campaign, updated);
+});
+
+test("the next successful save preserves an in-tab edit after a failed save", () => {
+  const entries = new Map();
+  let failWrite = false;
+  const storage = {
+    getItem: (key) => entries.get(key) ?? null,
+    setItem: (key, value) => {
+      if (failWrite) throw new DOMException("Storage quota exceeded", "QuotaExceededError");
+      entries.set(key, value);
+    },
+  };
+  saveCampaign(moment, storage);
+
+  const dateTime = advanceHours(moment.dateTime, 1);
+  failWrite = true;
+  assert.throws(
+    () => updateSavedCampaign(moment, { dateTime }, storage),
+    { name: "QuotaExceededError" },
+  );
+  assert.deepEqual(loadSavedCampaign(storage).campaign, moment);
+
+  const inTabCampaign = { ...moment, dateTime };
+  failWrite = false;
+  const updated = updateSavedCampaign(inTabCampaign, { locationId: "phandalin" }, storage);
+  const expected = { ...inTabCampaign, locationId: "phandalin" };
+  assert.deepEqual(updated, expected);
+  assert.deepEqual(loadSavedCampaign(storage), { campaign: expected, notice: "" });
 });
