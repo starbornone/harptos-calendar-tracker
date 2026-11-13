@@ -12,7 +12,10 @@ test("matches the agreed one-line format with an unpadded hour", () => {
 
 test("formats a festival at midnight and omits the comma when the year title is unavailable", () => {
   const time = { date: { year: 1492, festival: "Shieldmeet" }, hour: 0, minute: 35 };
-  assert.equal(formatCampaignSummary(time, "Moondark", "Rain"), "Shieldmeet 1492 DR - Hour 0 (Moondark - Rain)");
+  assert.equal(
+    formatCampaignSummary(time, "Moondark", "Rain"),
+    "Shieldmeet 1492 DR - Hour 0 (Moondark - Rain)",
+  );
 });
 
 test("formats Chinese summaries for months and festivals with the DR abbreviation", () => {

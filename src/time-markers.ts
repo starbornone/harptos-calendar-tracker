@@ -30,7 +30,8 @@ export function getFaerunianTime(
   if ("steady" in daylight) return { phase: "Steady Light", marker } as const;
   if ("peak" in daylight) {
     const { peak, antipeak } = daylight;
-    if (minutes < antipeak + 30 || minutes >= antipeak + 24 * 60 - 30) return { phase: "Antipeak", marker } as const;
+    if (minutes < antipeak + 30 || minutes >= antipeak + 24 * 60 - 30)
+      return { phase: "Antipeak", marker } as const;
     if (minutes < peak - 30) return { phase: "Brightening", marker } as const;
     if (minutes < peak + 30) return { phase: "Peak", marker } as const;
     return { phase: "Dimming", marker } as const;

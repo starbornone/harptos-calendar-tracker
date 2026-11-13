@@ -21,7 +21,10 @@ function seededRoll(index: number, seed: number, salt: number) {
   return hashRoll(low ^ high ^ Math.imul(seed, 0xc2b2_ae35) ^ salt);
 }
 
-function weightedCondition<Condition extends string>(weights: readonly (readonly [Condition, number])[], fraction: number) {
+function weightedCondition<Condition extends string>(
+  weights: readonly (readonly [Condition, number])[],
+  fraction: number,
+) {
   let roll = fraction * weights.reduce((total, [, weight]) => total + weight, 0);
   for (const [condition, weight] of weights) {
     if (roll < weight) return condition;
@@ -40,7 +43,7 @@ function surfaceFront(index: number, settings: SurfaceLocation, seed: number) {
   const { rain, snow, wind = 0, warmth: fixedWarmth, salt } = settings.weather;
   const start = frontStart(index, seed, salt);
   const { date } = fromElapsedMinutes(start * 60);
-  const { sunrise, sunset } = getSolarDaylight(date, settings.daylight);
+  const { sunrise, sunset } = getSolarDaylight(date, settings.daylight, settings.calendar);
   const warmth = fixedWarmth ?? (sunset - sunrise - 8 * 60) / (8 * 60);
   // Several nearby fronts share a wetter or drier spell.
   const wetness = 0.55 + seededRoll(Math.floor(start / 36), seed, salt ^ 0x7c10_f435);
@@ -84,16 +87,22 @@ export function getHourlyWeather(dateTime: HarptosDateTime, location: LocationId
 
   const day = Math.floor(hour / 24);
   if (condition === "Clear Skies" || condition === "Partly Cloudy") {
-    const { sunrise } = getSolarDaylight(dateTime.date, settings.daylight);
+    const { sunrise } = getSolarDaylight(dateTime.date, settings.daylight, settings.calendar);
     const minutesFromSunrise = dateTime.hour * 60 - sunrise;
-    if (minutesFromSunrise >= -90 && minutesFromSunrise < 75 &&
-        seededRoll(day, seed, salt ^ 0xa09b_5271) < settings.weather.fog / 36) {
+    if (
+      minutesFromSunrise >= -90 &&
+      minutesFromSunrise < 75 &&
+      seededRoll(day, seed, salt ^ 0xa09b_5271) < settings.weather.fog / 36
+    ) {
       return "Fog";
     }
   }
 
-  if (condition === "Rain" && hoursIntoFront >= 3 &&
-      seededRoll(day, seed, salt ^ 0xe347_12b9) < 0.85 * Math.max(0, warmth - 0.35)) {
+  if (
+    condition === "Rain" &&
+    hoursIntoFront >= 3 &&
+    seededRoll(day, seed, salt ^ 0xe347_12b9) < 0.85 * Math.max(0, warmth - 0.35)
+  ) {
     const stormStart = 13 + Math.floor(6 * seededRoll(day, seed, salt ^ 0x4ad8_207e));
     const stormLength = 1 + Math.floor(3 * seededRoll(day, seed, salt ^ 0x81b3_de64));
     if (dateTime.hour >= stormStart && dateTime.hour < stormStart + stormLength) return "Thunderstorm";
