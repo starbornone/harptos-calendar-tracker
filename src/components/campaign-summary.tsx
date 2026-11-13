@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { makeShareUrl, type CampaignState } from "../campaign-state.ts";
-import { translate, type Locale } from "../localization.ts";
+import { translate, type Locale, type MessageId } from "../localization.ts";
 import { Button } from "./ui/button";
 
 export function CampaignSummary({ campaign, summary, isPreview, locale }: {
@@ -9,22 +9,21 @@ export function CampaignSummary({ campaign, summary, isPreview, locale }: {
   isPreview: boolean;
   locale: Locale;
 }) {
-  const t = (label: string) => translate(locale, label);
+  const t = (id: MessageId) => translate(locale, id);
   // Leaving the preview closes its share link.
   const [shareLinkMode, setShareLinkMode] = useState<"preview" | "editing">();
   const mode = isPreview ? "preview" : "editing";
   const showShareLink = shareLinkMode === mode;
-  const [copyResult, setCopyResult] = useState<{ target: "summary" | "link"; value: string; message: string }>();
+  const [copyResult, setCopyResult] = useState<{ target: "summary" | "link"; value: string; message: MessageId }>();
   const shareUrl = showShareLink ? makeShareUrl(new URL(window.location.href), campaign) : "";
 
   async function copyText(target: "summary" | "link", value: string) {
-    const label = target === "summary" ? "Campaign summary" : "Share link";
-    let message: string;
+    let message: MessageId;
     try {
       await navigator.clipboard.writeText(value);
-      message = `${label} copied.`;
+      message = target === "summary" ? "summary.copied" : "share.copied";
     } catch {
-      message = `Select the ${label.toLowerCase()} field and copy it manually.`;
+      message = target === "summary" ? "summary.copyFallback" : "share.copyFallback";
     }
     setCopyResult({ target, value, message });
   }
@@ -33,13 +32,13 @@ export function CampaignSummary({ campaign, summary, isPreview, locale }: {
     <>
       <div className="campaign-summary-row">
         <div className="campaign-summary">
-          <label className="eyebrow" htmlFor="campaign-summary">{t("Campaign summary")}</label>
+          <label className="eyebrow" htmlFor="campaign-summary">{t("summary.label")}</label>
           <div className="summary-copy-field">
             <input id="campaign-summary" type="text" readOnly value={summary} onClick={(event) => event.currentTarget.select()} />
             <Button
               variant="outline"
-              aria-label={t("Copy campaign summary")}
-              title={t("Copy campaign summary")}
+              aria-label={t("summary.copy")}
+              title={t("summary.copy")}
               onClick={() => copyText("summary", summary)}
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
@@ -58,7 +57,7 @@ export function CampaignSummary({ campaign, summary, isPreview, locale }: {
             setShareLinkMode(showShareLink ? undefined : mode);
           }}
         >
-          {t(showShareLink ? "Hide Share Link" : "Share Campaign")}
+          {t(showShareLink ? "share.hide" : "share.open")}
         </Button>
       </div>
       <p className="summary-copy-status" role="status">
@@ -67,7 +66,7 @@ export function CampaignSummary({ campaign, summary, isPreview, locale }: {
       <div id="campaign-share-link" hidden={!showShareLink}>
         {showShareLink ? <>
           <label className="campaign-summary">
-            <span className="eyebrow">{t("Share link")}</span>
+            <span className="eyebrow">{t("share.link")}</span>
             <input
               type="text"
               readOnly
@@ -77,7 +76,7 @@ export function CampaignSummary({ campaign, summary, isPreview, locale }: {
             />
           </label>
           <div className="share-actions">
-            <Button variant="outline" onClick={() => copyText("link", shareUrl)}>{t("Copy Link")}</Button>
+            <Button variant="outline" onClick={() => copyText("link", shareUrl)}>{t("share.copy")}</Button>
             <span className="share-status" role="status">
               {copyResult?.target === "link" && copyResult.value === shareUrl ? t(copyResult.message) : ""}
             </span>

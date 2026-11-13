@@ -1,10 +1,10 @@
 import { createRoot } from "react-dom/client";
 import { App } from "./App";
-import { loadSavedCampaign, readSharedCampaign } from "./campaign-state.ts";
+import { loadSavedCampaign, readSharedCampaign, type CampaignView } from "./campaign-state.ts";
 import "./index.css";
 
 const shared = readSharedCampaign(new URL(window.location.href));
-const initialView = shared.status === "valid"
+const initialView: CampaignView = shared.status === "valid"
   ? { campaign: shared.campaign, notice: "" }
   : loadSavedCampaign();
 

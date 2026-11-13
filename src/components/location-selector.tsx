@@ -1,5 +1,5 @@
-import { campaignLocations, visibleLocationIds, type LocationId } from "../locations.ts";
-import { translate, type Locale } from "../localization.ts";
+import { visibleLocationIds, type LocationId } from "../locations.ts";
+import { locationRegions, translate, type Locale, type MessageId } from "../localization.ts";
 import { Card, CardContent } from "./ui/card";
 
 export function LocationSelector({ locationId, disabled, onChange, locale }: {
@@ -8,20 +8,19 @@ export function LocationSelector({ locationId, disabled, onChange, locale }: {
   onChange: (locationId: LocationId) => void;
   locale: Locale;
 }) {
-  const t = (label: string) => translate(locale, label);
+  const t = (id: MessageId) => translate(locale, id);
   return (
     <fieldset className="campaign-setting" disabled={disabled}>
-      <legend className="eyebrow setting-heading">{t("Campaign location")}</legend>
+      <legend className="eyebrow setting-heading">{t("location.heading")}</legend>
       <div className="location-grid">
         {visibleLocationIds(locationId).map((id) => {
-          const location = campaignLocations[id];
           return <Card key={id} className="location-panel py-0" data-location={id}>
             <CardContent className="grow p-0">
               <label className="location-content">
                 <span className="location-copy">
-                  <span className="eyebrow location-region">{t(location.region)}</span>
-                  <span className="location-name" id={`${id}-name`}>{t(location.name)}</span>
-                  <span className="location-detail" id={`${id}-detail`}>{t(location.detail)}</span>
+                  <span className="eyebrow location-region">{t(locationRegions[id])}</span>
+                  <span className="location-name" id={`${id}-name`}>{t(`location.${id}.name`)}</span>
+                  <span className="location-detail" id={`${id}-detail`}>{t(`location.${id}.detail`)}</span>
                 </span>
                 <input
                   className="location-radio"

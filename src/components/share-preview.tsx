@@ -1,4 +1,4 @@
-import { translate, type Locale } from "../localization.ts";
+import { translate, type Locale, type MessageId } from "../localization.ts";
 import { Button } from "./ui/button";
 
 export function SharePreview({ isPreview, invalid, locale, onAdopt, onBack }: {
@@ -8,21 +8,21 @@ export function SharePreview({ isPreview, invalid, locale, onAdopt, onBack }: {
   onAdopt: () => void;
   onBack: () => void;
 }) {
-  const t = (label: string) => translate(locale, label);
+  const t = (id: MessageId) => translate(locale, id);
   return (
     <>
       {isPreview ? (
         <section className="share-preview" aria-labelledby="share-preview-heading">
-          <h2 className="eyebrow" id="share-preview-heading">{t("Shared campaign preview")}</h2>
-          <p>{t("Adopt this moment to replace your saved campaign and enable editing.")}</p>
+          <h2 className="eyebrow" id="share-preview-heading">{t("share.preview")}</h2>
+          <p>{t("share.instructions")}</p>
           <div className="share-actions">
-            <Button onClick={onAdopt}>{t("Adopt Shared Campaign")}</Button>
-            <Button variant="outline" onClick={onBack}>{t("Back to Saved Campaign")}</Button>
+            <Button onClick={onAdopt}>{t("share.adopt")}</Button>
+            <Button variant="outline" onClick={onBack}>{t("share.back")}</Button>
           </div>
         </section>
       ) : null}
       {invalid ? (
-        <p className="clock-notice" role="status">{t("This share link is invalid or unsupported. Showing your local campaign.")}</p>
+        <p className="clock-notice" role="status">{t("share.invalid")}</p>
       ) : null}
     </>
   );

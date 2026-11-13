@@ -1,5 +1,6 @@
 import { CAMPAIGN_START, fromElapsedMinutes, toElapsedMinutes, type HarptosDateTime } from "./harptos.ts";
 import { locationIds, type LocationId } from "./locations.ts";
+import type { MessageId } from "./messages.ts";
 
 export type CampaignState = {
   dateTime: HarptosDateTime;
@@ -9,7 +10,7 @@ export type CampaignState = {
 
 export type CampaignView = {
   campaign: CampaignState;
-  notice: string;
+  notice: MessageId | "";
 };
 
 const defaultCampaign: CampaignState = {
@@ -114,19 +115,19 @@ export function loadSavedCampaign(storage?: CampaignStorage): CampaignView {
       locationId,
       weatherSeed: savedSeed ?? crypto.getRandomValues(new Uint32Array(1))[0],
     };
-    let notice = clock !== null && minutes === undefined
-      ? "Could not restore the saved clock. Showing the campaign start."
+    let notice: CampaignView["notice"] = clock !== null && minutes === undefined
+      ? "save.clockRestoreFailed"
       : "";
     if (savedSeed === undefined) {
       try {
         saveCampaign(campaign, storage);
       } catch {
         campaign.weatherSeed = defaultCampaign.weatherSeed;
-        notice = "Your browser could not save the campaign for reload.";
+        notice = "save.writeFailed";
       }
     }
     return { campaign, notice };
   } catch {
-    return { campaign: defaultCampaign, notice: "Could not restore the saved campaign. Showing the campaign start." };
+    return { campaign: defaultCampaign, notice: "save.restoreFailed" };
   }
 }
