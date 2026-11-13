@@ -25,8 +25,10 @@ export type CampaignLocation = {
   calendar: CampaignCalendar;
 } & (
   | { mode: "solar"; daylight: SolarDaylightProfile; weather: SurfaceWeather }
-  | { mode: "sigil" | "auroral"; weather: { salt: number; conditions: readonly (readonly [string, number])[] } }
+  | { mode: "sigil" | "auroral"; weather: { salt: number; conditions: readonly (readonly [PlanarWeather, number])[] } }
 );
+
+type PlanarWeather = "Smog" | "Fog" | "Drizzle" | "Clear Air" | "Ethereal Mist";
 
 // Daylight values are campaign estimates in minutes at Midwinter and Midsummer.
 // Non-Harptos calendars stay in the catalog for future support; the selector hides them for now.
