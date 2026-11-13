@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-13T17:23:56+11:00",
+  "updatedAt": "2026-11-13T17:28:17+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -9,12 +9,6 @@
     "summary": "A Dungeon Master’s tracker for Harptos campaign time, local light, and hourly weather across Faerûn, with other setting calendars planned later."
   },
   "items": [
-    {
-      "id": "stabilize-localization-message-keys",
-      "title": "Stop keying translations by English display copy",
-      "group": "Localization",
-      "notes": "localization.ts maps Simplified Chinese by English source strings, so copy edits silently fall back to English. Move to stable message IDs, or add a test that every user-visible string used under zh-Hans has a map entry."
-    },
     {
       "id": "add-lint-and-format-checks",
       "title": "Add lint and format checks to local scripts and CI",

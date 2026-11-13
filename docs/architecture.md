@@ -12,7 +12,7 @@ The ledger applies each edit to the campaign in the current tab and attempts to 
 
 [index.html](../index.html) provides the search title and description before React loads. The production SEO plugin in [vite.config.ts](../vite.config.ts) uses one public homepage URL for the canonical link, Open Graph URL, site-name markup, and sitemap. Campaign share URLs load the same HTML and point to that homepage as their canonical URL.
 
-[src/localization.ts](../src/localization.ts) translates display labels and formats Harptos dates. [src/App.tsx](../src/App.tsx) owns the browser-local language preference and passes it to the campaign screen and footer. The date editor uses the calendar's month and festival names as option values while displaying localized labels.
+[src/messages.ts](../src/messages.ts) defines stable, typed message IDs with English and Simplified Chinese copy for every ID. Edit copy under the existing ID. [src/localization.ts](../src/localization.ts) maps domain values to those IDs and formats Harptos dates. [src/App.tsx](../src/App.tsx) owns the browser-local language preference and passes it to the campaign screen and footer. The date editor uses the calendar's month and festival names as option values while displaying localized labels.
 
 [src/daylight.ts](../src/daylight.ts) uses the Harptos day index and year length to estimate sunrise and sunset as minutes after midnight. The date and location determine both values, so advancing within a single day keeps its estimates. The calendar index includes festival days and Shieldmeet.
 

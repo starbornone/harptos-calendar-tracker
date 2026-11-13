@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-13T17:23:56+11:00",
+  "updatedAt": "2026-11-13T17:28:17+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -175,6 +175,13 @@
       "group": "Frontend",
       "notes": "App.tsx CampaignLedger owns clock display, advances, editor wiring, notices, summary copy, share UI, preview adoption, and location selection. Extract share preview, summary/copy, and location fieldset when the next UI feature lands; keep derived daylight and weather in the parent.",
       "completedAt": "2026-11-13T17:23:56+11:00"
+    },
+    {
+      "id": "stabilize-localization-message-keys",
+      "title": "Stop keying translations by English display copy",
+      "group": "Localization",
+      "notes": "localization.ts maps Simplified Chinese by English source strings, so copy edits silently fall back to English. Move to stable message IDs, or add a test that every user-visible string used under zh-Hans has a map entry.",
+      "completedAt": "2026-11-13T17:28:17+11:00"
     }
   ]
 }
