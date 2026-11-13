@@ -10,6 +10,7 @@
     "dev": "vite",
     "check": "tsc --noEmit",
     "test": "node --test",
+    "test:ui": "playwright test",
     "build": "npm run check && vite build",
     "preview": "vite preview"
   },
@@ -20,6 +21,7 @@
     "tailwind-merge": "^3.0.0"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.0",
     "@tailwindcss/vite": "^4.1.0",
     "@types/node": "^24.0.0",
     "@types/react": "^19.0.0",

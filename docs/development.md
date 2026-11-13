@@ -23,3 +23,9 @@ Use Node.js 24 or newer and `npm ci`. Run `npm run dev` for the development serv
 3. Run `npm test` and `npm run build`. Verify the affected behavior through the tracker when it has an interface. Compare a jump with repeated single-hour advances when working on weather and verify reload recovery when changing persistence.
 4. Review the diff for relative links and accidental edits. For changes to roadmap data, parse all three JSON files and compare project metadata, item IDs, and status fields against the [format contract](roadmap-format.md).
 5. Update the relevant docs and move the item only when its acceptance criteria are met. See [Contributing](contributing.md) for what to include with the change.
+
+## Continuous integration
+
+The [CI workflow](../.github/workflows/ci.yml) installs dependencies, runs the unit tests, builds the app, and runs the Chromium UI tests on Node.js 24 for every pull request and push to `main`. To enforce the merge gate, require the **Tests and production build** status check in the GitHub ruleset or branch protection for `main` after the check first runs.
+
+After `npm ci`, run `npx playwright install --only-shell chromium`, `npm run build`, and `npm run test:ui` to exercise the share flows and calendar locally. Playwright starts and stops Vite's preview server on port 4173.
