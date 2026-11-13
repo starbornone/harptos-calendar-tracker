@@ -54,7 +54,7 @@ These records capture the campaign requirements and first-release design choices
 
 ## 7. Use local conditions with a shared campaign clock
 
-**Decision.** Keep one Harptos date and 24-hour clock for Faerûn. Tag every catalog location with its campaign calendar and hide non-Harptos settings from the selector until those calendars are supported. Faerûn regions use the `Faerûn · …` label form. Greyhawk refers to the Free City. The daylight lengths and weather weights are campaign estimates based on the settings’ geography and descriptions. [Sword Coast cities](https://www.dndbeyond.com/posts/1519-how-to-run-city-campaigns-in-dungeons-dragons) · [Sharn: City of Towers](https://files.spawningpool.net/docs/Vault2.0.-.TTRPG-Gamebooks/Dungeons%20%26%20Dragons%20%5Bmulti%5D/D%26D%203rd%20Edition/Eberron/Sharn%20-%20City%20of%20Towers.pdf) · [Call of the Netherdeep](https://www.dndbeyond.com/sources/dnd/cotn) · [Shadow of the Dragon Queen](https://www.dndbeyond.com/sources/dnd/sotdq) · [Greyhawk setting guide](https://www.dndbeyond.com/posts/1834-greyhawk-returns-in-the-2024-dungeon-masters-guide)
+**Decision.** Keep one Harptos date and 24-hour clock for Faerûn. Tag every catalog location with its campaign calendar and use it in the clock and date editor. Faerûn regions use the `Faerûn · …` label form. Greyhawk refers to the Free City. The daylight lengths and weather weights are campaign estimates based on the settings’ geography and descriptions. [Sword Coast cities](https://www.dndbeyond.com/posts/1519-how-to-run-city-campaigns-in-dungeons-dragons) · [Sharn: City of Towers](https://files.spawningpool.net/docs/Vault2.0.-.TTRPG-Gamebooks/Dungeons%20%26%20Dragons%20%5Bmulti%5D/D%26D%203rd%20Edition/Eberron/Sharn%20-%20City%20of%20Towers.pdf) · [Call of the Netherdeep](https://www.dndbeyond.com/sources/dnd/cotn) · [Shadow of the Dragon Queen](https://www.dndbeyond.com/sources/dnd/sotdq) · [Greyhawk setting guide](https://www.dndbeyond.com/posts/1834-greyhawk-returns-in-the-2024-dungeon-masters-guide)
 
 | Location | Calendar | Daylight or ambient light | Weather emphasis |
 | --- | --- | --- | --- |
@@ -62,14 +62,15 @@ These records capture the campaign requirements and first-release design choices
 | Phandalin | Harptos | 8h–15h 40m | Inland rain and winter snow |
 | Baldur’s Gate | Harptos | 9h 20m–14h 40m | River fog and rain, with rare snow |
 | Waterdeep | Harptos | 8h 40m–15h 20m | Coastal rain and wind, with winter snow |
-| Sharn | Galifar (hidden) | 12h year-round | Warm, frequent rain and thunderstorms |
-| Sigil | Sigil (hidden) | Peak at 12:00 and Antipeak at 00:00 | Smog, fog, and drizzle |
-| The Radiant Citadel | Radiant (hidden) | Steady Auroral Diamond light | Clear air and ethereal mist |
-| Bazzoxan | Exandrian (hidden) | 9h 40m–14h 20m | Gusty winds, little rain, and some winter snow |
-| Kalaman | Krynn (hidden) | 9h–15h | Harbor fog, rain, and wind |
-| Greyhawk | Greyhawk (hidden) | 9h 30m–14h 30m | River fog, rain, and winter snow |
+| Halruaa | Harptos | 12h year-round | Warm weather with rain and no snow |
+| Sharn | Galifar | 12h year-round | Warm, frequent rain and thunderstorms |
+| Sigil | Sigil | Peak at 12:00 and Antipeak at 00:00 | Smog, fog, and drizzle |
+| The Radiant Citadel | Radiant | Steady Auroral Diamond light | Clear air and ethereal mist |
+| Bazzoxan | Exandrian | 9h 40m–14h 20m | Gusty winds, little rain, and some winter snow |
+| Kalaman | Krynn | 9h–15h | Harbor fog, rain, and wind |
+| Greyhawk | Greyhawk | 9h 30m–14h 30m | River fog, rain, and winter snow |
 
-**Consequences.** The selector offers only Harptos locations. A saved or shared non-Harptos location can still render until the DM switches away. The solar estimates stay centered on noon. Sigil’s phase tracks its ambient light cycle, and the Radiant Citadel stays at Steady Light. Both retain the campaign’s clock marker. [Sigil and the Outlands](https://www.dndbeyond.com/sources/dnd/paitm/sato) · [The Radiant Citadel and the Ethereal Plane](https://www.dndbeyond.com/posts/1239-what-is-the-ethereal-plane-get-lost-in-this-realm)
+**Consequences.** Switching locations re-expresses the same campaign moment in the selected calendar. The year title and tenday view apply to Harptos dates. The solar estimates stay centered on noon. Sigil’s phase tracks its ambient light cycle, and the Radiant Citadel stays at Steady Light. Both retain the campaign’s clock marker. [Sigil and the Outlands](https://www.dndbeyond.com/sources/dnd/paitm/sato) · [The Radiant Citadel and the Ethereal Plane](https://www.dndbeyond.com/posts/1239-what-is-the-ethereal-plane-get-lost-in-this-realm)
 
 ## 8. Preview shared moments before adopting
 
@@ -88,3 +89,9 @@ These records capture the campaign requirements and first-release design choices
 **Decision.** Prefer the homepage for search indexing because shared links carry campaign state in query parameters. Generate the canonical URL, sitemap, and absolute social image URL from one build setting. Use the Starmist Studio subdomain by default and allow a public HTTPS origin to override it.
 
 **Consequences.** Shared links keep opening the selected campaign moment. The sitemap lists just the homepage, and share links display the same tracker artwork.
+
+## 11. Anchor local calendars to the campaign start
+
+**Decision.** Align 1 Tarsakh 1491 DR with 1 Zarantyr 998 YK, 1 Horisal 836 PD, 1 Newkolt 351 AC, and 1 Needfest 576 CY. These alignments are tracker conventions. Earlier dates can reach signed local years. Sigil and the Radiant Citadel use a numbered campaign day, starting at Day 1 on the same date. [Wayfinder’s Guide to Eberron](https://citrusbolt.net/files/dnd/Wayfinders%20Guide%20to%20Eberron%20v01.pdf) · [Tal’Dorei Campaign Setting Reborn](https://d1vzi28wh99zvq.cloudfront.net/pdf_previews/420050-sample.pdf) · [Dragonlance Campaign Setting](https://www.housegriffon.com/RPG/Games/DnD/dd3.x/Dragonlance/Dragonlance%20Campaign%20Setting.pdf) · [Living Greyhawk Gazetteer](https://xbladerunner.com/wp-content/uploads/sites/13/2023/01/Living-Greyhawk-Gazetteer.pdf)
+
+**Consequences.** Existing saves and version-one share links still resolve to the same elapsed minute, location, and seed. Seasonal light and weather in the newly enabled settings follow their local calendar, which can change the weather displayed by an earlier link for that setting. The tracker retains the existing clock markers in all settings.

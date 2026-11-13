@@ -53,7 +53,7 @@ Use a separate, regular browser profile to start a fresh campaign and test the s
 5. Use the copy icon beside **Campaign summary** and paste the line into your notes. You can also select and copy the field directly. Check that it shows **Hour 5** with the phase and weather from the clock.
 6. Reload, then close and reopen the tracker at the same address. Confirm the clock, location, weather, and summary all match the end of the session.
 
-For a festival check, set the clock to **23:00 on 30 Tarsakh 1491 DR** and use **+1 hour** to reach **00:00 on Greengrass**. **+1 day** reaches **00:00 on 1 Mirtul**. You can also enter festivals directly from **Month or festival**.
+The Harptos month view highlights the current date and lists festivals below their preceding month. For a festival check, set the clock to **23:00 on 30 Tarsakh 1491 DR** and use **+1 hour** to reach **00:00 on Greengrass**. **+1 day** reaches **00:00 on 1 Mirtul**. You can also enter festivals directly from **Month or festival**.
 
 Use Tab to reach **Set Current Time**, Enter to open it, and Escape to close it. Focus the current location and use the arrow keys to switch locations. Run `npm test` for the calendar, daylight, weather, and summary checks independently of the browser.
 
@@ -62,7 +62,7 @@ Use Tab to reach **Set Current Time**, Enter to open it, and Escape to close it.
 - If npm is missing or reports an engine mismatch, install Node.js 24 or newer and check `node --version` and `npm --version`.
 - If `npm ci` cannot reach the package registry, check the connection or the configured npm registry, then retry the install.
 - If the page is blank after opening `index.html` directly, open the URL printed by `npm run dev` instead. Vite serves the TypeScript entry point.
-- If a campaign edit reports a save failure, browser storage may be blocked. The edit is still available in the current tab. If adoption fails, the shared preview stays open.
+- If a campaign edit reports a save failure, browser storage may be blocked. The edit stays available in the current tab and is included the next time a write succeeds. If adoption fails, the shared preview stays open.
 - If a share link is invalid or unsupported, the tracker opens the local campaign. Ask the sender for a fresh link.
 
 See [Development](development.md) for the local workflow and the [roadmap](../roadmap/roadmap.json) for release status.
