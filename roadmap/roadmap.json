@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-13T17:21:21+11:00",
+  "updatedAt": "2026-11-13T17:23:56+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -9,12 +9,6 @@
     "summary": "A Dungeon Master’s tracker for Harptos campaign time, local light, and hourly weather across Faerûn, with other setting calendars planned later."
   },
   "items": [
-    {
-      "id": "split-campaign-ledger-components",
-      "title": "Split CampaignLedger into focused UI sections",
-      "group": "Frontend",
-      "notes": "App.tsx CampaignLedger owns clock display, advances, editor wiring, notices, summary copy, share UI, preview adoption, and location selection. Extract share preview, summary/copy, and location fieldset when the next UI feature lands; keep derived daylight and weather in the parent."
-    },
     {
       "id": "stabilize-localization-message-keys",
       "title": "Stop keying translations by English display copy",

@@ -8,6 +8,8 @@ A share URL carries the same fields in `share=1`, `time`, `location`, and `seed`
 
 The ledger applies each edit to the campaign in the current tab and attempts to save the full snapshot. If a write fails, the ledger keeps the edit in memory and shows a notice. The next successful edit saves the accumulated changes.
 
+`CampaignLedger` owns campaign state, preview transitions, and the derived daylight and weather. [SharePreview](../src/components/share-preview.tsx) renders the preview actions and invalid-link notice. [CampaignSummary](../src/components/campaign-summary.tsx) manages share-link visibility and clipboard feedback. [LocationSelector](../src/components/location-selector.tsx) renders the location choices and reports selections to the ledger.
+
 [index.html](../index.html) provides the search title and description before React loads. The production SEO plugin in [vite.config.ts](../vite.config.ts) uses one public homepage URL for the canonical link, Open Graph URL, site-name markup, and sitemap. Campaign share URLs load the same HTML and point to that homepage as their canonical URL.
 
 [src/localization.ts](../src/localization.ts) translates display labels and formats Harptos dates. [src/App.tsx](../src/App.tsx) owns the browser-local language preference and passes it to the campaign screen and footer. The date editor uses the calendar's month and festival names as option values while displaying localized labels.

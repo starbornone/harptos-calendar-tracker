@@ -27,10 +27,13 @@ test("previews the shared campaign without replacing the saved campaign", async 
   await expect(waterdeep).toBeChecked();
   await expect(waterdeep).toBeDisabled();
   await expect(page.getByRole("button", { name: "+1 hour" })).toBeHidden();
+  await page.getByRole("button", { name: "Share Campaign" }).click();
+  await expect(page.getByRole("textbox", { name: "Share link" })).toHaveValue(url);
 
   await page.getByRole("button", { name: "Back to Saved Campaign" }).click();
   await expect(page).toHaveURL(new URL(returnPath, baseURL).href);
   await expect(page.getByRole("heading", { name: "Shared campaign preview" })).toBeHidden();
+  await expect(page.getByRole("textbox", { name: "Share link" })).toBeHidden();
   await expect(page.locator(".clock-time")).toHaveText("09:00");
   await expect(page.getByRole("radio", { name: "Neverwinter" })).toBeChecked();
   await expect(page.getByRole("button", { name: "+1 hour" })).toBeEnabled();

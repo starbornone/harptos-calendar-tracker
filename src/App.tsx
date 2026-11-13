@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
+import { CampaignSummary } from "@/components/campaign-summary";
 import { ClockEditor } from "@/components/clock-editor";
 import { HarptosCalendar } from "@/components/harptos-calendar";
+import { LocationSelector } from "@/components/location-selector";
+import { SharePreview } from "@/components/share-preview";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import {
   clearShareUrl,
   loadSavedCampaign,
-  makeShareUrl,
   saveCampaign,
   updateSavedCampaign,
   type CampaignState,
@@ -23,7 +25,7 @@ import {
   toElapsedMinutes,
   type HarptosDateTime,
 } from "./harptos.ts";
-import { campaignLocations, visibleLocationIds } from "./locations.ts";
+import { campaignLocations } from "./locations.ts";
 import { formatLocalizedDate, translate, type Locale } from "./localization.ts";
 import { getFaerunianTime } from "./time-markers.ts";
 import { getHourlyWeather } from "./weather.ts";
@@ -115,8 +117,6 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
   const t = (label: string) => translate(locale, label);
   const [{ campaign, notice }, setView] = useState(initialView);
   const [isPreview, setIsPreview] = useState(initialShareStatus === "valid");
-  const [showShareLink, setShowShareLink] = useState(false);
-  const [copyResult, setCopyResult] = useState<{ target: "summary" | "link"; value: string; message: string }>();
   const { dateTime, locationId, weatherSeed } = campaign;
   const { date, hour, minute } = dateTime;
   const time = formatHarptosTime(dateTime);
@@ -130,7 +130,6 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
   const { phase, marker } = getFaerunianTime(dateTime, daylight);
   const weather = getHourlyWeather(dateTime, locationId, weatherSeed);
   const summary = formatCampaignSummary(dateTime, phase, weather, locale);
-  const shareUrl = showShareLink ? makeShareUrl(new URL(window.location.href), campaign) : "";
 
   function setCurrentTime(next: HarptosDateTime) {
     toElapsedMinutes(next);
@@ -157,7 +156,6 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
   function finishPreview(next: CampaignView) {
     window.history.replaceState(window.history.state, "", clearShareUrl(new URL(window.location.href)));
     setIsPreview(false);
-    setShowShareLink(false);
     setView(next);
   }
 
@@ -169,18 +167,6 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
       return;
     }
     finishPreview({ campaign, notice: "Shared campaign adopted and saved in this browser." });
-  }
-
-  async function copyText(target: "summary" | "link", value: string) {
-    const label = target === "summary" ? "Campaign summary" : "Share link";
-    let message: string;
-    try {
-      await navigator.clipboard.writeText(value);
-      message = `${label} copied.`;
-    } catch {
-      message = `Select the ${label.toLowerCase()} field and copy it manually.`;
-    }
-    setCopyResult({ target, value, message });
   }
 
   return (
@@ -196,19 +182,13 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
         <p className="ledger-subtitle">{t(activeLocation.name)} · {t(activeLocation.region)}</p>
       </header>
 
-      {isPreview ? (
-        <section className="share-preview" aria-labelledby="share-preview-heading">
-          <h2 className="eyebrow" id="share-preview-heading">{t("Shared campaign preview")}</h2>
-          <p>{t("Adopt this moment to replace your saved campaign and enable editing.")}</p>
-          <div className="share-actions">
-            <Button onClick={adoptSharedCampaign}>{t("Adopt Shared Campaign")}</Button>
-            <Button variant="outline" onClick={() => finishPreview(loadSavedCampaign())}>{t("Back to Saved Campaign")}</Button>
-          </div>
-        </section>
-      ) : null}
-      {initialShareStatus === "invalid" ? (
-        <p className="clock-notice" role="status">{t("This share link is invalid or unsupported. Showing your local campaign.")}</p>
-      ) : null}
+      <SharePreview
+        isPreview={isPreview}
+        invalid={initialShareStatus === "invalid"}
+        locale={locale}
+        onAdopt={adoptSharedCampaign}
+        onBack={() => finishPreview(loadSavedCampaign())}
+      />
 
       <section aria-labelledby="clock-heading">
         <Card className="clock-panel py-0">
@@ -265,94 +245,14 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
               </div>
             ) : null}
             {notice ? <p className="clock-notice" role="status">{t(notice)}</p> : null}
-            <div className="campaign-summary-row">
-              <div className="campaign-summary">
-                <label className="eyebrow" htmlFor="campaign-summary">{t("Campaign summary")}</label>
-                <div className="summary-copy-field">
-                  <input id="campaign-summary" type="text" readOnly value={summary} onClick={(event) => event.currentTarget.select()} />
-                  <Button
-                    variant="outline"
-                    aria-label={t("Copy campaign summary")}
-                    title={t("Copy campaign summary")}
-                    onClick={() => copyText("summary", summary)}
-                  >
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                      <rect x="8" y="8" width="13" height="13" rx="2" />
-                      <path d="M5 16H4a1 1 0 0 1-1-1V5a2 2 0 0 1 2-2h10a1 1 0 0 1 1 1v1" />
-                    </svg>
-                  </Button>
-                </div>
-              </div>
-              <Button
-                variant="outline"
-                aria-expanded={showShareLink}
-                aria-controls="campaign-share-link"
-                onClick={() => {
-                  setCopyResult(undefined);
-                  setShowShareLink(!showShareLink);
-                }}
-              >
-                {t(showShareLink ? "Hide Share Link" : "Share Campaign")}
-              </Button>
-            </div>
-            <p className="summary-copy-status" role="status">
-              {copyResult?.target === "summary" && copyResult.value === summary ? t(copyResult.message) : ""}
-            </p>
-            <div id="campaign-share-link" hidden={!showShareLink}>
-              {showShareLink ? <>
-                <label className="campaign-summary">
-                  <span className="eyebrow">{t("Share link")}</span>
-                  <input
-                    type="text"
-                    readOnly
-                    value={shareUrl}
-                    onFocus={(event) => event.currentTarget.select()}
-                    onClick={(event) => event.currentTarget.select()}
-                  />
-                </label>
-                <div className="share-actions">
-                  <Button variant="outline" onClick={() => copyText("link", shareUrl)}>{t("Copy Link")}</Button>
-                  <span className="share-status" role="status">
-                    {copyResult?.target === "link" && copyResult.value === shareUrl ? t(copyResult.message) : ""}
-                  </span>
-                </div>
-              </> : null}
-            </div>
+            <CampaignSummary campaign={campaign} summary={summary} isPreview={isPreview} locale={locale} />
           </CardContent>
         </Card>
       </section>
 
       <HarptosCalendar date={date} locale={locale} />
 
-      <fieldset className="campaign-setting" disabled={isPreview}>
-        <legend className="eyebrow setting-heading">{t("Campaign location")}</legend>
-        <div className="location-grid">
-          {visibleLocationIds(locationId).map((id) => {
-            const location = campaignLocations[id];
-            return <Card key={id} className="location-panel py-0" data-location={id}>
-              <CardContent className="grow p-0">
-                <label className="location-content">
-                  <span className="location-copy">
-                    <span className="eyebrow location-region">{t(location.region)}</span>
-                    <span className="location-name" id={`${id}-name`}>{t(location.name)}</span>
-                    <span className="location-detail" id={`${id}-detail`}>{t(location.detail)}</span>
-                  </span>
-                  <input
-                    className="location-radio"
-                    type="radio"
-                    name="campaign-location"
-                    value={id}
-                    aria-labelledby={`${id}-name`}
-                    aria-describedby={`${id}-detail`}
-                    checked={locationId === id}
-                    onChange={() => updateCampaign({ locationId: id })}
-                  />
-                </label>
-              </CardContent>
-            </Card>;
-          })}
-        </div>
-      </fieldset>
+      <LocationSelector locationId={locationId} disabled={isPreview} onChange={(id) => updateCampaign({ locationId: id })} locale={locale} />
     </main>
   );
 }
