@@ -1,3 +1,4 @@
+import type { MessageId } from "./localization.ts";
 import { CAMPAIGN_START, fromElapsedMinutes, toElapsedMinutes, type HarptosDateTime } from "./harptos.ts";
 import { locationIds, type LocationId } from "./locations.ts";
 
@@ -9,7 +10,7 @@ export type CampaignState = {
 
 export type CampaignView = {
   campaign: CampaignState;
-  notice: string;
+  notice: MessageId | "";
 };
 
 const defaultCampaign: CampaignState = {
@@ -52,7 +53,7 @@ export function readSharedCampaign(url: URL) {
     return { status: "invalid" } as const;
   }
   const campaign = readCampaign(query.get("time"), query.get("location"), query.get("seed"));
-  return campaign ? { status: "valid", campaign } as const : { status: "invalid" } as const;
+  return campaign ? ({ status: "valid", campaign } as const) : ({ status: "invalid" } as const);
 }
 
 export function makeShareUrl(url: URL, campaign: CampaignState): string {
@@ -82,11 +83,14 @@ function readSavedSnapshot(storage: CampaignStorage): CampaignState | undefined 
 }
 
 export function saveCampaign(campaign: CampaignState, storage: CampaignStorage = localStorage): void {
-  storage.setItem(campaignKey, JSON.stringify({
-    time: toElapsedMinutes(campaign.dateTime),
-    location: campaign.locationId,
-    seed: campaign.weatherSeed,
-  }));
+  storage.setItem(
+    campaignKey,
+    JSON.stringify({
+      time: toElapsedMinutes(campaign.dateTime),
+      location: campaign.locationId,
+      seed: campaign.weatherSeed,
+    }),
+  );
 }
 
 export function updateSavedCampaign(
@@ -94,7 +98,7 @@ export function updateSavedCampaign(
   change: Partial<Pick<CampaignState, "dateTime" | "locationId">>,
   storage: CampaignStorage = localStorage,
 ): CampaignState {
-  const next = { ...(readSavedSnapshot(storage) ?? current), ...change };
+  const next = { ...current, ...change };
   saveCampaign(next, storage);
   return next;
 }
@@ -114,19 +118,17 @@ export function loadSavedCampaign(storage?: CampaignStorage): CampaignView {
       locationId,
       weatherSeed: savedSeed ?? crypto.getRandomValues(new Uint32Array(1))[0],
     };
-    let notice = clock !== null && minutes === undefined
-      ? "Could not restore the saved clock. Showing the campaign start."
-      : "";
+    let notice: CampaignView["notice"] = clock !== null && minutes === undefined ? "invalidSavedClock" : "";
     if (savedSeed === undefined) {
       try {
         saveCampaign(campaign, storage);
       } catch {
         campaign.weatherSeed = defaultCampaign.weatherSeed;
-        notice = "Your browser could not save the campaign for reload.";
+        notice = "initialSaveFailure";
       }
     }
     return { campaign, notice };
   } catch {
-    return { campaign: defaultCampaign, notice: "Could not restore the saved campaign. Showing the campaign start." };
+    return { campaign: defaultCampaign, notice: "restoreFailure" };
   }
 }

@@ -154,13 +154,3 @@ export const campaignLocations = {
 
 export type LocationId = keyof typeof campaignLocations;
 export const locationIds = Object.keys(campaignLocations) as LocationId[];
-
-export function usesHarptosCalendar(id: LocationId): boolean {
-  return campaignLocations[id].calendar === "harptos";
-}
-
-export const selectableLocationIds = locationIds.filter(usesHarptosCalendar);
-
-export function visibleLocationIds(selected: LocationId): LocationId[] {
-  return usesHarptosCalendar(selected) ? selectableLocationIds : [selected, ...selectableLocationIds];
-}

@@ -116,7 +116,7 @@
   text-wrap: balance;
 }
 
-.ledger-header h1 span {
+.ledger-header h1 > .title-accent {
   color: var(--primary);
 }
 
@@ -134,6 +134,65 @@
   position: relative;
   border: 1px solid var(--border);
   background: radial-gradient(ellipse at 81% 42%, #3d3323 0%, transparent 49%), var(--card);
+}
+
+.month-panel {
+  display: grid;
+  gap: 0.85rem;
+  margin-block: 1.25rem;
+  padding: clamp(0.8rem, 3vw, 1.5rem);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+}
+
+.month-heading {
+  font: 1.35rem var(--font-ledger);
+}
+
+.tenday {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.tenday h3[data-active="true"] {
+  color: var(--primary);
+}
+
+.tenday-days,
+.month-festivals {
+  display: grid;
+  gap: 0.25rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tenday-days {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.month-festivals {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tenday-days > li,
+.month-festivals > li {
+  padding: 0.4rem 0.15rem;
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) / 2);
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.month-festivals > li {
+  padding-inline: 0.65rem;
+}
+
+.month-panel [aria-current="date"] {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+  font-weight: 700;
 }
 
 .clock-panel::before {
@@ -286,15 +345,15 @@
   margin-top: 1rem;
 }
 
-.campaign-summary-row .campaign-summary {
-  margin-top: 0;
-}
-
 .campaign-summary {
   display: grid;
   gap: 0.45rem;
   margin-top: 1rem;
   color: var(--muted-foreground);
+}
+
+.campaign-summary-row .campaign-summary {
+  margin-top: 0;
 }
 
 .campaign-summary input {
@@ -462,7 +521,11 @@
 .location-panel {
   --location-accent: var(--primary);
   border: 1px solid color-mix(in srgb, var(--location-accent) 27%, var(--card));
-  background: linear-gradient(125deg, color-mix(in srgb, var(--location-accent) 9%, var(--card)), var(--card));
+  background: linear-gradient(
+    125deg,
+    color-mix(in srgb, var(--location-accent) 9%, var(--card)),
+    var(--card)
+  );
 }
 
 .location-panel:has(.location-radio:checked) {

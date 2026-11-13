@@ -1,73 +1,155 @@
-import { formatHarptosDate, type HarptosDate } from "./harptos.ts";
+import { formatHarptosDate, toElapsedMinutes, type HarptosDate, type HarptosDateTime } from "./harptos.ts";
+import type { CampaignCalendar } from "./locations.ts";
+import { getSettingCalendar, getSettingDate } from "./setting-calendars.ts";
 
 export type Locale = "en" | "zh-Hans";
 
-const simplifiedChinese: Readonly<Record<string, string>> = {
-  "Dungeon Master’s ledger": "地下城主的日志",
-  "Harptos Calendar Tracker": "哈普托斯历追踪器",
-  "Harptos Calendar": "哈普托斯历",
-  Tracker: "追踪器",
-  "Campaign clock": "战役时钟",
-  "Time phase": "时间段",
-  "Clock marker": "时钟标记",
-  "Hourly weather": "每小时天气",
-  "Year of the Scarlet Witch": "绯红女巫之年",
-  "Set Current Time": "设置当前时间",
-  "Year (DR)": "年份 (DR)",
-  "Month or festival": "月份或节日",
-  Months: "月份",
-  Festivals: "节日",
-  "Day of month": "日期",
-  "Time (24-hour)": "时间 (24小时制)",
-  Cancel: "取消",
-  "Set Time": "设置时间",
-  "Advance time": "推进时间",
-  "+1 hour": "+1小时",
-  "+2 hours": "+2小时",
-  "+4 hours": "+4小时",
-  "+8 hours": "+8小时",
-  "+1 day": "+1天",
-  "+10 days": "+10天",
-  "Daylight estimates": "日照估算",
-  "Ambient light": "环境光",
+const messages = {
+  day: { en: "Day", "zh-Hans": "日期" },
+  year: { en: "Year", "zh-Hans": "年份" },
+  calendarPeriod: { en: "Month or festival week", "zh-Hans": "月份或节日周" },
+  invalidSettingDay: {
+    en: "That day does not occur in the selected period.",
+    "zh-Hans": "所选时段中没有该日期。",
+  },
+  invalidSettingTime: {
+    en: "Enter a clock time from 00:00 to 23:59.",
+    "zh-Hans": "请输入 00:00 至 23:59 之间的时间。",
+  },
+  invalidAdvance: {
+    en: "Advance by a supported number of whole hours.",
+    "zh-Hans": "请按支持的整数小时数推进时间。",
+  },
+  clockOutOfRange: {
+    en: "The Harptos date is outside the supported range.",
+    "zh-Hans": "该哈普托斯历日期超出支持范围。",
+  },
+  invalidHarptosTime: {
+    en: "Enter a Harptos clock time from 00:00 to 23:59.",
+    "zh-Hans": "请输入 00:00 至 23:59 之间的时间。",
+  },
+  invalidHarptosDay: {
+    en: "That day or festival does not occur in the given Harptos year.",
+    "zh-Hans": "该日期或节日不在所选哈普托斯历年份中。",
+  },
+  invalidShieldmeetYear: {
+    en: "Shieldmeet occurs only in years divisible by four, such as 1492 DR.",
+    "zh-Hans": "盾会节只出现在可被4整除的年份，例如 1492 DR。",
+  },
+  invalidHarptosYear: {
+    en: "A Harptos year must be a positive integer in DR.",
+    "zh-Hans": "哈普托斯历年份 (DR) 必须为正整数。",
+  },
+  ledgerLabel: { en: "Dungeon Master’s ledger", "zh-Hans": "地下城主的日志" },
+  harptosCalendarTracker: { en: "Harptos Calendar Tracker", "zh-Hans": "哈普托斯历追踪器" },
+  harptosCalendar: { en: "Harptos Calendar", "zh-Hans": "哈普托斯历" },
+  tracker: { en: "Tracker", "zh-Hans": "追踪器" },
+  campaignClock: { en: "Campaign clock", "zh-Hans": "战役时钟" },
+  timePhase: { en: "Time phase", "zh-Hans": "时间段" },
+  clockMarker: { en: "Clock marker", "zh-Hans": "时钟标记" },
+  hourlyWeather: { en: "Hourly weather", "zh-Hans": "每小时天气" },
+  setCurrentTime: { en: "Set Current Time", "zh-Hans": "设置当前时间" },
+  yearDr: { en: "Year (DR)", "zh-Hans": "年份 (DR)" },
+  monthOrFestival: { en: "Month or festival", "zh-Hans": "月份或节日" },
+  months: { en: "Months", "zh-Hans": "月份" },
+  festivals: { en: "Festivals", "zh-Hans": "节日" },
+  firstTenday: { en: "First tenday", "zh-Hans": "第一个十日" },
+  secondTenday: { en: "Second tenday", "zh-Hans": "第二个十日" },
+  thirdTenday: { en: "Third tenday", "zh-Hans": "第三个十日" },
+  dayOfMonth: { en: "Day of month", "zh-Hans": "日期" },
+  time24Hour: { en: "Time (24-hour)", "zh-Hans": "时间 (24小时制)" },
+  cancel: { en: "Cancel", "zh-Hans": "取消" },
+  setTime: { en: "Set Time", "zh-Hans": "设置时间" },
+  advanceTime: { en: "Advance time", "zh-Hans": "推进时间" },
+  advanceOneHour: { en: "+1 hour", "zh-Hans": "+1小时" },
+  advanceTwoHours: { en: "+2 hours", "zh-Hans": "+2小时" },
+  advanceFourHours: { en: "+4 hours", "zh-Hans": "+4小时" },
+  advanceEightHours: { en: "+8 hours", "zh-Hans": "+8小时" },
+  advanceOneDay: { en: "+1 day", "zh-Hans": "+1天" },
+  advanceTenDays: { en: "+10 days", "zh-Hans": "+10天" },
+  daylightEstimates: { en: "Daylight estimates", "zh-Hans": "日照估算" },
+  ambientLight: { en: "Ambient light", "zh-Hans": "环境光" },
+  steadyAuroralDiamondLight: { en: "Steady Auroral Diamond light", "zh-Hans": "极光钻石持续照明" },
+  campaignSummary: { en: "Campaign summary", "zh-Hans": "战役摘要" },
+  copyCampaignSummary: { en: "Copy campaign summary", "zh-Hans": "复制战役摘要" },
+  campaignSummaryCopied: { en: "Campaign summary copied.", "zh-Hans": "已复制战役摘要。" },
+  summaryCopyFallback: {
+    en: "Select the campaign summary field and copy it manually.",
+    "zh-Hans": "请选择战役摘要字段并手动复制。",
+  },
+  shareCampaign: { en: "Share Campaign", "zh-Hans": "分享战役" },
+  hideShareLink: { en: "Hide Share Link", "zh-Hans": "隐藏分享链接" },
+  shareLink: { en: "Share link", "zh-Hans": "分享链接" },
+  copyLink: { en: "Copy Link", "zh-Hans": "复制链接" },
+  shareLinkCopied: { en: "Share link copied.", "zh-Hans": "已复制分享链接。" },
+  linkCopyFallback: {
+    en: "Select the share link field and copy it manually.",
+    "zh-Hans": "请选择分享链接字段并手动复制。",
+  },
+  sharedCampaignPreview: { en: "Shared campaign preview", "zh-Hans": "共享战役预览" },
+  previewInstructions: {
+    en: "Adopt this moment to replace your saved campaign and enable editing.",
+    "zh-Hans": "采用此战役时刻可替换已保存的战役并启用编辑。",
+  },
+  adoptSharedCampaign: { en: "Adopt Shared Campaign", "zh-Hans": "采用共享战役" },
+  backToSavedCampaign: { en: "Back to Saved Campaign", "zh-Hans": "返回已保存的战役" },
+  adoptionSuccess: {
+    en: "Shared campaign adopted and saved in this browser.",
+    "zh-Hans": "已采用共享战役并保存在此浏览器中。",
+  },
+  adoptionFailure: {
+    en: "Your browser could not save the shared campaign. The preview is still open.",
+    "zh-Hans": "浏览器无法保存共享战役，预览仍处于打开状态。",
+  },
+  invalidShare: {
+    en: "This share link is invalid or unsupported. Showing your local campaign.",
+    "zh-Hans": "此分享链接无效或不受支持。当前显示本地战役。",
+  },
+  editSaveFailure: {
+    en: "Campaign updated for this tab. Your browser could not save it for reload.",
+    "zh-Hans": "当前标签页中的战役已更新，但浏览器无法保存以供重新加载。",
+  },
+  invalidSavedClock: {
+    en: "Could not restore the saved clock. Showing the campaign start.",
+    "zh-Hans": "无法恢复已保存的时钟。当前显示战役起点。",
+  },
+  initialSaveFailure: {
+    en: "Your browser could not save the campaign for reload.",
+    "zh-Hans": "浏览器无法保存战役以供重新加载。",
+  },
+  restoreFailure: {
+    en: "Could not restore the saved campaign. Showing the campaign start.",
+    "zh-Hans": "无法恢复已保存的战役。当前显示战役起点。",
+  },
+  invalidClockInput: {
+    en: "Enter a 24-hour time such as 23:00.",
+    "zh-Hans": "请输入24小时制时间，例如 23:00。",
+  },
+  chooseAMonthOrFestival: { en: "Choose a month or festival.", "zh-Hans": "请选择月份或节日。" },
+  campaignLocation: { en: "Campaign location", "zh-Hans": "战役地点" },
+  footerIntro: {
+    en: "Track campaign time, seasonal daylight, and hourly weather for Dungeons & Dragons adventures in the Forgotten Realms.",
+    "zh-Hans": "为《龙与地下城》的被遗忘国度冒险追踪战役时间、季节性日照和每小时天气。",
+  },
+  siteLinks: { en: "Site links", "zh-Hans": "网站链接" },
+  returnToStarmistStudio: { en: "Return to Starmist Studio", "zh-Hans": "返回 Starmist Studio" },
+  supportOnKoFi: { en: "Support on Ko-fi", "zh-Hans": "在 Ko-fi 上支持项目" },
+  footerDisclaimer: {
+    en: "Not affiliated with Wizards of the Coast.",
+    "zh-Hans": "本工具与威世智 (Wizards of the Coast) 无关。",
+  },
+} as const;
+
+export type MessageId = keyof typeof messages;
+
+export function message(locale: Locale, id: MessageId): string {
+  return messages[id][locale];
+}
+
+const simplifiedChinese = {
   Sunrise: "日出",
+  "Year of the Scarlet Witch": "绯红女巫之年",
   Sunset: "日落",
-  "Steady Auroral Diamond light": "极光钻石持续照明",
-  "Campaign summary": "战役摘要",
-  "Copy campaign summary": "复制战役摘要",
-  "Campaign summary copied.": "已复制战役摘要。",
-  "Select the campaign summary field and copy it manually.": "请选择战役摘要字段并手动复制。",
-  "Share Campaign": "分享战役",
-  "Hide Share Link": "隐藏分享链接",
-  "Share link": "分享链接",
-  "Copy Link": "复制链接",
-  "Share link copied.": "已复制分享链接。",
-  "Select the share link field and copy it manually.": "请选择分享链接字段并手动复制。",
-  "Shared campaign preview": "共享战役预览",
-  "Adopt this moment to replace your saved campaign and enable editing.": "采用此战役时刻可替换已保存的战役并启用编辑。",
-  "Adopt Shared Campaign": "采用共享战役",
-  "Back to Saved Campaign": "返回已保存的战役",
-  "Shared campaign adopted and saved in this browser.": "已采用共享战役并保存在此浏览器中。",
-  "Your browser could not save the shared campaign. The preview is still open.": "浏览器无法保存共享战役，预览仍处于打开状态。",
-  "This share link is invalid or unsupported. Showing your local campaign.": "此分享链接无效或不受支持。当前显示本地战役。",
-  "Campaign updated for this tab. Your browser could not save it for reload.": "当前标签页中的战役已更新，但浏览器无法保存以供重新加载。",
-  "Could not restore the saved clock. Showing the campaign start.": "无法恢复已保存的时钟。当前显示战役起点。",
-  "Your browser could not save the campaign for reload.": "浏览器无法保存战役以供重新加载。",
-  "Could not restore the saved campaign. Showing the campaign start.": "无法恢复已保存的战役。当前显示战役起点。",
-  "Enter a 24-hour time such as 23:00.": "请输入24小时制时间，例如 23:00。",
-  "Choose a month or festival.": "请选择月份或节日。",
-  "A Harptos year must be a positive integer in DR.": "哈普托斯历年份 (DR) 必须为正整数。",
-  "Shieldmeet occurs only in years divisible by four, such as 1492 DR.": "盾会节只出现在可被4整除的年份，例如 1492 DR。",
-  "That day or festival does not occur in the given Harptos year.": "该日期或节日不在所选哈普托斯历年份中。",
-  "Enter a Harptos clock time from 00:00 to 23:59.": "请输入 00:00 至 23:59 之间的时间。",
-  "The Harptos date is outside the supported range.": "该哈普托斯历日期超出支持范围。",
-  "Advance by a supported number of whole hours.": "请按支持的整数小时数推进时间。",
-  "Campaign location": "战役地点",
-  "Track campaign time, seasonal daylight, and hourly weather for Dungeons & Dragons adventures in the Forgotten Realms.": "为《龙与地下城》的被遗忘国度冒险追踪战役时间、季节性日照和每小时天气。",
-  "Site links": "网站链接",
-  "Return to Starmist Studio": "返回 Starmist Studio",
-  "Support on Ko-fi": "在 Ko-fi 上支持项目",
-  "Not affiliated with Wizards of the Coast.": "本工具与威世智 (Wizards of the Coast) 无关。",
 
   Hammer: "锤月",
   Alturiak: "阿尔图瑞克月",
@@ -149,19 +231,34 @@ const simplifiedChinese: Readonly<Record<string, string>> = {
   "The harbor where the Vingaard meets Kalaman Bay.": "文加德河与卡拉曼湾交汇的港口。",
   "Oerth · Flanaess": "奥斯 · 法兰尼斯",
   Greyhawk: "灰鹰",
+  Halruaa: "哈鲁阿",
+  "Faerûn · Shining South": "费伦 · 光辉南方",
+  "A land of magic along the Great Sea.": "大海沿岸的魔法之地。",
   "The Free City on the Selintan River.": "塞林坦河上的自由城邦。",
-};
+} as const;
 
-export function translate(locale: Locale, english: string): string {
-  return locale === "zh-Hans" && Object.hasOwn(simplifiedChinese, english)
-    ? simplifiedChinese[english]
-    : english;
+export type DomainLabel = keyof typeof simplifiedChinese;
+
+export function translate(locale: Locale, english: DomainLabel): string {
+  return locale === "zh-Hans" ? simplifiedChinese[english] : english;
 }
 
 export function formatLocalizedDate(date: HarptosDate, locale: Locale): string {
   if (locale === "en") return formatHarptosDate(date);
-  const day = "festival" in date
-    ? translate(locale, date.festival)
-    : `${translate(locale, date.month)}${date.day}日`;
+  const day =
+    "festival" in date ? translate(locale, date.festival) : `${translate(locale, date.month)}${date.day}日`;
   return `${date.year} DR ${day}`;
+}
+
+export function formatCampaignDate(
+  dateTime: HarptosDateTime,
+  calendar: CampaignCalendar,
+  locale: Locale,
+): string {
+  if (calendar === "harptos") return formatLocalizedDate(dateTime.date, locale);
+  const { year, period, day } = getSettingDate(calendar, toElapsedMinutes(dateTime));
+  const definition = getSettingCalendar(calendar);
+  if (!definition) return locale === "zh-Hans" ? `第${day}天` : `${message(locale, "day")} ${day}`;
+  const displayYear = `${year} ${definition.era}`;
+  return locale === "zh-Hans" ? `${displayYear} ${period} ${day}日` : `${day} ${period} ${displayYear}`;
 }
