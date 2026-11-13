@@ -56,7 +56,11 @@ const SHIELDMEET_YEAR = buildYear(true);
 const DAYS_PER_CYCLE = COMMON_YEAR.length * (YEARS_PER_CYCLE - 1) + SHIELDMEET_YEAR.length;
 
 function daysInYear(year: number): CalendarDay[] {
-  return year % YEARS_PER_CYCLE === 0 ? SHIELDMEET_YEAR : COMMON_YEAR;
+  return hasShieldmeet(year) ? SHIELDMEET_YEAR : COMMON_YEAR;
+}
+
+function hasShieldmeet(year: number): boolean {
+  return year % YEARS_PER_CYCLE === 0;
 }
 
 export function getHarptosYearPosition(date: HarptosDate) {
@@ -83,6 +87,20 @@ export function getHarptosYearPosition(date: HarptosDate) {
 export function getTenday(date: HarptosDate): number | null {
   getHarptosYearPosition(date);
   return "festival" in date ? null : Math.ceil(date.day / DAYS_PER_TENDAY);
+}
+
+export function getHarptosMonthView(date: HarptosDate) {
+  // Festival days belong to the view for the month immediately before them.
+  const period = YEAR_LAYOUT.find(({ month, festivals }: {
+    month: HarptosMonth;
+    festivals: readonly HarptosFestival[];
+  }) => "festival" in date ? festivals.includes(date.festival) : month === date.month);
+  if (!period) throw new RangeError("Unknown Harptos month or festival.");
+
+  const tendays = Array.from({ length: DAYS_PER_MONTH / DAYS_PER_TENDAY }, (_, index) =>
+    Array.from({ length: DAYS_PER_TENDAY }, (_, day) => index * DAYS_PER_TENDAY + day + 1));
+  const festivals = period.festivals.filter((festival) => festival !== "Shieldmeet" || hasShieldmeet(date.year));
+  return { month: period.month, tendays, festivals };
 }
 
 // Count elapsed minutes from 00:00 on 1 Hammer 1 DR.

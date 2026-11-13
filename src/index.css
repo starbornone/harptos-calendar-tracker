@@ -424,9 +424,63 @@
   gap: 0.5rem;
 }
 
+.harptos-calendar,
 .campaign-setting {
   min-width: 0;
   margin-top: 2.25rem;
+}
+
+.calendar-content {
+  display: grid;
+  gap: 0.9rem;
+  padding: clamp(0.75rem, 3vw, 1.5rem);
+}
+
+.calendar-month {
+  font-family: var(--font-ledger);
+  font-size: 1.5rem;
+  color: var(--primary);
+  overflow-wrap: anywhere;
+}
+
+.calendar-month span,
+.calendar-content h4 {
+  font-size: 0.875rem;
+  color: var(--muted-foreground);
+}
+
+.calendar-days,
+.calendar-festivals ul {
+  display: grid;
+  gap: clamp(0.15rem, 0.75vw, 0.5rem);
+  margin-top: 0.35rem;
+}
+
+.calendar-days {
+  grid-template-columns: repeat(10, minmax(0, 1fr));
+}
+
+.calendar-festivals ul {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr));
+}
+
+.calendar-day {
+  display: grid;
+  place-items: center;
+  min-height: 2rem;
+  padding-block: 0.2rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--muted);
+  font-size: 0.875rem;
+  text-align: center;
+}
+
+.calendar-day[aria-current="date"] {
+  border-color: var(--primary);
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-weight: 700;
 }
 
 .setting-heading {

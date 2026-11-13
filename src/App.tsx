@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { ClockEditor } from "@/components/clock-editor";
+import { HarptosCalendar } from "@/components/harptos-calendar";
 import { SiteFooter } from "@/components/site-footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -320,6 +321,8 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
           </CardContent>
         </Card>
       </section>
+
+      <HarptosCalendar date={date} locale={locale} />
 
       <fieldset className="campaign-setting" disabled={isPreview}>
         <legend className="eyebrow setting-heading">{t("Campaign location")}</legend>

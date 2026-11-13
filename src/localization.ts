@@ -85,6 +85,8 @@ const simplifiedChinese: Readonly<Record<string, string>> = {
   Greengrass: "青草节",
   Midsummer: "仲夏节",
   Shieldmeet: "盾会节",
+  "Harptos calendar": "哈普托斯历",
+  Tenday: "旬",
   Highharvestide: "丰收节",
   "Feast of the Moon": "明月节",
 

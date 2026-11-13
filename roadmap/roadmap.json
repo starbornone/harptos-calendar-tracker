@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-13T17:09:46+11:00",
+  "updatedAt": "2026-11-13T17:21:21+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -9,30 +9,6 @@
     "summary": "A Dungeon Master’s tracker for Harptos campaign time, local light, and hourly weather across Faerûn, with other setting calendars planned later."
   },
   "items": [
-    {
-      "id": "add-ci-test-build-gate",
-      "title": "Run tests and production build on every pull request",
-      "group": "Engineering",
-      "notes": "Add CI that runs npm ci, npm test, and npm run build on pull requests and main. The domain suite already covers calendar and weather regressions; nothing currently blocks a merge or deploy when those checks fail."
-    },
-    {
-      "id": "fix-storage-merge-after-failed-save",
-      "title": "Keep in-tab campaign edits after a failed browser save",
-      "group": "Campaign state",
-      "notes": "updateSavedCampaign currently bases the next snapshot on localStorage before applying the change. After a failed setItem, React can hold a newer clock while storage stays old; the next successful edit reloads storage and can discard the in-tab time, location, or seed. Prefer the in-memory campaign as the write base from the UI. Revisit multi-tab sync with storage events only if DMs need it."
-    },
-    {
-      "id": "add-share-adopt-ui-tests",
-      "title": "Cover share preview and adopt flows with automated UI tests",
-      "group": "Engineering",
-      "notes": "Domain modules are well tested; share URL preview, adopt, back to saved campaign, invalid share notice, and clipboard fallback are manual-only. Add a small Playwright or Testing Library set for those paths so UI regressions fail CI."
-    },
-    {
-      "id": "show-visible-harptos-calendar",
-      "title": "Show a visible Harptos calendar on the tracker",
-      "group": "Frontend",
-      "notes": "The screen shows the current date as text and advances by controls; DMs cannot see the surrounding month, festivals, or tenday layout at a glance. Add a calendar view of the current Harptos month (including festival days and Shieldmeet) that highlights the campaign day and stays in sync when the clock advances or is set."
-    },
     {
       "id": "split-campaign-ledger-components",
       "title": "Split CampaignLedger into focused UI sections",

@@ -4,9 +4,13 @@ The Harptos Calendar Tracker is a single-screen tool for Dungeon Masters trackin
 
 The clock starts on **1 Tarsakh 1491 DR, Year of the Scarlet Witch**, at **08:00**. Set the date and time, including festival days, or advance by 1, 2, 4, or 8 hours, 1 day, or 10 days. The clock handles festivals, Shieldmeet, and year changes, and saves the last valid time in the current browser.
 
+The Harptos calendar follows the clock and highlights the current date. It shows the current month as three tendays, followed by any festivals before the next month. On a festival day the preceding month stays visible and the festival is highlighted. Shieldmeet appears after Midsummer in years divisible by four.
+
 The campaign starts in Neverwinter. The selector also offers Phandalin, Baldur’s Gate, and Waterdeep. Locations outside Faerûn remain in the catalog for future calendars and stay hidden for now. Changing locations keeps the campaign date and time, and the browser restores the selected location on reload. The clock shows the local light phase and a clock marker for every hour of the day.
 
 The clock also shows an hourly weather condition. Weather follows local fronts of varying lengths, with fog near dawn, cloud as rain or snow moves in or out, and brief thunderstorms on warm afternoons. The saved campaign seed gives the same weather when you revisit an hour, skip ahead, or reload.
+
+If the browser reports a save failure, keep the tab open to retain your edits. The next successful save includes those edits. Reloading before then restores the last saved campaign.
 
 The **Campaign summary** is a selectable line of plain text with the date, year title when available, unpadded hour, current phase, and local weather. The copy icon puts the current line on the clipboard. The line updates with the clock or location.
 

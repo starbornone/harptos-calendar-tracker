@@ -88,3 +88,15 @@ These records capture the campaign requirements and first-release design choices
 **Decision.** Prefer the homepage for search indexing because shared links carry campaign state in query parameters. Generate the canonical URL, sitemap, and absolute social image URL from one build setting. Use the Starmist Studio subdomain by default and allow a public HTTPS origin to override it.
 
 **Consequences.** Shared links keep opening the selected campaign moment. The sitemap lists just the homepage, and share links display the same tracker artwork.
+
+## 11. Save edits from the current tab’s campaign
+
+**Decision.** Use the campaign held in memory as the base for each edit. Attempt to persist the full campaign after every edit.
+
+**Consequences.** A failed write leaves the edit available in the tab. The next successful edit saves the current clock, location, and seed together. A reload restores the last successful snapshot.
+
+## 12. Keep intercalary festivals with the preceding month view
+
+**Decision.** Display a month as three tendays followed by its intercalary festivals. Keep that month visible while the clock is on one of those festivals.
+
+**Consequences.** The highlight moves from Flamerule 30 through Midsummer and, when applicable, Shieldmeet before the view switches to Eleasis.
