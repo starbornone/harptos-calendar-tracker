@@ -86,7 +86,7 @@ These records capture the campaign requirements and first-release design choices
 
 ## 10. Give the tracker one canonical homepage
 
-**Decision.** Prefer the homepage for search indexing because shared links carry campaign state in query parameters. Generate the canonical URL, sitemap, and absolute social image URL from one build setting. Use the Starmist Studio subdomain by default and allow a public HTTPS origin to override it.
+**Decision.** Prefer the homepage for search indexing because shared links carry campaign state in query parameters. Generate the canonical URL, sitemap, and absolute social image URL from one build setting. Use the Astral Archives subdomain by default and allow a public HTTPS origin to override it.
 
 **Consequences.** Shared links keep opening the selected campaign moment. The sitemap lists just the homepage, and share links display the same tracker artwork.
 

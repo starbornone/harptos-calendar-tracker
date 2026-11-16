@@ -6,7 +6,7 @@ The selector includes five Faerûn locations and six locations in other settings
 
 The tracker defaults to English. Browsers with a saved Simplified Chinese preference still use it for the interface, campaign summary, and footer disclaimer.
 
-Open the [Harptos Calendar Tracker](https://harptos.starmist.studio/) or follow the local setup below.
+Open the [Harptos Calendar Tracker](https://harptos.astralarchives.games/) or follow the local setup below.
 
 ## Documentation
 

@@ -4,7 +4,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
   return (
     <footer className="ledger ledger-footer">
       <nav className="footer-links" aria-label={message(locale, "siteLinks")}>
-        <a href="https://www.starmist.studio/">
+        <a href="https://www.astralarchives.games/">
           <svg
             width="18"
             height="18"
@@ -18,7 +18,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           >
             <path d="M19 12H5m6 6-6-6 6-6" />
           </svg>
-          {message(locale, "returnToStarmistStudio")}
+          {message(locale, "returnToAstralArchives")}
         </a>
         <div className="footer-secondary-links">
           <a href="https://ko-fi.com/starbornone" target="_blank" rel="noopener noreferrer">

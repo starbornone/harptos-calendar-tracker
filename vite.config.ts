@@ -60,7 +60,8 @@ function productionSeo(siteUrl: string): Plugin {
 }
 
 export default defineConfig(({ command, mode }) => {
-  const siteUrl = loadEnv(mode, process.cwd(), "SITE_URL").SITE_URL || "https://harptos.starmist.studio/";
+  const siteUrl =
+    loadEnv(mode, process.cwd(), "SITE_URL").SITE_URL || "https://harptos.astralarchives.games/";
   return {
     plugins: [react(), tailwindcss(), command === "build" && productionSeo(siteUrl)],
     resolve: { tsconfigPaths: true },

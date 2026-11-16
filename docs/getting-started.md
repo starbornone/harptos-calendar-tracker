@@ -26,7 +26,7 @@ The production build was verified in Chrome and Edge on Windows at viewport widt
 
 ## Build for a public domain
 
-Run `npm run build` and publish `dist/` at the root of the public host. The default public URL is [harptos.starmist.studio](https://harptos.starmist.studio/).
+Run `npm run build` and publish `dist/` at the root of the public host. The default public URL is [harptos.astralarchives.games](https://harptos.astralarchives.games/).
 
 For a different public host, set `SITE_URL` in the build environment or in `.env.production.local` before running the build. Use an HTTPS origin without a path, query, or fragment.
 

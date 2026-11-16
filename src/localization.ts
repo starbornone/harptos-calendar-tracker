@@ -132,7 +132,7 @@ const messages = {
     "zh-Hans": "为《龙与地下城》的被遗忘国度冒险追踪战役时间、季节性日照和每小时天气。",
   },
   siteLinks: { en: "Site links", "zh-Hans": "网站链接" },
-  returnToStarmistStudio: { en: "Return to Starmist Studio", "zh-Hans": "返回 Starmist Studio" },
+  returnToAstralArchives: { en: "Return to Astral Archives", "zh-Hans": "返回 Astral Archives" },
   supportOnKoFi: { en: "Support on Ko-fi", "zh-Hans": "在 Ko-fi 上支持项目" },
   footerDisclaimer: {
     en: "Not affiliated with Wizards of the Coast.",
