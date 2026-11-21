@@ -35,11 +35,7 @@ test("all settings round-trip the full supported clock range", () => {
     for (const elapsed of [0, start - 1440, start, start + 1440, Number.MAX_SAFE_INTEGER]) {
       const { hour, minute } = fromElapsedMinutes(elapsed);
       const localDate = getSettingDate(calendar, elapsed);
-      assert.equal(
-        toElapsedMinutes(toSettingDateTime(calendar, { ...localDate, hour, minute })),
-        elapsed,
-        calendar,
-      );
+      assert.equal(toElapsedMinutes(toSettingDateTime(calendar, { ...localDate, hour, minute })), elapsed, calendar);
     }
   }
 });

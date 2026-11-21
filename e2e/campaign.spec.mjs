@@ -39,9 +39,7 @@ test("a local calendar edit survives advancing, sharing, and switching settings"
   await page.getByRole("button", { name: "Set Time", exact: true }).click();
   await page.getByRole("button", { name: "+1 hour", exact: true }).click();
   await expect(page.locator(".clock-date")).toHaveText("1 Zarantyr 999 YK");
-  await expect(page.getByRole("textbox", { name: "Campaign summary" })).toHaveValue(
-    /^1 Zarantyr 999 YK - Hour 0/,
-  );
+  await expect(page.getByRole("textbox", { name: "Campaign summary" })).toHaveValue(/^1 Zarantyr 999 YK - Hour 0/);
   await page.getByRole("button", { name: "Share Campaign" }).click();
   const link = await page.getByRole("textbox", { name: "Share link" }).inputValue();
   await page.getByRole("radio", { name: "Neverwinter" }).check();
@@ -51,9 +49,7 @@ test("a local calendar edit survives advancing, sharing, and switching settings"
   await expect(page.getByRole("radio", { name: "Sharn" })).toBeChecked();
 });
 
-test("preview keeps the local save until adoption and restores the adopted moment on reload", async ({
-  page,
-}) => {
+test("preview keeps the local save until adoption and restores the adopted moment on reload", async ({ page }) => {
   await page.goto("/");
   await page.getByRole("radio", { name: "Phandalin" }).check();
   const saved = await page.evaluate((key) => localStorage.getItem(key), campaignKey);
@@ -85,9 +81,7 @@ test("back to saved campaign and invalid links restore the local moment", async 
   await expect(page).toHaveURL(/\/\?view=ledger#clock-heading$/);
   await expect(page.getByText("09:00", { exact: true })).toBeVisible();
   await page.goto("/?share=2");
-  await expect(
-    page.getByText("This share link is invalid or unsupported. Showing your local campaign."),
-  ).toBeVisible();
+  await expect(page.getByText("This share link is invalid or unsupported. Showing your local campaign.")).toBeVisible();
   await expect(page.getByText("09:00", { exact: true })).toBeVisible();
 });
 
@@ -104,9 +98,7 @@ test("clipboard errors leave the summary and share link available to copy manual
   await page.getByRole("button", { name: "Share Campaign" }).click();
   await page.getByRole("button", { name: "Copy Link" }).click();
   await expect(page.getByText("Select the share link field and copy it manually.")).toBeVisible();
-  await expect(page.getByRole("textbox", { name: "Share link" })).toHaveValue(
-    /share=1.*location=neverwinter/,
-  );
+  await expect(page.getByRole("textbox", { name: "Share link" })).toHaveValue(/share=1.*location=neverwinter/);
 });
 
 test("the next successful edit saves the clock and location after a failed write", async ({ page }) => {

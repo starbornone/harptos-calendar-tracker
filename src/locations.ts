@@ -1,13 +1,6 @@
 export type SolarDaylightProfile = { winter: number; summer: number };
 
-export type CampaignCalendar =
-  | "harptos"
-  | "galifar"
-  | "exandrian"
-  | "krynn"
-  | "greyhawk"
-  | "sigil"
-  | "radiant";
+export type CampaignCalendar = "harptos" | "galifar" | "exandrian" | "krynn" | "greyhawk" | "sigil" | "radiant";
 
 type SurfaceWeather = {
   salt: number;
@@ -29,10 +22,7 @@ export type CampaignLocation = {
       mode: "sigil" | "auroral";
       weather: {
         salt: number;
-        conditions: readonly (readonly [
-          "Smog" | "Fog" | "Drizzle" | "Clear Air" | "Ethereal Mist",
-          number,
-        ])[];
+        conditions: readonly (readonly ["Smog" | "Fog" | "Drizzle" | "Clear Air" | "Ethereal Mist", number])[];
       };
     }
 );

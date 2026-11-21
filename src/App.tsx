@@ -73,12 +73,7 @@ function ClockDial({ hour, minute }: { hour: number; minute: number }) {
           strokeWidth="3"
           strokeLinecap="round"
         />
-        <path
-          d="M120 130V53"
-          transform={`rotate(${minute * 6} 120 120)`}
-          strokeWidth="1.5"
-          strokeLinecap="round"
-        />
+        <path d="M120 130V53" transform={`rotate(${minute * 6} 120 120)`} strokeWidth="1.5" strokeLinecap="round" />
       </g>
       <circle cx="120" cy="120" r="5" fill="currentColor" />
     </svg>
@@ -220,7 +215,7 @@ function CampaignLedger({
         <h1>
           {t("ledger.title")}
           {locale === "en" ? " " : ""}
-          <span className="title-accent">{t("ledger.titleSuffix")}</span>
+          <span className="ledger-title-suffix">{t("ledger.titleSuffix")}</span>
         </h1>
         <p className="ledger-subtitle">
           {t(`location.${locationId}.name`)} · {t(locationRegions[locationId])}
@@ -301,12 +296,7 @@ function CampaignLedger({
           <CardContent className="clock-controls">
             {!isPreview ? (
               <div className="clock-actions">
-                <ClockEditor
-                  calendar={calendar}
-                  dateTime={dateTime}
-                  onSetTime={setCurrentTime}
-                  locale={locale}
-                />
+                <ClockEditor calendar={calendar} dateTime={dateTime} onSetTime={setCurrentTime} locale={locale} />
                 <fieldset className="advance-buttons" aria-label={t("clock.advance")}>
                   {advances.map(({ hours, label }) => (
                     <Button key={hours} variant="outline" onClick={() => advanceClock(hours)}>

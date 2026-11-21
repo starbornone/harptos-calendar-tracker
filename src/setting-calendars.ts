@@ -12,10 +12,7 @@ const calendars = {
   galifar: {
     era: "YK",
     startYear: 998,
-    periods: months(
-      "Zarantyr Olarune Therendor Eyre Dravago Nymm Lharvion Barrakas Rhaan Sypheros Aryth Vult",
-      28,
-    ),
+    periods: months("Zarantyr Olarune Therendor Eyre Dravago Nymm Lharvion Barrakas Rhaan Sypheros Aryth Vult", 28),
   },
   exandrian: {
     era: "PD",
@@ -91,14 +88,7 @@ export function toSettingDateTime(
   calendar: OtherCalendar,
   { year, period, day, hour, minute }: ReturnType<typeof getSettingDate> & { hour: number; minute: number },
 ) {
-  if (
-    !Number.isInteger(hour) ||
-    hour < 0 ||
-    hour > 23 ||
-    !Number.isInteger(minute) ||
-    minute < 0 ||
-    minute > 59
-  ) {
+  if (!Number.isInteger(hour) || hour < 0 || hour > 23 || !Number.isInteger(minute) || minute < 0 || minute > 59) {
     throw new HarptosRangeError("calendar.errorSettingTime");
   }
   if (!Number.isSafeInteger(day)) throw new HarptosRangeError("calendar.errorSettingDay");
@@ -111,11 +101,8 @@ export function toSettingDateTime(
     if (index < 0 || day < 1 || day > definition.periods[index][1]) {
       throw new HarptosRangeError("calendar.errorSettingDay");
     }
-    const daysBeforePeriod = definition.periods
-      .slice(0, index)
-      .reduce((total, [, count]) => total + count, 0);
-    elapsedDay +=
-      campaignStartDay + (year - definition.startYear) * yearLength(definition) + daysBeforePeriod;
+    const daysBeforePeriod = definition.periods.slice(0, index).reduce((total, [, count]) => total + count, 0);
+    elapsedDay += campaignStartDay + (year - definition.startYear) * yearLength(definition) + daysBeforePeriod;
   } else elapsedDay += campaignStartDay;
   return fromElapsedMinutes(elapsedDay * MINUTES_PER_DAY + hour * 60 + minute);
 }

@@ -55,8 +55,7 @@ test("a shared weather seed reproduces future conditions after adoption and relo
   saveCampaign({ ...sender, weatherSeed: 42 }, storage);
   saveCampaign(shared.campaign, storage);
   const recipient = loadSavedCampaign(storage).campaign;
-  const weather = ({ dateTime, locationId, weatherSeed }) =>
-    getHourlyWeather(dateTime, locationId, weatherSeed);
+  const weather = ({ dateTime, locationId, weatherSeed }) => getHourlyWeather(dateTime, locationId, weatherSeed);
   const conditions = new Set();
   for (let hours = 1; hours <= 240; hours++) {
     const fromSender = weather({ ...sender, dateTime: advanceHours(sender.dateTime, hours) });

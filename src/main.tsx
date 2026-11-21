@@ -8,6 +8,6 @@ const initialView: CampaignView =
   shared.status === "valid" ? { campaign: shared.campaign, notice: "" } : loadSavedCampaign();
 
 const root = document.getElementById("root");
-if (!root) throw new Error("Missing application root.");
+if (!root) throw new Error("The campaign tracker root element is missing.");
 
 createRoot(root).render(<App initialView={initialView} initialShareStatus={shared.status} />);

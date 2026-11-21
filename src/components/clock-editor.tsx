@@ -46,8 +46,7 @@ export function ClockEditor({
   const [error, setError] = useState<MessageId | "">("");
   const month = HARPTOS_MONTHS.find((name) => name === draft.period);
   const setting = calendar === "harptos" ? undefined : getSettingCalendar(calendar);
-  const maxDay =
-    calendar === "harptos" ? 30 : setting?.periods.find(([period]) => period === draft.period)?.[1];
+  const maxDay = calendar === "harptos" ? 30 : setting?.periods.find(([period]) => period === draft.period)?.[1];
 
   function updateDraft(field: keyof typeof draft, value: string) {
     setDraft((current) => ({ ...current, [field]: value }));
@@ -115,10 +114,7 @@ export function ClockEditor({
                 </label>
                 <label>
                   {t("clock.period")}
-                  <select
-                    value={draft.period}
-                    onChange={(event) => updateDraft("period", event.target.value)}
-                  >
+                  <select value={draft.period} onChange={(event) => updateDraft("period", event.target.value)}>
                     <optgroup label={t("calendar.months")}>
                       {HARPTOS_MONTHS.map((name) => (
                         <option key={name} value={name}>
@@ -150,10 +146,7 @@ export function ClockEditor({
                 </label>
                 <label>
                   {t("calendar.period")}
-                  <select
-                    value={draft.period}
-                    onChange={(event) => updateDraft("period", event.target.value)}
-                  >
+                  <select value={draft.period} onChange={(event) => updateDraft("period", event.target.value)}>
                     {setting.periods.map(([name]) => (
                       <option key={name} value={name}>
                         {name}

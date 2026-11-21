@@ -86,14 +86,8 @@ test("varies front lengths and puts cloud between fair skies and precipitation",
           const condition = getHourlyWeather(time, location, seed);
           seen.add(condition);
           if (condition !== previous) {
-            assert.ok(
-              !(fair.has(previous) && wet.has(condition)),
-              `${location}: ${previous} to ${condition}`,
-            );
-            assert.ok(
-              !(wet.has(previous) && fair.has(condition)),
-              `${location}: ${previous} to ${condition}`,
-            );
+            assert.ok(!(fair.has(previous) && wet.has(condition)), `${location}: ${previous} to ${condition}`);
+            assert.ok(!(wet.has(previous) && fair.has(condition)), `${location}: ${previous} to ${condition}`);
             if (length >= 3) longerRuns.add(length);
             length = 0;
           }
@@ -113,9 +107,7 @@ test("calculates weather at either end of the supported timeline", () => {
   for (const elapsed of [0, Number.MAX_SAFE_INTEGER]) {
     const weather = getHourlyWeather(fromElapsedMinutes(elapsed), "phandalin", 1234);
     assert.ok(
-      ["Clear Skies", "Partly Cloudy", "Fog", "Overcast", "Drizzle", "Rain", "Snow", "Thunderstorm"].includes(
-        weather,
-      ),
+      ["Clear Skies", "Partly Cloudy", "Fog", "Overcast", "Drizzle", "Rain", "Snow", "Thunderstorm"].includes(weather),
     );
   }
 });

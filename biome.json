@@ -1,18 +1,21 @@
 {
-  "$schema": "https://biomejs.dev/schemas/2.6.7/schema.json",
+  "$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
   "files": {
-    "includes": [
-      "src/**",
-      "test/**",
-      "e2e/**",
-      "*.mjs",
-      "*.ts",
-      "package.json",
-      "tsconfig.json",
-      "biome.json"
-    ]
+    "includes": ["src/**", "test/**", "e2e/**", "*.ts", "*.json", "!package-lock.json"]
   },
-  "formatter": { "indentStyle": "space", "lineWidth": 110 },
-  "css": { "parser": { "tailwindDirectives": true }, "formatter": { "enabled": true } },
-  "linter": { "rules": { "preset": "recommended" } }
+  "formatter": {
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 120
+  },
+  "linter": {
+    "rules": {
+      "preset": "recommended"
+    }
+  },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  }
 }

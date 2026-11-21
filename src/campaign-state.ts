@@ -118,8 +118,7 @@ export function loadSavedCampaign(storage?: CampaignStorage): CampaignView {
       locationId,
       weatherSeed: savedSeed ?? crypto.getRandomValues(new Uint32Array(1))[0],
     };
-    let notice: CampaignView["notice"] =
-      clock !== null && minutes === undefined ? "save.clockRestoreFailed" : "";
+    let notice: CampaignView["notice"] = clock !== null && minutes === undefined ? "save.clockRestoreFailed" : "";
     if (savedSeed === undefined) {
       try {
         saveCampaign(campaign, storage);

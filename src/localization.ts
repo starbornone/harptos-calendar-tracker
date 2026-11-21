@@ -96,11 +96,7 @@ export function formatLocalizedDate(date: HarptosDate, locale: Locale): string {
   return locale === "en" ? `${date.day} ${month} ${year}` : `${year} ${month}${date.day}日`;
 }
 
-export function formatCampaignDate(
-  dateTime: HarptosDateTime,
-  calendar: CampaignCalendar,
-  locale: Locale,
-): string {
+export function formatCampaignDate(dateTime: HarptosDateTime, calendar: CampaignCalendar, locale: Locale): string {
   if (calendar === "harptos") return formatLocalizedDate(dateTime.date, locale);
   const { year, period, day } = getSettingDate(calendar, toElapsedMinutes(dateTime));
   const definition = getSettingCalendar(calendar);

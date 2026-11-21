@@ -21,10 +21,7 @@ test("uses regional seasonal daylight and keeps Sharn close to twelve hours", ()
   for (const id of ["baldurs-gate", "waterdeep"]) {
     assert.ok(duration(getSeasonalDaylight(summer, id)) > duration(getSeasonalDaylight(winter, id)), id);
   }
-  assert.ok(
-    duration(getSeasonalDaylight(summer, "waterdeep")) >
-      duration(getSeasonalDaylight(summer, "baldurs-gate")),
-  );
+  assert.ok(duration(getSeasonalDaylight(summer, "waterdeep")) > duration(getSeasonalDaylight(summer, "baldurs-gate")));
   for (const date of [summer, winter]) {
     assert.deepEqual(getSeasonalDaylight(date, "sharn"), { sunrise: 360, sunset: 1080 });
   }

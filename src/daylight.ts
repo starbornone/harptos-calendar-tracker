@@ -1,10 +1,5 @@
 import { getHarptosYearPosition, toElapsedMinutes, type HarptosDate } from "./harptos.ts";
-import {
-  campaignLocations,
-  type CampaignCalendar,
-  type LocationId,
-  type SolarDaylightProfile,
-} from "./locations.ts";
+import { campaignLocations, type CampaignCalendar, type LocationId, type SolarDaylightProfile } from "./locations.ts";
 import { getSettingSeason } from "./setting-calendars.ts";
 
 const NOON = 12 * 60;
@@ -23,9 +18,7 @@ export function getSolarDaylight(
   calendar: CampaignCalendar = "harptos",
 ) {
   const localSeason =
-    calendar === "harptos"
-      ? undefined
-      : getSettingSeason(calendar, toElapsedMinutes({ date, hour: 0, minute: 0 }));
+    calendar === "harptos" ? undefined : getSettingSeason(calendar, toElapsedMinutes({ date, hour: 0, minute: 0 }));
   const { dayIndex, yearLength, summer, winter } = localSeason ?? getHarptosSeason(date);
   const daysAfterSummer = (dayIndex - summer + yearLength) % yearLength;
   const summerToWinter = (winter - summer + yearLength) % yearLength;
@@ -42,10 +35,7 @@ export function getSolarDaylight(
   return { sunrise: NOON - halfDaylight, sunset: NOON + halfDaylight };
 }
 
-type LocalDaylight =
-  | ReturnType<typeof getSolarDaylight>
-  | { peak: number; antipeak: number }
-  | { steady: true };
+type LocalDaylight = ReturnType<typeof getSolarDaylight> | { peak: number; antipeak: number } | { steady: true };
 
 export function getSeasonalDaylight(date: HarptosDate, location: LocationId): LocalDaylight {
   const profile = campaignLocations[location];

@@ -37,11 +37,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
             </svg>
             {translate(locale, "footer.support")}
           </a>
-          <a
-            href="https://github.com/starbornone/harptos-calendar-tracker"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a href="https://github.com/starbornone/harptos-calendar-tracker" target="_blank" rel="noopener noreferrer">
             <svg
               width="18"
               height="18"

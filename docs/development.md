@@ -16,7 +16,7 @@
 
 Use Node.js 24 or newer and `npm ci`. Run `npm run dev` for the development server, `npm test` for the domain suite, `npm run check` for strict TypeScript checking, and `npm run build` to check types and produce `dist/`. Use `npm run preview` to serve the production build locally.
 
-Run `npm run lint` and `npm run format:check` for Biome checks. Use `npm run format` to apply formatting. To run the Chromium UI suite locally, install its browser once with `npx playwright install --only-shell chromium`, build with `npm run build`, then run `npm run test:ui`. Playwright starts the preview server. [GitHub Actions](../.github/workflows/ci.yml) runs the same checks on pull requests and pushes to `main`.
+Run `npm run lint` and `npm run format:check` for Biome checks. Use `npm run format` to apply formatting. See the [Biome configuration](../biome.json). To run the Chromium UI suite locally, install its browser once with `npx playwright install --only-shell chromium`, build with `npm run build`, then run `npm run test:ui`. Playwright starts the preview server. [GitHub Actions](../.github/workflows/ci.yml) runs the same checks on pull requests and pushes to `main`.
 
 ## Local workflow
 

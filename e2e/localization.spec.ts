@@ -1,10 +1,6 @@
 import { expect, test } from "@playwright/test";
 
-test("localizes saved Chinese preferences, calendar errors, and copy feedback", async ({
-  page,
-  context,
-  baseURL,
-}) => {
+test("localizes saved Chinese preferences, calendar errors, and copy feedback", async ({ page, context, baseURL }) => {
   await context.addInitScript(() => {
     localStorage.setItem("harptos-calendar-tracker:language", "zh-Hans");
     Object.defineProperty(navigator, "clipboard", {

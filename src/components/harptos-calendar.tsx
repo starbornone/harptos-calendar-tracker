@@ -1,11 +1,5 @@
 import { getHarptosMonthView, getTenday, type HarptosDate } from "../harptos.ts";
-import {
-  calendarDateLabels,
-  formatLocalizedDate,
-  translate,
-  type Locale,
-  type MessageId,
-} from "../localization.ts";
+import { calendarDateLabels, formatLocalizedDate, translate, type Locale, type MessageId } from "../localization.ts";
 import { Card, CardContent } from "./ui/card";
 
 export function HarptosCalendar({ date, locale }: { date: HarptosDate; locale: Locale }) {
@@ -29,6 +23,8 @@ export function HarptosCalendar({ date, locale }: { date: HarptosDate; locale: L
                 {t("calendar.tenday")} {index + 1}
               </h4>
               <ul
+                // biome-ignore lint/a11y/noRedundantRoles: Safari removes list semantics when list markers are hidden.
+                role="list"
                 className="calendar-days"
                 aria-label={t(
                   (["calendar.firstTenday", "calendar.secondTenday", "calendar.thirdTenday"] as const)[index],
@@ -50,7 +46,8 @@ export function HarptosCalendar({ date, locale }: { date: HarptosDate; locale: L
           {festivals.length > 0 && (
             <div className="calendar-festivals">
               <h4>{t("calendar.festivals")}</h4>
-              <ul>
+              {/* biome-ignore lint/a11y/noRedundantRoles: Safari removes list semantics when list markers are hidden. */}
+              <ul role="list">
                 {festivals.map((festival) => (
                   <li
                     key={festival}

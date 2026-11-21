@@ -2,11 +2,7 @@ import type { ComponentProps } from "react";
 import { cn } from "@/lib/utils";
 
 // Adapted from the shadcn/ui Radix Nova Card registry component.
-function Card({
-  className,
-  size = "default",
-  ...props
-}: ComponentProps<"div"> & { size?: "default" | "sm" }) {
+function Card({ className, size = "default", ...props }: ComponentProps<"div"> & { size?: "default" | "sm" }) {
   return (
     <div
       data-slot="card"

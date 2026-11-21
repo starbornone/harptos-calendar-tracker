@@ -111,9 +111,7 @@ export function getHarptosMonthView(date: HarptosDate) {
   const tendays = Array.from({ length: DAYS_PER_MONTH / DAYS_PER_TENDAY }, (_, index) =>
     Array.from({ length: DAYS_PER_TENDAY }, (_, day) => index * DAYS_PER_TENDAY + day + 1),
   );
-  const festivals = period.festivals.filter(
-    (festival) => festival !== "Shieldmeet" || hasShieldmeet(date.year),
-  );
+  const festivals = period.festivals.filter((festival) => festival !== "Shieldmeet" || hasShieldmeet(date.year));
   return { month: period.month, tendays, festivals };
 }
 
@@ -132,8 +130,7 @@ export function toElapsedMinutes({ date, hour, minute }: HarptosDateTime): numbe
   }
 
   const yearsElapsed = date.year - 1;
-  const daysElapsed =
-    yearsElapsed * COMMON_YEAR.length + Math.floor(yearsElapsed / YEARS_PER_CYCLE) + dayIndex;
+  const daysElapsed = yearsElapsed * COMMON_YEAR.length + Math.floor(yearsElapsed / YEARS_PER_CYCLE) + dayIndex;
   const elapsedMinutes = daysElapsed * MINUTES_PER_DAY + hour * MINUTES_PER_HOUR + minute;
   if (!Number.isSafeInteger(elapsedMinutes)) {
     throw new HarptosRangeError("calendar.errorRange");
