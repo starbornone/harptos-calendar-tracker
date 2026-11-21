@@ -95,3 +95,9 @@ These records capture the campaign requirements and first-release design choices
 **Decision.** Align 1 Tarsakh 1491 DR with 1 Zarantyr 998 YK, 1 Horisal 836 PD, 1 Newkolt 351 AC, and 1 Needfest 576 CY. These alignments are tracker conventions. Earlier dates can reach signed local years. Sigil and the Radiant Citadel use a numbered campaign day, starting at Day 1 on the same date. [Wayfinder’s Guide to Eberron](https://citrusbolt.net/files/dnd/Wayfinders%20Guide%20to%20Eberron%20v01.pdf) · [Tal’Dorei Campaign Setting Reborn](https://d1vzi28wh99zvq.cloudfront.net/pdf_previews/420050-sample.pdf) · [Dragonlance Campaign Setting](https://www.housegriffon.com/RPG/Games/DnD/dd3.x/Dragonlance/Dragonlance%20Campaign%20Setting.pdf) · [Living Greyhawk Gazetteer](https://xbladerunner.com/wp-content/uploads/sites/13/2023/01/Living-Greyhawk-Gazetteer.pdf)
 
 **Consequences.** Existing saves and version-one share links still resolve to the same elapsed minute, location, and seed. Seasonal light and weather in the newly enabled settings follow their local calendar, which can change the weather displayed by an earlier link for that setting. The tracker retains the existing clock markers in all settings.
+
+## 12. Limit location choices to Harptos for now
+
+**Decision.** Show only catalog locations tagged with the Harptos calendar in the location selector. Keep the other calendar implementations and location profiles available for existing saves and shared links.
+
+**Consequences.** DMs can select Neverwinter, Phandalin, Baldur’s Gate, Waterdeep, and Halruaa. A restored or shared campaign at a hidden location still displays that location’s date, light, and weather; choosing a visible location switches it to Harptos.

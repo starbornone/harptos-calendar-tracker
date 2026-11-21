@@ -1,6 +1,8 @@
-import { locationIds, type LocationId } from "../locations.ts";
+import { campaignLocations, locationIds, type LocationId } from "../locations.ts";
 import { locationRegions, translate, type Locale, type MessageId } from "../localization.ts";
 import { Card, CardContent } from "./ui/card";
+
+const visibleLocationIds = locationIds.filter((id) => campaignLocations[id].calendar === "harptos");
 
 export function LocationSelector({
   locationId,
@@ -18,7 +20,7 @@ export function LocationSelector({
     <fieldset className="campaign-setting" disabled={disabled}>
       <legend className="eyebrow setting-heading">{t("location.heading")}</legend>
       <div className="location-grid">
-        {locationIds.map((id) => {
+        {visibleLocationIds.map((id) => {
           return (
             <Card key={id} className="location-panel py-0" data-location={id}>
               <CardContent className="grow p-0">

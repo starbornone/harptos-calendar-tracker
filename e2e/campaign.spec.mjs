@@ -28,9 +28,21 @@ test("the visible Harptos month follows clock edits and festival advances on mob
   expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBe(320);
 });
 
-test("a local calendar edit survives advancing, sharing, and switching settings", async ({ page }) => {
+test("a saved hidden location keeps its calendar through edits, sharing, and switching settings", async ({ page }) => {
+  await page.addInitScript(
+    ({ key, time }) => {
+      if (!localStorage.getItem(key)) {
+        localStorage.setItem(key, JSON.stringify({ time, location: "sharn", seed: 42 }));
+      }
+    },
+    {
+      key: campaignKey,
+      time: toElapsedMinutes({ date: { year: 1491, month: "Tarsakh", day: 1 }, hour: 8, minute: 0 }),
+    },
+  );
   await page.goto("/");
-  await page.getByRole("radio", { name: "Sharn" }).check();
+  await expect(page.getByRole("radio")).toHaveCount(5);
+  await expect(page.getByRole("radio", { name: "Sharn" })).toHaveCount(0);
   await expect(page.locator(".clock-date")).toHaveText("1 Zarantyr 998 YK");
   await page.getByRole("button", { name: "Set Current Time" }).click();
   await page.getByLabel("Month or festival week").selectOption("Vult");
@@ -46,7 +58,7 @@ test("a local calendar edit survives advancing, sharing, and switching settings"
   await expect(page.locator(".clock-date")).toHaveText(/1492 DR$/);
   await page.goto(link);
   await expect(page.locator(".clock-date")).toHaveText("1 Zarantyr 999 YK");
-  await expect(page.getByRole("radio", { name: "Sharn" })).toBeChecked();
+  await expect(page.getByRole("radio", { name: "Sharn" })).toHaveCount(0);
 });
 
 test("preview keeps the local save until adoption and restores the adopted moment on reload", async ({ page }) => {
