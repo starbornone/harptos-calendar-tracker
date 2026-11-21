@@ -73,6 +73,25 @@
   margin-bottom: clamp(1.5rem, 4vw, 2.5rem);
 }
 
+.campaign-hero {
+  position: relative;
+  isolation: isolate;
+}
+
+.campaign-hero::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: -1.25rem -1.25rem -0.75rem;
+  border-radius: 1rem;
+  background:
+    linear-gradient(90deg, #111110e6, #11111073 55%, #11111026),
+    linear-gradient(0deg, #111110 0%, #11111000 55%),
+    url("/art/sword-coast.webp") center 45% / cover;
+  mask-image: linear-gradient(#000 75%, transparent);
+  pointer-events: none;
+}
+
 .ledger-header-tools {
   display: flex;
   flex-wrap: wrap;
@@ -89,23 +108,9 @@
   text-transform: uppercase;
 }
 
-.ledger-kicker {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  color: var(--primary);
-}
-
 .ledger-seal {
-  display: grid;
-  width: 1.75rem;
-  aspect-ratio: 1;
-  place-items: center;
-  border: 1px solid var(--border);
-  border-radius: 50%;
-  font-family: var(--font-ledger);
-  font-size: 1.1rem;
-  letter-spacing: 0;
+  width: 2rem;
+  height: 2rem;
 }
 
 .ledger-header h1 {
@@ -133,7 +138,7 @@
 .clock-panel {
   position: relative;
   border: 1px solid var(--border);
-  background: radial-gradient(ellipse at 81% 42%, #3d3323 0%, transparent 49%), var(--card);
+  background: radial-gradient(ellipse at 81% 42%, #3d33234d 0%, transparent 49%), #1c1c1ad9;
 }
 
 .month-panel {
@@ -707,6 +712,14 @@
 
   .ledger-header {
     margin-bottom: 1rem;
+  }
+
+  .campaign-hero::before {
+    inset-inline: -0.75rem;
+    background-position:
+      center,
+      center,
+      65% center;
   }
 
   .ledger-header h1 {

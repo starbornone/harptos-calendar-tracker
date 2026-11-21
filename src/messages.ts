@@ -2,7 +2,6 @@ export type Locale = "en" | "zh-Hans";
 
 // Keep IDs stable when editing either language.
 const messages = {
-  "ledger.kicker": { en: "Dungeon Master’s ledger", "zh-Hans": "地下城主的日志" },
   "app.title": { en: "Harptos Calendar Tracker", "zh-Hans": "哈普托斯历追踪器" },
   "ledger.title": { en: "Harptos Calendar", "zh-Hans": "哈普托斯历" },
   "ledger.titleSuffix": { en: "Tracker", "zh-Hans": "追踪器" },

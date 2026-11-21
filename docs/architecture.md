@@ -6,6 +6,8 @@ Vite serves [index.html](../index.html) and bundles the TypeScript app. [src/mai
 
 The [location selector](../src/components/location-selector.tsx) filters the catalog to Harptos locations. Other locations remain accepted by persistence and share links so existing campaigns retain their original state.
 
+The `campaign-hero` wrapper in [src/App.tsx](../src/App.tsx) groups the header, shared preview, and clock above the calendar. [src/index.css](../src/index.css) layers the static [Sword Coast artwork](../public/art/sword-coast.webp) behind that group, with dark overlays and a fade before the calendar. The artwork is decorative and stays the same when time, weather, or location changes. The header reuses [the favicon](../public/favicon.svg). See [Artwork](artwork.md) for the source references and generation prompt.
+
 A share URL carries the same fields in `share=1`, `time`, `location`, and `seed` query parameters. A valid preview leaves browser storage untouched. Adoption writes a single snapshot before switching to editing mode. Leaving the preview removes the share parameters and keeps other query parameters and the fragment.
 
 [index.html](../index.html) provides the search title and description before React loads. The production SEO plugin in [vite.config.ts](../vite.config.ts) uses one public homepage URL for the canonical link, Open Graph URL, site-name markup, and sitemap. Campaign share URLs load the same HTML and point to that homepage as their canonical URL.

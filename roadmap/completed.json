@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-22T09:58:45+11:00",
+  "updatedAt": "2026-11-22T10:07:55+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -210,6 +210,20 @@
       "group": "Locations",
       "notes": "Limit the selector to the five locations tagged with Harptos. Preserve the full catalog and calendar support for existing saves and shared links. Verify that a saved hidden location can still be edited and shared.",
       "completedAt": "2026-11-22T09:58:45+11:00"
+    },
+    {
+      "id": "use-favicon-in-page-header",
+      "title": "Use the favicon in the page header and remove the ledger tagline",
+      "group": "Frontend",
+      "notes": "Replace the decorative star with the existing favicon in the live page and no-JavaScript header. Remove the Dungeon Master’s ledger tagline and its unused translation and styles.",
+      "completedAt": "2026-11-22T10:07:55+11:00"
+    },
+    {
+      "id": "add-sword-coast-header-artwork",
+      "title": "Add fantasy background artwork above the calendar",
+      "group": "Frontend",
+      "notes": "Generate an original Sword Coast landscape using the Chronicler and World Binder homepage artwork as style references. Place the compressed WebP behind the header and clock, with dark overlays and a fade before the calendar. Verify desktop and mobile layouts, image loading, and clock controls.",
+      "completedAt": "2026-11-22T10:07:55+11:00"
     }
   ]
 }
