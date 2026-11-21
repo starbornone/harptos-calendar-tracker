@@ -4,10 +4,10 @@ import { loadSavedCampaign, readSharedCampaign, type CampaignView } from "./camp
 import "./index.css";
 
 const shared = readSharedCampaign(new URL(window.location.href));
-const initialView: CampaignView = shared.status === "valid"
-  ? { campaign: shared.campaign, notice: "" }
-  : loadSavedCampaign();
+const initialView: CampaignView =
+  shared.status === "valid" ? { campaign: shared.campaign, notice: "" } : loadSavedCampaign();
 
-createRoot(document.getElementById("root")!).render(
-  <App initialView={initialView} initialShareStatus={shared.status} />,
-);
+const root = document.getElementById("root");
+if (!root) throw new Error("Missing application root.");
+
+createRoot(root).render(<App initialView={initialView} initialShareStatus={shared.status} />);

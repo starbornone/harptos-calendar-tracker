@@ -1,0 +1,18 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.6.7/schema.json",
+  "files": {
+    "includes": [
+      "src/**",
+      "test/**",
+      "e2e/**",
+      "*.mjs",
+      "*.ts",
+      "package.json",
+      "tsconfig.json",
+      "biome.json"
+    ]
+  },
+  "formatter": { "indentStyle": "space", "lineWidth": 110 },
+  "css": { "parser": { "tailwindDirectives": true }, "formatter": { "enabled": true } },
+  "linter": { "rules": { "preset": "recommended" } }
+}

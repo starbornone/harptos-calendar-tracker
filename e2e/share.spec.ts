@@ -44,7 +44,9 @@ test("adopts the shared time, location, and seed and restores them on reload", a
   await page.goto(url);
   await page.getByRole("button", { name: "Adopt Shared Campaign" }).click();
   await expect(page).toHaveURL(new URL(returnPath, baseURL).href);
-  await expect(page.getByRole("status").filter({ hasText: "Shared campaign adopted and saved in this browser." })).toBeVisible();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Shared campaign adopted and saved in this browser." }),
+  ).toBeVisible();
   await expect(page.getByRole("button", { name: "+1 hour" })).toBeEnabled();
 
   await page.reload();
@@ -57,7 +59,9 @@ test("adopts the shared time, location, and seed and restores them on reload", a
 
 test("shows the saved campaign and a notice for an invalid share link", async ({ page }) => {
   await page.goto("/?share=1&time=invalid&location=waterdeep&seed=42");
-  await expect(page.getByRole("status").filter({ hasText: "This share link is invalid or unsupported." })).toBeVisible();
+  await expect(
+    page.getByRole("status").filter({ hasText: "This share link is invalid or unsupported." }),
+  ).toBeVisible();
   await expect(page.getByRole("heading", { name: "Shared campaign preview" })).toBeHidden();
   await expect(page.locator(".clock-time")).toHaveText("09:00");
   await expect(page.getByRole("radio", { name: "Neverwinter" })).toBeChecked();
@@ -77,13 +81,17 @@ test("offers a selectable share link when the clipboard write is denied", async 
   await page.reload();
   await page.getByRole("button", { name: "Share Campaign" }).click();
   await page.getByRole("button", { name: "Copy Link" }).click();
-  await expect(page.getByRole("status").filter({ hasText: "Select the share link field and copy it manually." })).toBeVisible();
+  await expect(
+    page.getByRole("status").filter({ hasText: "Select the share link field and copy it manually." }),
+  ).toBeVisible();
 
   const field = page.getByRole("textbox", { name: "Share link" });
   await expect(field).toHaveValue(/\?share=1&time=\d+&location=neverwinter&seed=\d+$/);
   await field.click();
   await expect(field).toBeFocused();
-  expect(await field.evaluate((input: HTMLInputElement) => input.value.slice(
-    input.selectionStart ?? 0, input.selectionEnd ?? 0,
-  ))).toBe(await field.inputValue());
+  expect(
+    await field.evaluate((input: HTMLInputElement) =>
+      input.value.slice(input.selectionStart ?? 0, input.selectionEnd ?? 0),
+    ),
+  ).toBe(await field.inputValue());
 });

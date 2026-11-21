@@ -102,28 +102,38 @@ export function getTenday(date: HarptosDate): number | null {
 
 export function getHarptosMonthView(date: HarptosDate) {
   // Festival days belong to the view for the month immediately before them.
-  const period = YEAR_LAYOUT.find(({ month, festivals }: {
-    month: HarptosMonth;
-    festivals: readonly HarptosFestival[];
-  }) => "festival" in date ? festivals.includes(date.festival) : month === date.month);
+  const period = YEAR_LAYOUT.find(
+    ({ month, festivals }: { month: HarptosMonth; festivals: readonly HarptosFestival[] }) =>
+      "festival" in date ? festivals.includes(date.festival) : month === date.month,
+  );
   if (!period) throw new RangeError("Unknown Harptos month or festival.");
 
   const tendays = Array.from({ length: DAYS_PER_MONTH / DAYS_PER_TENDAY }, (_, index) =>
-    Array.from({ length: DAYS_PER_TENDAY }, (_, day) => index * DAYS_PER_TENDAY + day + 1));
-  const festivals = period.festivals.filter((festival) => festival !== "Shieldmeet" || hasShieldmeet(date.year));
+    Array.from({ length: DAYS_PER_TENDAY }, (_, day) => index * DAYS_PER_TENDAY + day + 1),
+  );
+  const festivals = period.festivals.filter(
+    (festival) => festival !== "Shieldmeet" || hasShieldmeet(date.year),
+  );
   return { month: period.month, tendays, festivals };
 }
 
 // Count elapsed minutes from 00:00 on 1 Hammer 1 DR.
 export function toElapsedMinutes({ date, hour, minute }: HarptosDateTime): number {
   const { dayIndex } = getHarptosYearPosition(date);
-  if (!Number.isInteger(hour) || hour < 0 || hour >= HOURS_PER_DAY ||
-      !Number.isInteger(minute) || minute < 0 || minute >= MINUTES_PER_HOUR) {
+  if (
+    !Number.isInteger(hour) ||
+    hour < 0 ||
+    hour >= HOURS_PER_DAY ||
+    !Number.isInteger(minute) ||
+    minute < 0 ||
+    minute >= MINUTES_PER_HOUR
+  ) {
     throw new HarptosRangeError("calendar.errorTime");
   }
 
   const yearsElapsed = date.year - 1;
-  const daysElapsed = yearsElapsed * COMMON_YEAR.length + Math.floor(yearsElapsed / YEARS_PER_CYCLE) + dayIndex;
+  const daysElapsed =
+    yearsElapsed * COMMON_YEAR.length + Math.floor(yearsElapsed / YEARS_PER_CYCLE) + dayIndex;
   const elapsedMinutes = daysElapsed * MINUTES_PER_DAY + hour * MINUTES_PER_HOUR + minute;
   if (!Number.isSafeInteger(elapsedMinutes)) {
     throw new HarptosRangeError("calendar.errorRange");

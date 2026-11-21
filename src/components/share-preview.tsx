@@ -1,7 +1,13 @@
 import { translate, type Locale, type MessageId } from "../localization.ts";
 import { Button } from "./ui/button";
 
-export function SharePreview({ isPreview, invalid, locale, onAdopt, onBack }: {
+export function SharePreview({
+  isPreview,
+  invalid,
+  locale,
+  onAdopt,
+  onBack,
+}: {
   isPreview: boolean;
   invalid: boolean;
   locale: Locale;
@@ -13,16 +19,22 @@ export function SharePreview({ isPreview, invalid, locale, onAdopt, onBack }: {
     <>
       {isPreview ? (
         <section className="share-preview" aria-labelledby="share-preview-heading">
-          <h2 className="eyebrow" id="share-preview-heading">{t("share.preview")}</h2>
+          <h2 className="eyebrow" id="share-preview-heading">
+            {t("share.preview")}
+          </h2>
           <p>{t("share.instructions")}</p>
           <div className="share-actions">
             <Button onClick={onAdopt}>{t("share.adopt")}</Button>
-            <Button variant="outline" onClick={onBack}>{t("share.back")}</Button>
+            <Button variant="outline" onClick={onBack}>
+              {t("share.back")}
+            </Button>
           </div>
         </section>
       ) : null}
       {invalid ? (
-        <p className="clock-notice" role="status">{t("share.invalid")}</p>
+        <p className="clock-notice" role="status">
+          {t("share.invalid")}
+        </p>
       ) : null}
     </>
   );

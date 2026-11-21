@@ -1,31 +1,12 @@
 {
   "schema": "name -roadmap/v1",
   "file": "roadmap",
-  "updatedAt": "2026-11-13T17:28:17+11:00",
+  "updatedAt": "2026-11-22T09:27:19+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
     "status": "active",
-    "summary": "A Dungeon Master’s tracker for Harptos campaign time, local light, and hourly weather across Faerûn, with other setting calendars planned later."
+    "summary": "A Dungeon Master’s tracker for campaign time, local light, and hourly weather across Faerûn and other settings."
   },
-  "items": [
-    {
-      "id": "add-lint-and-format-checks",
-      "title": "Add lint and format checks to local scripts and CI",
-      "group": "Engineering",
-      "notes": "There is no ESLint, Prettier, or Biome today. Add a formatter and linter, wire npm scripts, and run them in CI beside test and build."
-    },
-    {
-      "id": "remove-orphaned-calendar-helpers",
-      "title": "Remove or wire unused tenday and Halruaa helpers",
-      "group": "Campaign clock",
-      "notes": "getTenday is exported and tested but unused in the UI. daylight.ts special-cases a halruaa location outside campaignLocations. Either surface tenday in the ledger and catalog Halruaa, or delete the dead paths."
-    },
-    {
-      "id": "support-additional-setting-calendars",
-      "title": "Support calendars for non-Faerûn campaign locations",
-      "group": "Locations",
-      "notes": "Add calendar rules for Galifar, Sigil, Radiant Citadel, Exandria, Krynn, and Greyhawk. Reveal those catalog locations in the selector once each calendar can drive the clock."
-    }
-  ]
+  "items": []
 }

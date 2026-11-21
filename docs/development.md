@@ -14,7 +14,9 @@
 | [docs/](overview.md) | Product, design, workflow, and format references |
 | [roadmap/](../roadmap/roadmap.json) | Active, completed, and cancelled work |
 
-Use Node.js 24 or newer and `npm ci`. Run `npm run dev` for the development server, `npm test` for the calendar suite, `npm run check` for strict TypeScript checking, and `npm run build` to check types and produce `dist/`. Use `npm run preview` to serve the production build locally.
+Use Node.js 24 or newer and `npm ci`. Run `npm run dev` for the development server, `npm test` for the domain suite, `npm run check` for strict TypeScript checking, and `npm run build` to check types and produce `dist/`. Use `npm run preview` to serve the production build locally.
+
+Run `npm run lint` and `npm run format:check` for Biome checks. Use `npm run format` to apply formatting. To run the Chromium UI suite locally, install its browser once with `npx playwright install --only-shell chromium`, build with `npm run build`, then run `npm run test:ui`. Playwright starts the preview server. [GitHub Actions](../.github/workflows/ci.yml) runs the same checks on pull requests and pushes to `main`.
 
 ## Local workflow
 
@@ -26,6 +28,6 @@ Use Node.js 24 or newer and `npm ci`. Run `npm run dev` for the development serv
 
 ## Continuous integration
 
-The [CI workflow](../.github/workflows/ci.yml) installs dependencies, runs the unit tests, builds the app, and runs the Chromium UI tests on Node.js 24 for every pull request and push to `main`. To enforce the merge gate, require the **Tests and production build** status check in the GitHub ruleset or branch protection for `main` after the check first runs.
+The [CI workflow](../.github/workflows/ci.yml) installs dependencies, checks lint and formatting, runs the unit tests, builds the app, and runs the Chromium UI tests on Node.js 24 for every pull request and push to `main`. To enforce the merge gate, require the **Tests and production build** status check in the GitHub ruleset or branch protection for `main` after the check first runs.
 
 After `npm ci`, run `npx playwright install --only-shell chromium`, `npm run build`, and `npm run test:ui` to exercise the share flows and calendar locally. Playwright starts and stops Vite's preview server on port 4173.

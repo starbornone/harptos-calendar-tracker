@@ -30,7 +30,9 @@ test("crosses the five annual festivals at midnight", () => {
     assert.deepEqual(festivalStart, { date: { year: 1491, festival }, hour: 0, minute: 0 });
     assert.equal(formatHarptosDate(festivalStart.date), `${festival} 1491 DR`);
     assert.deepEqual(advanceHours(festivalStart, 24), {
-      date: { year: 1491, month: nextMonth, day: 1 }, hour: 0, minute: 0,
+      date: { year: 1491, month: nextMonth, day: 1 },
+      hour: 0,
+      minute: 0,
     });
   }
 });
@@ -40,7 +42,9 @@ test("inserts Shieldmeet after Midsummer in 1492 DR", () => {
   const shieldmeet = advanceHours(midsummer, 1);
   assert.deepEqual(shieldmeet, { date: { year: 1492, festival: "Shieldmeet" }, hour: 0, minute: 0 });
   assert.deepEqual(advanceHours(shieldmeet, 24), {
-    date: { year: 1492, month: "Eleasis", day: 1 }, hour: 0, minute: 0,
+    date: { year: 1492, month: "Eleasis", day: 1 },
+    hour: 0,
+    minute: 0,
   });
   assert.deepEqual(advanceHours(shieldmeet, -1), midsummer);
 });
@@ -49,7 +53,9 @@ test("rolls from Nightal to Hammer in both year lengths", () => {
   for (const year of [1491, 1492]) {
     const lastHour = { date: { year, month: "Nightal", day: 30 }, hour: 23, minute: 59 };
     assert.deepEqual(advanceHours(lastHour, 1), {
-      date: { year: year + 1, month: "Hammer", day: 1 }, hour: 0, minute: 59,
+      date: { year: year + 1, month: "Hammer", day: 1 },
+      hour: 0,
+      minute: 59,
     });
   }
 });
@@ -57,12 +63,21 @@ test("rolls from Nightal to Hammer in both year lengths", () => {
 test("includes festivals in elapsed-day jumps and preserves the clock time", () => {
   const before = { date: { year: 1491, month: "Tarsakh", day: 25 }, hour: 13, minute: 37 };
   assert.deepEqual(advanceHours(before, 240), {
-    date: { year: 1491, month: "Mirtul", day: 4 }, hour: 13, minute: 37,
+    date: { year: 1491, month: "Mirtul", day: 4 },
+    hour: 13,
+    minute: 37,
   });
 });
 
 test("assigns three tendays to each month and leaves festivals between them", () => {
-  for (const [day, tenday] of [[1, 1], [10, 1], [11, 2], [20, 2], [21, 3], [30, 3]]) {
+  for (const [day, tenday] of [
+    [1, 1],
+    [10, 1],
+    [11, 2],
+    [20, 2],
+    [21, 3],
+    [30, 3],
+  ]) {
     assert.equal(getTenday({ year: 1491, month: "Tarsakh", day }), tenday);
   }
   assert.equal(getTenday({ year: 1491, festival: "Greengrass" }), null);

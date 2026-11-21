@@ -53,7 +53,7 @@ export function readSharedCampaign(url: URL) {
     return { status: "invalid" } as const;
   }
   const campaign = readCampaign(query.get("time"), query.get("location"), query.get("seed"));
-  return campaign ? { status: "valid", campaign } as const : { status: "invalid" } as const;
+  return campaign ? ({ status: "valid", campaign } as const) : ({ status: "invalid" } as const);
 }
 
 export function makeShareUrl(url: URL, campaign: CampaignState): string {
@@ -83,11 +83,14 @@ function readSavedSnapshot(storage: CampaignStorage): CampaignState | undefined 
 }
 
 export function saveCampaign(campaign: CampaignState, storage: CampaignStorage = localStorage): void {
-  storage.setItem(campaignKey, JSON.stringify({
-    time: toElapsedMinutes(campaign.dateTime),
-    location: campaign.locationId,
-    seed: campaign.weatherSeed,
-  }));
+  storage.setItem(
+    campaignKey,
+    JSON.stringify({
+      time: toElapsedMinutes(campaign.dateTime),
+      location: campaign.locationId,
+      seed: campaign.weatherSeed,
+    }),
+  );
 }
 
 export function updateSavedCampaign(
@@ -115,9 +118,8 @@ export function loadSavedCampaign(storage?: CampaignStorage): CampaignView {
       locationId,
       weatherSeed: savedSeed ?? crypto.getRandomValues(new Uint32Array(1))[0],
     };
-    let notice: CampaignView["notice"] = clock !== null && minutes === undefined
-      ? "save.clockRestoreFailed"
-      : "";
+    let notice: CampaignView["notice"] =
+      clock !== null && minutes === undefined ? "save.clockRestoreFailed" : "";
     if (savedSeed === undefined) {
       try {
         saveCampaign(campaign, storage);

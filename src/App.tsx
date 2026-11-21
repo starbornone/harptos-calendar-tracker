@@ -26,7 +26,16 @@ import {
   toElapsedMinutes,
   type HarptosDateTime,
 } from "./harptos.ts";
-import { formatLocalizedDate, locationRegions, timeLabels, translate, weatherLabels, type Locale, type MessageId } from "./localization.ts";
+import {
+  formatCampaignDate,
+  locationRegions,
+  timeLabels,
+  translate,
+  weatherLabels,
+  type Locale,
+  type MessageId,
+} from "./localization.ts";
+import { campaignLocations } from "./locations.ts";
 import { getFaerunianTime } from "./time-markers.ts";
 import { getHourlyWeather } from "./weather.ts";
 
@@ -58,8 +67,18 @@ function ClockDial({ hour, minute }: { hour: number; minute: number }) {
             transform={`rotate(${tick * 6} 120 120)`}
           />
         ))}
-        <path d="M120 130V71" transform={`rotate(${hour * 30 + minute / 2} 120 120)`} strokeWidth="3" strokeLinecap="round" />
-        <path d="M120 130V53" transform={`rotate(${minute * 6} 120 120)`} strokeWidth="1.5" strokeLinecap="round" />
+        <path
+          d="M120 130V71"
+          transform={`rotate(${hour * 30 + minute / 2} 120 120)`}
+          strokeWidth="3"
+          strokeLinecap="round"
+        />
+        <path
+          d="M120 130V53"
+          transform={`rotate(${minute * 6} 120 120)`}
+          strokeWidth="1.5"
+          strokeLinecap="round"
+        />
       </g>
       <circle cx="120" cy="120" r="5" fill="currentColor" />
     </svg>
@@ -110,7 +129,12 @@ export function App(props: AppProps) {
   );
 }
 
-function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEnglish }: AppProps & {
+function CampaignLedger({
+  initialView,
+  initialShareStatus,
+  locale,
+  onSwitchToEnglish,
+}: AppProps & {
   locale: Locale;
   onSwitchToEnglish: () => void;
 }) {
@@ -120,15 +144,24 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
   const { dateTime, locationId, weatherSeed } = campaign;
   const { date, hour, minute } = dateTime;
   const time = formatHarptosTime(dateTime);
-  const yearTitle = getHarptosYearTitle(date.year, locale);
+  const { calendar } = campaignLocations[locationId];
+  const yearTitle = calendar === "harptos" ? getHarptosYearTitle(date.year, locale) : null;
   const daylight = getSeasonalDaylight(date, locationId);
   const isSolar = "sunrise" in daylight;
   const lightEvents: readonly (readonly [MessageId, number])[] = isSolar
-    ? [["light.sunrise", daylight.sunrise], ["time.sunset", daylight.sunset]]
-    : "peak" in daylight ? [["time.peak", daylight.peak], ["time.antipeak", daylight.antipeak]] : [];
+    ? [
+        ["light.sunrise", daylight.sunrise],
+        ["time.sunset", daylight.sunset],
+      ]
+    : "peak" in daylight
+      ? [
+          ["time.peak", daylight.peak],
+          ["time.antipeak", daylight.antipeak],
+        ]
+      : [];
   const { phase, marker } = getFaerunianTime(dateTime, daylight);
   const weather = getHourlyWeather(dateTime, locationId, weatherSeed);
-  const summary = formatCampaignSummary(dateTime, phase, weather, locale);
+  const summary = formatCampaignSummary(dateTime, phase, weather, locale, calendar);
 
   function setCurrentTime(next: HarptosDateTime) {
     toElapsedMinutes(next);
@@ -172,13 +205,26 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
     <main className="ledger">
       <header className="ledger-header">
         <div className="ledger-header-tools">
-          <p className="eyebrow ledger-kicker"><span className="ledger-seal" aria-hidden="true">✧</span> {t("ledger.kicker")}</p>
+          <p className="eyebrow ledger-kicker">
+            <span className="ledger-seal" aria-hidden="true">
+              ✧
+            </span>{" "}
+            {t("ledger.kicker")}
+          </p>
           {locale === "zh-Hans" ? (
-            <Button variant="outline" lang="en" onClick={onSwitchToEnglish}>Use English</Button>
+            <Button variant="outline" lang="en" onClick={onSwitchToEnglish}>
+              Use English
+            </Button>
           ) : null}
         </div>
-        <h1>{t("ledger.title")}{locale === "en" ? " " : ""}<span>{t("ledger.titleSuffix")}</span></h1>
-        <p className="ledger-subtitle">{t(`location.${locationId}.name`)} · {t(locationRegions[locationId])}</p>
+        <h1>
+          {t("ledger.title")}
+          {locale === "en" ? " " : ""}
+          <span className="title-accent">{t("ledger.titleSuffix")}</span>
+        </h1>
+        <p className="ledger-subtitle">
+          {t(`location.${locationId}.name`)} · {t(locationRegions[locationId])}
+        </p>
       </header>
 
       <SharePreview
@@ -193,10 +239,14 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
         <Card className="clock-panel py-0">
           <CardContent className="clock-layout">
             <div>
-              <h2 className="eyebrow clock-label" id="clock-heading">{t("clock.heading")}</h2>
+              <h2 className="eyebrow clock-label" id="clock-heading">
+                {t("clock.heading")}
+              </h2>
               <div id="campaign-clock" aria-live="polite" aria-atomic="true">
-                <time className="clock-time" dateTime={time}>{time}</time>
-                <p className="clock-date">{formatLocalizedDate(date, locale)}</p>
+                <time className="clock-time" dateTime={time}>
+                  {time}
+                </time>
+                <p className="clock-date">{formatCampaignDate(dateTime, calendar, locale)}</p>
                 {yearTitle ? <p className="clock-year">{yearTitle}</p> : null}
                 <dl className="clock-markers">
                   <div>
@@ -216,42 +266,74 @@ function CampaignLedger({ initialView, initialShareStatus, locale, onSwitchToEng
             </div>
             <div className="clock-solar">
               <ClockDial hour={hour} minute={minute} />
-              <section className="daylight-readout" aria-labelledby="daylight-heading" aria-live="polite" aria-atomic="true">
-                <h3 className="eyebrow" id="daylight-heading">{t(isSolar ? "light.daylight" : "light.ambient")} · {t(`location.${locationId}.name`)}</h3>
-                {lightEvents.length ? <dl className="daylight-times">
-                  {lightEvents.map(([label, minutes]) => {
-                    const eventTime = formatHarptosTime({ hour: Math.floor(minutes / 60), minute: minutes % 60 });
-                    return (
-                      <div key={label}>
-                        <dt>{t(label)}</dt>
-                        <dd><time dateTime={eventTime}>{eventTime}</time></dd>
-                      </div>
-                    );
-                  })}
-                </dl> : <p className="daylight-note">{t("light.auroral")}</p>}
+              <section
+                className="daylight-readout"
+                aria-labelledby="daylight-heading"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                <h3 className="eyebrow" id="daylight-heading">
+                  {t(isSolar ? "light.daylight" : "light.ambient")} · {t(`location.${locationId}.name`)}
+                </h3>
+                {lightEvents.length ? (
+                  <dl className="daylight-times">
+                    {lightEvents.map(([label, minutes]) => {
+                      const eventTime = formatHarptosTime({
+                        hour: Math.floor(minutes / 60),
+                        minute: minutes % 60,
+                      });
+                      return (
+                        <div key={label}>
+                          <dt>{t(label)}</dt>
+                          <dd>
+                            <time dateTime={eventTime}>{eventTime}</time>
+                          </dd>
+                        </div>
+                      );
+                    })}
+                  </dl>
+                ) : (
+                  <p className="daylight-note">{t("light.auroral")}</p>
+                )}
               </section>
             </div>
           </CardContent>
           <CardContent className="clock-controls">
             {!isPreview ? (
               <div className="clock-actions">
-                <ClockEditor dateTime={dateTime} onSetTime={setCurrentTime} locale={locale} />
-                <div className="advance-buttons" role="group" aria-label={t("clock.advance")}>
+                <ClockEditor
+                  calendar={calendar}
+                  dateTime={dateTime}
+                  onSetTime={setCurrentTime}
+                  locale={locale}
+                />
+                <fieldset className="advance-buttons" aria-label={t("clock.advance")}>
                   {advances.map(({ hours, label }) => (
-                    <Button key={hours} variant="outline" onClick={() => advanceClock(hours)}>{t(label)}</Button>
+                    <Button key={hours} variant="outline" onClick={() => advanceClock(hours)}>
+                      {t(label)}
+                    </Button>
                   ))}
-                </div>
+                </fieldset>
               </div>
             ) : null}
-            {notice ? <p className="clock-notice" role="status">{t(notice)}</p> : null}
+            {notice ? (
+              <p className="clock-notice" role="status">
+                {t(notice)}
+              </p>
+            ) : null}
             <CampaignSummary campaign={campaign} summary={summary} isPreview={isPreview} locale={locale} />
           </CardContent>
         </Card>
       </section>
 
-      <HarptosCalendar date={date} locale={locale} />
+      {calendar === "harptos" ? <HarptosCalendar date={date} locale={locale} /> : null}
 
-      <LocationSelector locationId={locationId} disabled={isPreview} onChange={(id) => updateCampaign({ locationId: id })} locale={locale} />
+      <LocationSelector
+        locationId={locationId}
+        disabled={isPreview}
+        onChange={(id) => updateCampaign({ locationId: id })}
+        locale={locale}
+      />
     </main>
   );
 }

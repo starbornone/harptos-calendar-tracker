@@ -1,7 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
 import { advanceHours, fromElapsedMinutes, toElapsedMinutes } from "../src/harptos.ts";
-import { selectableLocationIds } from "../src/locations.ts";
 import { getHourlyWeather } from "../src/weather.ts";
 
 const summer = { year: 1492, month: "Kythorn", day: 20 };
@@ -74,7 +73,7 @@ test("makes thunderstorms follow cloud, rain, or an ongoing storm", () => {
 test("varies front lengths and puts cloud between fair skies and precipitation", () => {
   const fair = new Set(["Clear Skies", "Partly Cloudy"]);
   const wet = new Set(["Drizzle", "Rain", "Snow", "Thunderstorm"]);
-  for (const location of selectableLocationIds) {
+  for (const location of ["neverwinter", "phandalin", "baldurs-gate", "waterdeep"]) {
     const seen = new Set();
     const longerRuns = new Set();
     for (const date of [summer, winter]) {
@@ -87,8 +86,14 @@ test("varies front lengths and puts cloud between fair skies and precipitation",
           const condition = getHourlyWeather(time, location, seed);
           seen.add(condition);
           if (condition !== previous) {
-            assert.ok(!(fair.has(previous) && wet.has(condition)), `${location}: ${previous} to ${condition}`);
-            assert.ok(!(wet.has(previous) && fair.has(condition)), `${location}: ${previous} to ${condition}`);
+            assert.ok(
+              !(fair.has(previous) && wet.has(condition)),
+              `${location}: ${previous} to ${condition}`,
+            );
+            assert.ok(
+              !(wet.has(previous) && fair.has(condition)),
+              `${location}: ${previous} to ${condition}`,
+            );
             if (length >= 3) longerRuns.add(length);
             length = 0;
           }
@@ -107,6 +112,10 @@ test("varies front lengths and puts cloud between fair skies and precipitation",
 test("calculates weather at either end of the supported timeline", () => {
   for (const elapsed of [0, Number.MAX_SAFE_INTEGER]) {
     const weather = getHourlyWeather(fromElapsedMinutes(elapsed), "phandalin", 1234);
-    assert.ok(["Clear Skies", "Partly Cloudy", "Fog", "Overcast", "Drizzle", "Rain", "Snow", "Thunderstorm"].includes(weather));
+    assert.ok(
+      ["Clear Skies", "Partly Cloudy", "Fog", "Overcast", "Drizzle", "Rain", "Snow", "Thunderstorm"].includes(
+        weather,
+      ),
+    );
   }
 });
