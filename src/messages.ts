@@ -119,6 +119,13 @@ const messages = {
     "zh-Hans": "为《龙与地下城》的被遗忘国度冒险追踪战役时间、季节性日照和每小时天气。",
   },
   "footer.links": { en: "Site links", "zh-Hans": "网站链接" },
+  "companions.heading": { en: "More for your next session", "zh-Hans": "为下一次游戏准备更多工具" },
+  "companions.intro": { en: "From our companion tools", "zh-Hans": "探索我们的配套工具" },
+  "companions.chronicler": { en: "Keep your campaign at hand", "zh-Hans": "随时掌握战役资料" },
+  "companions.dnd": { en: "Build your next character", "zh-Hans": "创建你的下一个角色" },
+  "companions.worldBinder": { en: "Find your next adventure", "zh-Hans": "寻找下一场冒险" },
+  "companions.openTome": { en: "Map your next adventure", "zh-Hans": "绘制下一场冒险的地图" },
+  "companions.pathfinder": { en: "Plan your character’s boosts", "zh-Hans": "规划角色的属性提升" },
   "footer.support": { en: "Support on Ko-fi", "zh-Hans": "在 Ko-fi 上支持项目" },
   "footer.disclaimer": {
     en: "Not affiliated with Wizards of the Coast.",

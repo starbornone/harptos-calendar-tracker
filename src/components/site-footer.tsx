@@ -1,8 +1,30 @@
 import { translate, type Locale } from "@/localization.ts";
 
+const companions = [
+  { name: "Chronicler", href: "https://www.chronicler.studio/", description: "companions.chronicler" },
+  { name: "D&D Point-Buy Calculator", href: "https://dnd.astralarchives.games/", description: "companions.dnd" },
+  { name: "World Binder", href: "https://www.worldbinder.app/", description: "companions.worldBinder" },
+  { name: "Open Tome", href: "https://www.opentome.world/", description: "companions.openTome" },
+  { name: "Pathfinder 2e Calculator", href: "https://pf.astralarchives.games/", description: "companions.pathfinder" },
+] as const;
+
 export function SiteFooter({ locale }: { locale: Locale }) {
   return (
     <footer className="ledger ledger-footer">
+      <nav className="companion-tools" aria-labelledby="companions-heading">
+        <h2 id="companions-heading">{translate(locale, "companions.heading")}</h2>
+        <p>{translate(locale, "companions.intro")}</p>
+        <ul className="companion-links">
+          {companions.map(({ name, href, description }) => (
+            <li key={href}>
+              <a href={href}>
+                <strong>{name}</strong>
+                <span>{translate(locale, description)}</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
       <nav className="footer-links" aria-label={translate(locale, "footer.links")}>
         <a href="https://www.astralarchives.games/">
           <svg

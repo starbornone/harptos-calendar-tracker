@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-22T10:07:55+11:00",
+  "updatedAt": "2026-11-22T11:03:15+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -224,6 +224,13 @@
       "group": "Frontend",
       "notes": "Generate an original Sword Coast landscape using the Chronicler and World Binder homepage artwork as style references. Place the compressed WebP behind the header and clock, with dark overlays and a fade before the calendar. Verify desktop and mobile layouts, image loading, and clock controls.",
       "completedAt": "2026-11-22T10:07:55+11:00"
+    },
+    {
+      "id": "add-companion-tool-links",
+      "title": "Link companion tools from the homepage footer",
+      "group": "Frontend",
+      "notes": "Follow Open Tome’s companion section with links to Chronicler, D&D Point-Buy Calculator, World Binder, Open Tome, and Pathfinder 2e Calculator. Use responsive cards and bilingual headings and descriptions. Verified desktop and mobile layouts, destinations, and existing campaign flows.",
+      "completedAt": "2026-11-22T11:03:15+11:00"
     }
   ]
 }
