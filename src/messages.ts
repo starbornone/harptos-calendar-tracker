@@ -126,6 +126,7 @@ const messages = {
   "companions.worldBinder": { en: "Find your next adventure", "zh-Hans": "寻找下一场冒险" },
   "companions.openTome": { en: "Map your next adventure", "zh-Hans": "绘制下一场冒险的地图" },
   "companions.pathfinder": { en: "Plan your character’s boosts", "zh-Hans": "规划角色的属性提升" },
+  "companions.vampire": { en: "Create your vampire for V5", "zh-Hans": "创建你的 V5 吸血鬼角色" },
   "footer.support": { en: "Support on Ko-fi", "zh-Hans": "在 Ko-fi 上支持项目" },
   "footer.disclaimer": {
     en: "Not affiliated with Wizards of the Coast.",

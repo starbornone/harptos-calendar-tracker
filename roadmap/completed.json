@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-22T11:08:15+11:00",
+  "updatedAt": "2026-11-22T11:29:26+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -238,6 +238,13 @@
       "group": "Frontend",
       "notes": "Replace the companion cards with unboxed icon-and-text links. Follow Open Tome’s heading arrangement and five-column desktop grid, with three and two columns at smaller widths. Preserve bilingual descriptions, focus outlines, and all five destinations. Verified desktop and mobile layouts down to 320px.",
       "completedAt": "2026-11-22T11:08:15+11:00"
+    },
+    {
+      "id": "add-vampire-companion-and-adaptive-layout",
+      "title": "Add the Vampire character creator and adapt companion links to available width",
+      "group": "Frontend",
+      "notes": "Link Vampire: The Masquerade Character Creator at https://vtm.astralarchives.games/ with a bilingual description and decorative icon. Keep the links unboxed and let the six-tool grid fit three, two, or one columns as space allows. Use named icons and allow long names to wrap. Verified 320–1920px widths in both languages, 200% text, touch target sizes, and keyboard focus.",
+      "completedAt": "2026-11-22T11:29:26+11:00"
     }
   ]
 }

@@ -8,7 +8,7 @@ The tracker defaults to English. Browsers with a saved Simplified Chinese prefer
 
 Open the [Harptos Calendar Tracker](https://harptos.astralarchives.games/) or follow the local setup below.
 
-The homepage footer links to companion tools: Chronicler, D&D Point-Buy Calculator, World Binder, Open Tome, and Pathfinder 2e Calculator.
+The homepage footer links to companion tools: Chronicler, D&D Point-Buy Calculator, World Binder, Open Tome, Pathfinder 2e Calculator, and Vampire: The Masquerade Character Creator.
 
 ## Documentation
 

@@ -1,20 +1,36 @@
 import { translate, type Locale } from "@/localization.ts";
 
 const companions = [
-  { name: "Chronicler", href: "https://www.chronicler.studio/", description: "companions.chronicler" },
-  { name: "D&D Point-Buy Calculator", href: "https://dnd.astralarchives.games/", description: "companions.dnd" },
-  { name: "World Binder", href: "https://www.worldbinder.app/", description: "companions.worldBinder" },
-  { name: "Open Tome", href: "https://www.opentome.world/", description: "companions.openTome" },
-  { name: "Pathfinder 2e Calculator", href: "https://pf.astralarchives.games/", description: "companions.pathfinder" },
+  { name: "Chronicler", href: "https://www.chronicler.studio/", description: "companions.chronicler", icon: "book" },
+  {
+    name: "D&D Point-Buy Calculator",
+    href: "https://dnd.astralarchives.games/",
+    description: "companions.dnd",
+    icon: "dice",
+  },
+  { name: "World Binder", href: "https://www.worldbinder.app/", description: "companions.worldBinder", icon: "map" },
+  { name: "Open Tome", href: "https://www.opentome.world/", description: "companions.openTome", icon: "grid" },
+  {
+    name: "Pathfinder 2e Calculator",
+    href: "https://pf.astralarchives.games/",
+    description: "companions.pathfinder",
+    icon: "dice",
+  },
+  {
+    name: "Vampire: The Masquerade Character Creator",
+    href: "https://vtm.astralarchives.games/",
+    description: "companions.vampire",
+    icon: "vampire",
+  },
 ] as const;
 
-const companionIcons = [
-  "M12 7C9 5 6 5 3 6v14c3-1 6-1 9 1m0-14c3-2 6-2 9-1v14c-3-1-6-1-9 1V7Z",
-  "M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 4h.01M12 12h.01M17 17h.01",
-  "m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Zm6-3v15m6-12v15",
-  "M3 3h18v18H3V3Zm6 0v18m6-18v18M3 9h18M3 15h18",
-  "M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 4h.01M12 12h.01M17 17h.01",
-];
+const companionIcons = {
+  book: "M12 7C9 5 6 5 3 6v14c3-1 6-1 9 1m0-14c3-2 6-2 9-1v14c-3-1-6-1-9 1V7Z",
+  dice: "M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 4h.01M12 12h.01M17 17h.01",
+  map: "m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Zm6-3v15m6-12v15",
+  grid: "M3 3h18v18H3V3Zm6 0v18m6-18v18M3 9h18M3 15h18",
+  vampire: "M12 3c-2 4-7 8-7 12a7 7 0 0 0 14 0c0-4-5-8-7-12Z",
+};
 
 export function SiteFooter({ locale }: { locale: Locale }) {
   return (
@@ -25,7 +41,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
           <p>{translate(locale, "companions.intro")}</p>
         </div>
         <ul className="companion-links">
-          {companions.map(({ name, href, description }, index) => (
+          {companions.map(({ name, href, description, icon }) => (
             <li key={href}>
               <a href={href}>
                 <svg
@@ -39,7 +55,7 @@ export function SiteFooter({ locale }: { locale: Locale }) {
                   strokeLinejoin="round"
                   aria-hidden="true"
                 >
-                  <path d={companionIcons[index]} />
+                  <path d={companionIcons[icon]} />
                 </svg>
                 <span>
                   <strong>{name}</strong>

@@ -16,6 +16,6 @@ Time advances by DM action. The date editor uses the same calendar as the clock 
 
 The interface defaults to English and honors an existing Simplified Chinese preference. The campaign summary, footer disclaimer, and shared preview use the current language.
 
-The homepage footer also introduces five companion tools: Chronicler, D&D Point-Buy Calculator, World Binder, Open Tome, and Pathfinder 2e Calculator. Tool descriptions follow the current interface language.
+The homepage footer also introduces six companion tools: Chronicler, D&D Point-Buy Calculator, World Binder, Open Tome, Pathfinder 2e Calculator, and Vampire: The Masquerade Character Creator. Tool descriptions follow the current interface language. The unboxed links adapt to the available width, from three columns on desktop to a single column on phones.
 
 See [Getting started](getting-started.md) to run the tracker and repeat the mock session, [Architecture](architecture.md) for the design, and the [roadmap](../roadmap/roadmap.json) for release status. The [campaign brief](../ROADMAP.md) preserves the original milestone descriptions and setting references.

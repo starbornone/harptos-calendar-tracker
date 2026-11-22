@@ -37,7 +37,7 @@ flowchart LR
 
 ## Campaign state and derived views
 
-[src/components/site-footer.tsx](../src/components/site-footer.tsx) renders the companion-tool links above the existing site and support links. The five external destinations exclude Harptos itself; headings and descriptions use the bilingual message catalog.
+[src/components/site-footer.tsx](../src/components/site-footer.tsx) renders the companion-tool links above the existing site and support links. The six external destinations exclude Harptos itself; headings and descriptions use the bilingual message catalog. Each link selects a named decorative icon. The CSS grid fits columns to available width, with wrapping text and a minimum link height for touch input.
 
 - **Calendar and clock.** Convert between a Harptos date and a continuous measure of campaign time. Validate the requested date and time before updating state. Keep regular dates and intercalary festivals distinct when parsing and formatting. Day advances add 24 or 240 elapsed hours, including festival hours.
 - **Daylight and phase.** Derive sunrise and sunset from the Harptos date and solar profile, then combine them with the clock to find the current phase. Use a local light cycle for Sigil and steady light for the Radiant Citadel. The clock marker comes from a fixed range for each minute of the day.
