@@ -8,18 +8,43 @@ const companions = [
   { name: "Pathfinder 2e Calculator", href: "https://pf.astralarchives.games/", description: "companions.pathfinder" },
 ] as const;
 
+const companionIcons = [
+  "M12 7C9 5 6 5 3 6v14c3-1 6-1 9 1m0-14c3-2 6-2 9-1v14c-3-1-6-1-9 1V7Z",
+  "M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 4h.01M12 12h.01M17 17h.01",
+  "m3 6 6-3 6 3 6-3v15l-6 3-6-3-6 3V6Zm6-3v15m6-12v15",
+  "M3 3h18v18H3V3Zm6 0v18m6-18v18M3 9h18M3 15h18",
+  "M5 3h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2Zm2 4h.01M12 12h.01M17 17h.01",
+];
+
 export function SiteFooter({ locale }: { locale: Locale }) {
   return (
     <footer className="ledger ledger-footer">
       <nav className="companion-tools" aria-labelledby="companions-heading">
-        <h2 id="companions-heading">{translate(locale, "companions.heading")}</h2>
-        <p>{translate(locale, "companions.intro")}</p>
+        <div className="companion-heading">
+          <h2 id="companions-heading">{translate(locale, "companions.heading")}</h2>
+          <p>{translate(locale, "companions.intro")}</p>
+        </div>
         <ul className="companion-links">
-          {companions.map(({ name, href, description }) => (
+          {companions.map(({ name, href, description }, index) => (
             <li key={href}>
               <a href={href}>
-                <strong>{name}</strong>
-                <span>{translate(locale, description)}</span>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d={companionIcons[index]} />
+                </svg>
+                <span>
+                  <strong>{name}</strong>
+                  <small>{translate(locale, description)}</small>
+                </span>
               </a>
             </li>
           ))}

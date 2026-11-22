@@ -638,42 +638,58 @@
 }
 
 .companion-tools {
-  padding-block: 0.5rem 2rem;
+  padding-block: 1rem 2.5rem;
+}
+
+.companion-heading {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.5rem 1.25rem;
 }
 
 .companion-tools h2 {
   font-family: var(--font-ledger);
-  font-size: 1.65rem;
-  color: var(--primary);
+  font-size: 1.375rem;
 }
 
-.companion-tools > p {
-  margin-block: 0.35rem 1rem;
+.companion-heading p {
+  font-size: 0.875rem;
   color: var(--muted-foreground);
 }
 
 .companion-links {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr));
-  gap: 0.75rem;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.625rem;
   list-style: none;
   padding: 0;
 }
 
 .companion-links a {
   display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-  height: 100%;
-  padding: 1rem;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  background: var(--card);
+  align-items: flex-start;
+  gap: 0.75rem;
+  min-height: 2.75rem;
 }
 
-.companion-links a:hover {
-  border-color: var(--primary);
-  background: var(--accent);
+.companion-links svg {
+  flex: none;
+  margin-top: 0.1875rem;
+  color: var(--primary);
+}
+
+.companion-links strong {
+  font-size: 0.875rem;
+  font-weight: 550;
+}
+
+.companion-links a:hover strong {
+  color: var(--primary);
+  text-decoration: underline;
+  text-underline-offset: 0.25rem;
 }
 
 .companion-links a:focus-visible {
@@ -681,9 +697,29 @@
   outline-offset: 2px;
 }
 
-.companion-links span {
+.companion-links small {
+  display: block;
+  margin-top: 0.3125rem;
   color: var(--muted-foreground);
   font-size: 0.875rem;
+  line-height: 1.6;
+}
+
+@media (max-width: 60rem) {
+  .companion-links {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 40rem) {
+  .companion-links {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem 0.875rem;
+  }
+
+  .companion-links a {
+    gap: 0.5rem;
+  }
 }
 
 .footer-links {

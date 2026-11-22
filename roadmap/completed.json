@@ -1,7 +1,7 @@
 {
   "schema": "name -roadmap/v1",
   "file": "completed",
-  "updatedAt": "2026-11-22T11:03:15+11:00",
+  "updatedAt": "2026-11-22T11:08:15+11:00",
   "project": {
     "key": "harptos-calendar-tracker",
     "title": "Harptos Calendar Tracker",
@@ -231,6 +231,13 @@
       "group": "Frontend",
       "notes": "Follow Open Tome’s companion section with links to Chronicler, D&D Point-Buy Calculator, World Binder, Open Tome, and Pathfinder 2e Calculator. Use responsive cards and bilingual headings and descriptions. Verified desktop and mobile layouts, destinations, and existing campaign flows.",
       "completedAt": "2026-11-22T11:03:15+11:00"
+    },
+    {
+      "id": "match-open-tome-companion-link-layout",
+      "title": "Match Open Tome’s compact companion links",
+      "group": "Frontend",
+      "notes": "Replace the companion cards with unboxed icon-and-text links. Follow Open Tome’s heading arrangement and five-column desktop grid, with three and two columns at smaller widths. Preserve bilingual descriptions, focus outlines, and all five destinations. Verified desktop and mobile layouts down to 320px.",
+      "completedAt": "2026-11-22T11:08:15+11:00"
     }
   ]
 }
